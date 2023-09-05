@@ -7,25 +7,12 @@ import os
 from azure.storage.blob import BlobClient
 import pickle
 
-
-blob = BlobClient.from_connection_string(
-    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
-    "models",
-    "XGB_model.pkl")
-
-with open("XGB_model.pkl", "wb+") as my_blob:
-    blob_data = blob.download_blob()
-    blob_data.readinto(my_blob)
-loaded_model = pickle.load(open("XGB_model.pkl", 'rb'))
-
-def predict(row):
-    return loaded_model.predict(row[["gForceZ","gForceY","gForceX","gForceTotal"]].to_pandas_series())[0]
-
-client = QuixStreamingClient("sdk-6bd8fb91eeca4dc987fab463ed21a7a0")
+client = QuixStreamingClient()
 
 print("Opening input and output topics")
+
 input_topic = client.open_input_topic("phone-data", "v3", auto_offset_reset=AutoOffsetReset.Latest)
-output_topic = client.open_output_topic("fleetconsole")
+output_topic = client.open_output_topic("events")
 
 async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWriterNew):
     print("New stream: " + input_stream.stream_id)
@@ -38,8 +25,7 @@ async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWrit
 
     df["gForceTotal_10s"] = df["gForceTotal"].rolling("10s").mean()
 
-    df["shaking"] = df.apply(predict)
-
+    df["shaking"] = df.apply(lambda x: x["gForceTotal_10s"] > 15)
 
     df.set_columns_print_width(15)
 

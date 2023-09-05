@@ -4,9 +4,6 @@ from sdk.stream_reader_new import StreamReaderNew
 from sdk.stream_writer_new import StreamWriterNew
 import os
 
-from azure.storage.blob import BlobClient
-import pickle
-
 client = QuixStreamingClient()
 
 print("Opening input and output topics")

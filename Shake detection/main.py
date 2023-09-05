@@ -1,42 +1,57 @@
-import quixstreams as qx
+from quixstreaming import QuixStreamingClient, AutoOffsetReset
+from quixstreaming.app import App
+from sdk.stream_reader_new import StreamReaderNew
+from sdk.stream_writer_new import StreamWriterNew
 import os
-import pandas as pd
+
+from azure.storage.blob import BlobClient
+import pickle
 
 
-client = qx.QuixStreamingClient()
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    "XGB_model.pkl")
 
-topic_consumer = client.get_topic_consumer(os.environ["input"], consumer_group = "empty-transformation")
-topic_producer = client.get_topic_producer(os.environ["output"])
+with open("XGB_model.pkl", "wb+") as my_blob:
+    blob_data = blob.download_blob()
+    blob_data.readinto(my_blob)
+loaded_model = pickle.load(open("XGB_model.pkl", 'rb'))
+
+def predict(row):
+    return loaded_model.predict(row[["gForceZ","gForceY","gForceX","gForceTotal"]].to_pandas_series())[0]
+
+client = QuixStreamingClient("sdk-6bd8fb91eeca4dc987fab463ed21a7a0")
+
+print("Opening input and output topics")
+input_topic = client.open_input_topic("phone-data", "v3", auto_offset_reset=AutoOffsetReset.Latest)
+output_topic = client.open_output_topic("fleetconsole")
+
+async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWriterNew):
+    print("New stream: " + input_stream.stream_id)
+
+    df = input_stream.df[["gForceX", "gForceY", "gForceZ"]]
+
+    df = df[df["gForceX"] != None]
+
+    df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
+
+    df["gForceTotal_10s"] = df["gForceTotal"].rolling("10s").mean()
+
+    df["shaking"] = df.apply(predict)
 
 
-def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
+    df.set_columns_print_width(15)
 
-    # Transform data frame here in this method. You can filter data or add new features.
-    # Pass modified data frame to output stream using stream producer.
-    # Set the output stream id to the same as the input stream or change it,
-    # if you grouped or merged data with different key.
-    stream_producer = topic_producer.get_or_create_stream(stream_id = stream_consumer.stream_id)
-    stream_producer.timeseries.buffer.publish(df)
+    print(df.header)
 
-
-# Handle event data from samples that emit event data
-def on_event_data_received_handler(stream_consumer: qx.StreamConsumer, data: qx.EventData):
-    print(data)
-    # handle your event data here
+    async for row in df:
+        print(row)
+        await output_stream.write(row)
 
 
-def on_stream_received_handler(stream_consumer: qx.StreamConsumer):
-    # subscribe to new DataFrames being received
-    # if you aren't familiar with DataFrames there are other callbacks available
-    # refer to the docs here: https://docs.quix.io/sdk/subscribe.html
-    stream_consumer.events.on_data_received = on_event_data_received_handler # register the event data callback
-    stream_consumer.timeseries.on_dataframe_received = on_dataframe_received_handler
 
-
-# subscribe to new streams being received
-topic_consumer.on_stream_received = on_stream_received_handler
+StreamReaderNew.process_stream(input_topic, output_topic, on_new_stream)
 
 print("Listening to streams. Press CTRL-C to exit.")
-
-# Handle termination signals and provide a graceful exit
-qx.App.run()
+App.run()

@@ -22,7 +22,7 @@ class StreamWriterNew:
         from sdk.stream_data_frame import StreamDataFrame
         if type(data) is StreamDataFrame or issubclass(type(data), StreamDataFrame):
             async for row in data:
-                self._stream_writer.timeseries.write(qx.TimeseriesData.from_timestamps([row.timestamp]))
+                self._stream_writer.timeseries.publish(qx.TimeseriesData.from_timestamps([row.timestamp]))
                 print("writing row")
 
 

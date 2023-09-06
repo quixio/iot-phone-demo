@@ -1,4 +1,4 @@
-from quixstreaming import ParameterDataTimestamp
+import quixstreams as qx
 
 from sdk.stream_data_frame import StreamDataFrame
 
@@ -8,7 +8,7 @@ class QuixDataFrameRow:
     padding = "                              "
 
 
-    def __init__(self, timestamp: ParameterDataTimestamp, parent: StreamDataFrame):
+    def __init__(self, timestamp: qx.TimeseriesDataTimestamp, parent: StreamDataFrame):
         self.timestamp = timestamp
         self.parent = parent
 

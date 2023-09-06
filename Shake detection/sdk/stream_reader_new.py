@@ -23,7 +23,7 @@ class StreamReaderNew:
 
         input_topic.on_committing = self.on_committing
 
-    def on_committing(self):
+    def on_committing(self, topic_consumer):
         if self._df is not None:
             self._df.on_committing()
 

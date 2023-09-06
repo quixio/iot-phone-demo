@@ -19,7 +19,7 @@ class SourceDataFrame(StreamDataFrame):
         stream_reader.timeseries.on_data_received = self._on_parameter_data
         stream_reader.events.on_data_received = self._on_event_data
 
-        for key in self.store.getAllKeys():
+        for key in self.store.get_all_keys():
             if str(key).startswith("state-" + self.stream_reader.stream_id):
                 self.state[key] = self.store.get(key)
                 print("State {0} restored.".format(key))

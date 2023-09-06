@@ -13,7 +13,6 @@ class StreamWriterNew:
     async def write(self, data):
 
         if type(data) is QuixDataFrameRow or issubclass(type(data), QuixDataFrameRow):
-            print(self._stream_writer)
             row = self._stream_writer.timeseries.buffer.add_timestamp_nanoseconds(data.timestamp.timestamp_nanoseconds)
             for column in data.parent.columns:
                 row.add_value(column.column_name, column.evaluate(data.timestamp))

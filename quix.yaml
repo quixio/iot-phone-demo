@@ -50,7 +50,7 @@ deployments:
   - name: Shake detection
     application: Shake detection
     deploymentType: Service
-    version: shake-v1.1
+    version: 6566abcd7ff70500ad20de6f2d02a714b3ade018
     resources:
       cpu: 1000
       memory: 2000

@@ -35,7 +35,7 @@ class StreamDataFrameHeader:
         return result
 
 class StreamDataFrame:
-    _data: Queue[ParameterDataTimestamp]
+    _data: Queue[qx.TimeseriesData]
     children : [StreamDataFrame]
 
     columns: []

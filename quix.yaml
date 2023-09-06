@@ -73,14 +73,14 @@ topics:
   - name: phone-data
     persisted: false
     configuration:
-      partitions: 2
+      partitions: 4
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: events
     persisted: false
     configuration:
-      partitions: 2
+      partitions: 4
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000

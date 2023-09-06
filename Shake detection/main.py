@@ -7,7 +7,7 @@ client = QuixStreamingClient()
 
 print("Opening input and output topics")
 
-input_topic = client.open_input_topic("phone-data", "v3.1", auto_offset_reset=AutoOffsetReset.Ear)
+input_topic = client.open_input_topic("phone-data", "v3.1", auto_offset_reset=qx.AutoOffsetReset.Earliest)
 output_topic = client.open_output_topic("events")
 
 async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWriterNew):

@@ -34,7 +34,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: event-detection-demo-ui
+      urlPrefix: fleetconsole
     desiredStatus: Running
     variables:
       - name: topic

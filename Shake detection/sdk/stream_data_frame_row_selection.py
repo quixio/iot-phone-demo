@@ -1,11 +1,11 @@
-from quixstreaming import ParameterDataTimestamp
+import quixstreams as qx
 
 from sdk.stream_data_frame import StreamDataFrame
 import pandas as pd
 
 class StreamDataFrameRowSelection:
 
-    def __init__(self, columns:[str], timestamp: ParameterDataTimestamp, parent: StreamDataFrame):
+    def __init__(self, columns:[str], timestamp: qx.TimeseriesDataTimestamp, parent: StreamDataFrame):
         self.timestamp = timestamp
         self.parent = parent
         self.columns = columns

@@ -1,13 +1,13 @@
-from quixstreaming import ParameterDataTimestamp, LocalFileStorage
 
 from sdk.quix_data_frame_row_filter import FilterOperation, QuixDataFrameRowFilter
+import quixstreams as qx
 
 
 class QuixDataFrameColumn:
 
 
 
-    def __init__(self, column_name: str, stream_id: str, store: LocalFileStorage):
+    def __init__(self, column_name: str, stream_id: str, store: qx.LocalFileStorage):
         self.column_name = column_name
         self.target_column = ""
         self._stream_id = stream_id
@@ -22,7 +22,7 @@ class QuixDataFrameColumn:
         from sdk.apply_data_frame_column import ApplyDataFrameColumn
         return ApplyDataFrameColumn(self.column_name, fn, self._stream_id, self._store)
 
-    def evaluate(self, row: ParameterDataTimestamp):
+    def evaluate(self, row: qx.TimeseriesDataTimestamp):
         parameter = row.parameters[self.column_name]
         if parameter.numeric_value is not None:
             return parameter.numeric_value

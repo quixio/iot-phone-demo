@@ -1,12 +1,12 @@
 from typing import Dict
 
 from sdk.rolling_filter import RollingFilter
-from quixstreaming import StreamReader, ParameterData, LocalFileStorage
 from enum import  Enum
 import pandas as pd
 import statistics
 import pickle
 
+import quixstreams as qx
 
 
 
@@ -18,7 +18,7 @@ from sdk.stream_data_frame import StreamDataFrame
 class RollingDataFrame(StreamDataFrame):
     _rolling_window_data: Dict[int, object]
 
-    def __init__(self, stream_reader: StreamReader, columns: [str] = [], rolling_filter: RollingFilter = None,
+    def __init__(self, stream_reader: qx.StreamConsumer, columns: [str] = [], rolling_filter: RollingFilter = None,
                  parent_data_frame: StreamDataFrame = None):
 
         super().__init__(stream_reader, columns, parent_data_frame)
@@ -35,7 +35,7 @@ class RollingDataFrame(StreamDataFrame):
 
         if self.store.containsKey(self.state_key):
             state_df = pickle.loads(self.store.get(self.state_key))
-            state_data = ParameterData.from_panda_frame(state_df)
+            state_data = qx.TimeseriesData.from_panda_frame(state_df)
 
             from sdk.quix_data_frame_row import QuixDataFrameRow
             for row in state_data.timestamps:
@@ -51,7 +51,7 @@ class RollingDataFrame(StreamDataFrame):
         return self
 
     def on_committing(self):
-        data = ParameterData.from_timestamps(list(map(lambda x: x.timestamp, self._rolling_window_data.values())))
+        data = qx.TimeseriesData.from_timestamps(list(map(lambda x: x.timestamp, self._rolling_window_data.values())))
 
         self.store.set(self.state_key, pickle.dumps(data.to_panda_frame()))
         print("State saved.")
@@ -74,7 +74,7 @@ class RollingDataFrame(StreamDataFrame):
 
             self._rolling_window_data = new_window
 
-            result = ParameterData().add_timestamp_nanoseconds(leading_edge.timestamp.timestamp_nanoseconds)
+            result = qx.TimeseriesData().add_timestamp_nanoseconds(leading_edge.timestamp.timestamp_nanoseconds)
 
             for column in self.columns:
                 if self.functions[column] is Aggregation.Mean:

@@ -1,6 +1,6 @@
 import pickle
+import quixstreams as qx
 
-from quixstreaming import LocalFileStorage, ParameterData, ParameterDataTimestamp
 
 from sdk.quix_data_frame_column import QuixDataFrameColumn
 from sdk.rolling_data_frame import RollingFilter, Aggregation
@@ -10,7 +10,7 @@ import statistics
 
 class RollingDataFrameColumn(QuixDataFrameColumn):
 
-    def __init__(self, source_column: QuixDataFrameColumn, rolling_filter: RollingFilter, stream_id: str,  store: LocalFileStorage):
+    def __init__(self, source_column: QuixDataFrameColumn, rolling_filter: RollingFilter, stream_id: str,  store: qx.LocalFileStorage):
         super().__init__(source_column.column_name, stream_id, store)
         self.store = store
         self._rolling_window_data = {}
@@ -35,7 +35,7 @@ class RollingDataFrameColumn(QuixDataFrameColumn):
     def on_committing(self):
         self.store.set(self.state_key, pickle.dumps(self._rolling_window_data))
 
-    def evaluate(self, row: ParameterDataTimestamp):
+    def evaluate(self, row: qx.TimeseriesDataTimestamp):
         new_row_value = self.source_column.evaluate(row)
 
         self._rolling_window_data[row.timestamp_milliseconds] = new_row_value

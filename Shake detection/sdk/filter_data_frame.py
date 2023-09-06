@@ -1,11 +1,11 @@
 from sdk.quix_data_frame_row_filter import QuixDataFrameRowFilter
 from sdk.stream_data_frame import StreamDataFrame
-from quixstreaming import StreamReader
+import quixstreams as qx
 
 
 class FilterDataFrame(StreamDataFrame):
 
-    def __init__(self, stream_reader: StreamReader, columns: [str] = [], row_filter: QuixDataFrameRowFilter = None,
+    def __init__(self, stream_reader: qx.StreamConsumer , columns: [str] = [], row_filter: QuixDataFrameRowFilter = None,
                  parent_data_frame: StreamDataFrame = None):
 
         super().__init__(stream_reader, columns, parent_data_frame)

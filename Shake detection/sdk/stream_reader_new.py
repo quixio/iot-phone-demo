@@ -1,6 +1,7 @@
 from __future__ import annotations
-from quixstreaming import StreamReader, StreamWriter, InputTopic, OutputTopic, RawMessage
 import asyncio
+import quixstreams as qx
+
 from threading import Thread
 
 
@@ -13,7 +14,7 @@ class StreamReaderNew:
 
     _df: StreamReaderNew
 
-    def __init__(self, input_topic: InputTopic, stream_reader: StreamReader, stream_writer: StreamWriter):
+    def __init__(self, input_topic: qx.TopicConsumer, stream_reader: qx.StreamConsumer, stream_writer: qx.StreamProducer):
         self._stream_reader = stream_reader
         self._stream_writer = stream_writer
         self.input_topic = input_topic
@@ -40,9 +41,9 @@ class StreamReaderNew:
     df = property(get_df)
 
     @classmethod
-    def process_stream(cls, input_topic: InputTopic, output_topic: OutputTopic, fn):
+    def process_stream(cls, input_topic: qx.TopicConsumer, output_topic: qx.TopicProducer, fn):
 
-        def _on_new_stream(input_stream: StreamReader):
+        def _on_new_stream(input_stream: qx.StreamConsumer):
 
             stream_writer = output_topic.get_or_create_stream(input_stream.stream_id)
             stream_reader = StreamReaderNew(input_topic, input_stream, stream_writer)

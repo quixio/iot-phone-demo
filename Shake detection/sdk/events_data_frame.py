@@ -1,5 +1,5 @@
 from sdk.events_data_frame_row import EventsDataFrameRow
-from quixstreaming import StreamReader, LocalFileStorage
+import quixstreams as qx
 
 from sdk.stream_data_frame import StreamDataFrame
 import time
@@ -7,7 +7,7 @@ import time
 
 class EventsDataFrame(StreamDataFrame):
 
-    def __init__(self, stream_reader: StreamReader, columns, parent_data_frame: StreamDataFrame, store: LocalFileStorage):
+    def __init__(self, stream_reader: qx.StreamConsumer, columns, parent_data_frame: StreamDataFrame, store: qx.LocalFileStorage):
         super().__init__(stream_reader, columns, parent_data_frame)
         self.store = store
         self.source_columns = columns

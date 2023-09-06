@@ -13,7 +13,7 @@ class ApplyDataFrame(QuixDataFrameColumn):
         self._stream_id = stream_id
         self._parent_frame= parent_frame
 
-    def evaluate(self, row: qx.ParameterDataTimestamp):
+    def evaluate(self, row: qx.TimeseriesDataTimestamp):
 
         return_value = self._fn(QuixDataFrameRow(row, self._parent_frame))
 

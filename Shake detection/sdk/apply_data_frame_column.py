@@ -13,7 +13,7 @@ class ApplyDataFrameColumn(QuixDataFrameColumn):
         self._stream_id = stream_id
         self.source_column_name = column_name
 
-    def evaluate(self, row: ParameterDataTimestamp):
+    def evaluate(self, row: qx.TimeseriesDataTimestamp):
         parameter = row.parameters[self.source_column_name]
         if parameter.numeric_value is not None:
             new_row_value = parameter.numeric_value

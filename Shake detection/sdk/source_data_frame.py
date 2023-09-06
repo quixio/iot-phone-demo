@@ -17,8 +17,8 @@ class SourceDataFrame(StreamDataFrame):
         super().__init__(stream_reader, [], None)
         self.stream_reader = stream_reader
         self.state = state
-        stream_reader.parameters.on_read += self._on_parameter_data
-        stream_reader.events.on_read += self._on_event_data
+        stream_reader.parameters.on_read = self._on_parameter_data
+        stream_reader.events.on_read = self._on_event_data
 
         for key in self.store.getAllKeys():
             if str(key).startswith("state-" + self.stream_reader.stream_id):

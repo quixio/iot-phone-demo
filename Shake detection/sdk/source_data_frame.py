@@ -1,8 +1,7 @@
 from __future__ import annotations
-from quixstreaming import ParameterData, ParameterDataTimestamp, InputTopic, EventData
 from queue import Queue
 from threading import Lock
-from quixstreaming import StreamReader
+import quixstreams as qx
 
 from sdk.quix_data_frame_row import QuixDataFrameRow
 from sdk.stream_data_frame import StreamDataFrame
@@ -11,35 +10,35 @@ from typing import Dict
 
 class SourceDataFrame(StreamDataFrame):
     _checkpoint_mutex = Lock()
-    data: Queue[ParameterDataTimestamp] = Queue(5)
+    data: Queue[qx.TimeseriesDataTimestamp] = Queue(5)
 
-    def __init__(self, stream_reader: StreamReader, state: Dict):
+    def __init__(self, stream_reader: qx.StreamConsumer, state: Dict):
         super().__init__(stream_reader, [], None)
         self.stream_reader = stream_reader
         self.state = state
-        stream_reader.parameters.on_read = self._on_parameter_data
-        stream_reader.events.on_read = self._on_event_data
+        stream_reader.timeseries.on_data_received += self._on_parameter_data
+        stream_reader.events.on_data_received += self._on_event_data
 
         for key in self.store.getAllKeys():
             if str(key).startswith("state-" + self.stream_reader.stream_id):
                 self.state[key] = self.store.get(key)
                 print("State {0} restored.".format(key))
 
-    def _on_event_data(self, data: EventData):
+    def _on_event_data(self, stream,  data: qx.EventData):
         self._checkpoint_mutex.acquire()
 
         if len(list(filter(lambda x: x.column_name == data.id, self.columns))) == 0:
             from sdk.quix_data_frame_column import QuixDataFrameColumn
             self.columns.append(QuixDataFrameColumn(data.id, self.stream_reader.stream_id, self.store))
 
-        row = ParameterData().add_timestamp_nanoseconds(data.timestamp_nanoseconds) \
+        row = qx.TimeseriesData().add_timestamp_nanoseconds(data.timestamp_nanoseconds) \
             .add_value(data.id, data.value)
 
         self.data.put(row, block=True)
 
         self._checkpoint_mutex.release()
 
-    def _on_parameter_data(self, data: ParameterData):
+    def _on_parameter_data(self, stream, data: qx.TimeseriesData):
         self._checkpoint_mutex.acquire()
 
         for parameter, value in data.timestamps[0].parameters.items():

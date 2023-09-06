@@ -27,7 +27,7 @@ deployments:
   - name: Fleet console WebApp
     application: Event Detection Demo UI
     deploymentType: Service
-    version: 3e01f0c17991219036ea615f883e53c78f7e0fd1
+    version: 2b73a7ad5d2c27ff860419f1a33dea5356b09573
     resources:
       cpu: 200
       memory: 200

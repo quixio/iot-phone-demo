@@ -66,6 +66,24 @@ deployments:
         description: The topic to read events from
         required: true
         value: events
+  - name: QR Settings Share 2
+    application: QR Settings Share
+    deploymentType: Service
+    version: qr-v1.1
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: qrsettingsshare-qr-v1-1
+    desiredStatus: Running
+    variables:
+      - name: BearerToken
+        inputType: Secret
+        description: ''
+        required: true
+        value: qr_bearer_token
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -3,12 +3,12 @@ from sdk.stream_reader_new import StreamReaderNew
 from sdk.stream_writer_new import StreamWriterNew
 import os
 
-client = QuixStreamingClient()
+client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")
 
-input_topic = client.open_input_topic("phone-data", "v3.1", auto_offset_reset=qx.AutoOffsetReset.Earliest)
-output_topic = client.open_output_topic("events")
+input_topic = client.get_topic_consumer("phone-data", "v3.1", auto_offset_reset=qx.AutoOffsetReset.Earliest)
+output_topic = client.get_topic_producer("events")
 
 async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWriterNew):
     print("New stream: " + input_stream.stream_id)
@@ -36,4 +36,4 @@ async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWrit
 StreamReaderNew.process_stream(input_topic, output_topic, on_new_stream)
 
 print("Listening to streams. Press CTRL-C to exit.")
-App.run()
+qx.App.run()

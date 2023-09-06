@@ -238,6 +238,40 @@ export class AppComponent implements OnInit {
       });
 
       connection.on('ParameterDataReceived', (data: ParameterData) => {
+
+        if (data.topicName == eventTopic && data.numericValues["shaking"][0] == 1){
+          const alert: Alert = {
+            title: "Shake detected",
+            streamId: data.streamId,
+            timestamp: data.timestamps[0],
+            color: 'warn',
+            icon: 'warning'
+          };
+
+          const eventData: EventData = {
+            id: "alert",
+            value : "Shake detected",
+            timestamp : data.timestamps[0],
+            topicName : eventTopic,
+            streamId : data.streamId,
+            tags : {}
+          }
+
+          this.unreadAlertsCount++;
+          this.alerts.push(alert);
+          this.openSnackBar(alert);
+
+          const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
+          const position: Position = { latitude: vehicle.latitude || 0, longitude: vehicle.longitude || 0, };
+
+          if (!vehicle.alerts) vehicle.alerts = { data: [], position: [] } ;
+          vehicle.alerts.data = [...vehicle.alerts.data, eventData];
+          vehicle.alerts.position = [...vehicle.alerts.position, position]
+          this.vehicles.set(data.streamId, vehicle);
+
+          this.dataSourceChange.next(eventData);
+        }
+
         if (!this.vehicleControl.value) this.vehicleControl.setValue(data.streamId);
 
         const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};

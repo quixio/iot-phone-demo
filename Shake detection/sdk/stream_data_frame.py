@@ -1,5 +1,6 @@
 from __future__ import annotations
-from quixstreaming import StreamReader,ParameterDataTimestamp, LocalFileStorage
+import quixstreams as qx
+
 from queue import Queue
 from sdk.quix_data_frame_row_filter import QuixDataFrameRowFilter
 from sdk.quix_data_frame_column import QuixDataFrameColumn
@@ -41,11 +42,11 @@ class StreamDataFrame:
     columns_print_width = 30
 
 
-    def __init__(self, stream_reader: StreamReader, columns: [QuixDataFrameColumn] = [], parent_data_frame: StreamDataFrame = None):
+    def __init__(self, stream_reader: qx.StreamConsumer, columns: [QuixDataFrameColumn] = [], parent_data_frame: StreamDataFrame = None):
         self.stream_reader = stream_reader
         self.columns = columns
         self.parent_data_frame = parent_data_frame
-        self.store = LocalFileStorage()
+        self.store = qx.LocalFileStorage()
         self.children = []
         self._data = Queue(5)
         self.state = {}

@@ -1,4 +1,4 @@
-from quixstreaming import LocalFileStorage, ParameterData, ParameterDataTimestamp
+import quixstreams as qx 
 
 from sdk.quix_data_frame_column import QuixDataFrameColumn
 
@@ -6,7 +6,7 @@ from sdk.quix_data_frame_column import QuixDataFrameColumn
 
 class ApplyDataFrameColumn(QuixDataFrameColumn):
 
-    def __init__(self, column_name: str, fn, stream_id: str,  store: LocalFileStorage):
+    def __init__(self, column_name: str, fn, stream_id: str,  store: qx.LocalFileStorage):
         super().__init__(column_name, stream_id, store)
         self.store = store
         self._fn = fn

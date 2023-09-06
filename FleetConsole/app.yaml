@@ -1,4 +1,4 @@
-name: Event Detection Demo UI
+name: FleetConsole
 language: nodejs
 variables:
   - name: topic

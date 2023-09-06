@@ -21,7 +21,7 @@ class StreamReaderNew:
         self._df = None
         self.state = {}
 
-        input_topic.on_committing += self.on_committing
+        input_topic.on_committing = self.on_committing
 
     def on_committing(self):
         if self._df is not None:

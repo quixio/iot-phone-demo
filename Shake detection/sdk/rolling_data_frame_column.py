@@ -22,7 +22,7 @@ class RollingDataFrameColumn(QuixDataFrameColumn):
 
         self.state_key = "rolling-window-{0}-{1}".format(self.column_name, self._stream_id)
 
-        if self.store.containsKey(self.state_key):
+        if self.store.contains_key(self.state_key):
             state_values = pickle.loads(self.store.get(self.state_key))
             self._rolling_window_data = state_values
 

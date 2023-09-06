@@ -1,0 +1,86 @@
+# Quix Project Descriptor
+# This file describes the data pipeline and configuration of resources of a Quix Project.
+
+metadata:
+  version: 1.0
+
+# This section describes the Deployments of the data pipeline
+deployments:
+  - name: QR Settings Share
+    application: QR Settings Share
+    deploymentType: Service
+    version: a7be277b766396294392bb2dad70152748111e57
+    resources:
+      cpu: 200
+      memory: 200
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: qr-settings-share
+    desiredStatus: Running
+    variables:
+      - name: BearerToken
+        inputType: HiddenText
+        description: A valid bearer token
+        required: true
+        value: {{ qr_bearer_token }}
+  - name: Fleet console
+    application: FleetConsole
+    deploymentType: Service
+    version: fleetapp-v1
+    resources:
+      cpu: 200
+      memory: 200
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: fleetconsole
+    desiredStatus: Running
+    variables:
+      - name: topic
+        inputType: FreeText
+        description: The topic to read telementry data from
+        required: true
+        value: phone-data
+      - name: eventTopic
+        inputType: FreeText
+        description: The topic to read events from
+        required: true
+        value: events
+  - name: Shake detection
+    application: Shake detection
+    deploymentType: Service
+    version: a5d9fcf1a41ff315273ffd2a31f4f8ba52625829
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 2
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: true
+        value: events
+
+# This section describes the Topics of the data pipeline
+topics:
+  - name: phone-data
+    persisted: false
+    configuration:
+      partitions: 4
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000
+  - name: events
+    persisted: false
+    configuration:
+      partitions: 4
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000

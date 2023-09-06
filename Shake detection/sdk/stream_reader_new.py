@@ -59,7 +59,7 @@ class StreamReaderNew:
             t = Thread(target=create_stream_thread, args=[])
             t.start()
 
-        input_topic.on_stream_received += _on_new_stream
+        input_topic.on_stream_received = _on_new_stream
 
     def __delitem__(self, key):
         self.__delattr__(key)

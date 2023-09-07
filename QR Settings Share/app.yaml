@@ -1,0 +1,10 @@
+name: QR Settings Share
+language: nodejs
+variables:
+  - name: BearerToken
+    inputType: Secret
+    description: ''
+    defaultValue: qr_bearer_token
+    required: true
+dockerfile: build/dockerfile
+defaultFile: ui/src/app/services/quix.service.ts

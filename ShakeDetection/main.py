@@ -2,22 +2,6 @@ import quixstreams as qx
 from sdk.stream_reader_new import StreamReaderNew
 from sdk.stream_writer_new import StreamWriterNew
 import os
-from azure.storage.blob import BlobClient
-import pickle
-
-
-blob = BlobClient.from_connection_string(
-    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
-    "models",
-    "XGB_model.pkl")
-
-with open("XGB_model.pkl", "wb+") as my_blob:
-    blob_data = blob.download_blob()
-    blob_data.readinto(my_blob)
-loaded_model = pickle.load(open("XGB_model.pkl", 'rb'))
-
-def predict(row):
-    return loaded_model.predict(row[["gForceZ","gForceY","gForceX","gForceTotal"]].to_pandas_series())[0]
 
 client = qx.QuixStreamingClient()
 
@@ -35,9 +19,7 @@ async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWrit
 
     df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
 
-    df["gForceTotal_10s"] = df["gForceTotal"].rolling("10s").mean()
-
-    df["shaking"] = df.apply(predict)
+    df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
 
     df.set_columns_print_width(10)
 

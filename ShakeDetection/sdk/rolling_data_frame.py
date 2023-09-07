@@ -33,7 +33,7 @@ class RollingDataFrame(StreamDataFrame):
 
         self.state_key = "rolling-window-" + self.stream_reader.stream_id
 
-        if self.store.contains_key(self.state_key):
+        if self.store.containsKey(self.state_key):
             state_df = pickle.loads(self.store.get(self.state_key))
             state_data = qx.TimeseriesData.from_panda_frame(state_df)
 

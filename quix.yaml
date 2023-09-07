@@ -24,26 +24,6 @@ deployments:
         description: ''
         required: true
         value: qr_bearer_token
-  - name: ShakeDetection
-    application: ShakeDetection
-    deploymentType: Service
-    version: shake-1.3-ml
-    resources:
-      cpu: 1000
-      memory: 2000
-      replicas: 2
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: true
-        value: phone-data
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: true
-        value: events
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service
@@ -65,6 +45,29 @@ deployments:
       - name: eventTopic
         inputType: FreeText
         description: The topic to read events from
+        required: true
+        value: events
+  - name: ShakeDetection
+    application: ShakeDetection
+    deploymentType: Service
+    version: 63f1a5dc8c767f2cb0ce40f046bc32b3fb9ad3d9
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 2
+    state:
+      enabled: true
+      size: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
         required: true
         value: events
 

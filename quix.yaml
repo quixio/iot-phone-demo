@@ -24,7 +24,7 @@ deployments:
         description: ''
         required: true
         value: qr_bearer_token
-  - name: Shake detection
+  - name: ShakeDetection
     application: Shake detection
     deploymentType: Service
     version: shake-v1.2

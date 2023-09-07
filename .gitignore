@@ -129,6 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-Shake detection/venv/
-
 .DS_Store
+ShakeDetection/venv/

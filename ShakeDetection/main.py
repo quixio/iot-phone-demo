@@ -19,7 +19,9 @@ async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWrit
 
     df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
 
-    df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
+    df["gForceTotal_5s"] = df["gForceTotal"].rolling("5s").mean()
+
+    df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal_5s"] > 15 else 0)
 
     df.set_columns_print_width(10)
 

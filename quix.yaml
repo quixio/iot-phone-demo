@@ -9,7 +9,7 @@ deployments:
   - name: QR Settings Share
     application: QR Settings Share
     deploymentType: Service
-    version: qr-v1
+    version: qr-v1.1
     resources:
       cpu: 200
       memory: 200
@@ -20,30 +20,10 @@ deployments:
     desiredStatus: Running
     variables:
       - name: BearerToken
-        inputType: HiddenText
-        description: A valid bearer token
+        inputType: Secret
+        description: ''
         required: true
-        value: {{ qr_bearer_token }}
-  - name: Shake detection
-    application: Shake detection
-    deploymentType: Service
-    version: shake-v1.2
-    resources:
-      cpu: 1000
-      memory: 2000
-      replicas: 2
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: true
-        value: phone-data
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: true
-        value: events
+        value: qr_bearer_token
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service
@@ -65,6 +45,26 @@ deployments:
       - name: eventTopic
         inputType: FreeText
         description: The topic to read events from
+        required: true
+        value: events
+  - name: ShakeDetection
+    application: Shake detection
+    deploymentType: Service
+    version: shake-v1.2
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 2
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
         required: true
         value: events
 

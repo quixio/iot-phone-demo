@@ -132,3 +132,5 @@ dist
 Shake detection/venv/
 
 .DS_Store
+
+ShakeDetection/venv/

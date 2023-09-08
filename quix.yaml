@@ -50,11 +50,14 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: shake-v2
+    version: shake-v4
     resources:
       cpu: 1000
       memory: 2000
       replicas: 2
+    state:
+      enabled: true
+      size: 1
     desiredStatus: Running
     variables:
       - name: input
@@ -71,14 +74,14 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: phone-data
-    persisted: false
+    persisted: true
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: events
-    persisted: false
+    persisted: true
     configuration:
       partitions: 2
       replicationFactor: 2

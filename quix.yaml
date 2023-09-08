@@ -78,7 +78,7 @@ topics:
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: events
-    persisted: false
+    persisted: true
     configuration:
       partitions: 2
       replicationFactor: 2

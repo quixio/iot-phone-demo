@@ -50,11 +50,14 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: shake-v2
+    version: shake-v4
     resources:
       cpu: 1000
       memory: 2000
       replicas: 2
+    state:
+      enabled: true
+      size: 1
     desiredStatus: Stopped
     variables:
       - name: input

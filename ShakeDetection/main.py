@@ -16,8 +16,9 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
     if "gForceX" in df: 
         df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
-        print(df["gForceTotal"])
-        df["shaking"] = df["gForceTotal"].apply(lambda x: x*2)
+        df["shaking"] = df["gForceTotal"].apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
+
+        print(df[["gForceTotal", "shaking"]])
 
         output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)
 

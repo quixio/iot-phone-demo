@@ -1,8 +1,19 @@
 import quixstreams as qx
-from sdk.stream_reader_new import StreamReaderNew
-from sdk.stream_writer_new import StreamWriterNew
 import os
 import pandas as pd
+from azure.storage.blob import BlobClient
+import pickle
+
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    "XGB_model.pkl")
+
+with open("XGB_model.pkl", "wb+") as my_blob:
+    blob_data = blob.download_blob()
+    blob_data.readinto(my_blob)
+loaded_model = pickle.load(open("XGB_model.pkl", 'rb'))
+
 
 client = qx.QuixStreamingClient()
 
@@ -16,7 +27,7 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
     if "gForceX" in df: 
         df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
-        df["shaking"] = df["gForceTotal"].apply(lambda x: 1 if x > 15 else 0)
+        df["shaking"] = loaded_model.predict(df[["gForceZ","gForceY","gForceX","gForceTotal"]])[0]
 
         print(df[["gForceTotal", "shaking"]])
 

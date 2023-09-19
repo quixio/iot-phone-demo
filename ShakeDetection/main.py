@@ -2,6 +2,7 @@ import quixstreams as qx
 from sdk.stream_reader_new import StreamReaderNew
 from sdk.stream_writer_new import StreamWriterNew
 import os
+import pandas as pd
 
 client = qx.QuixStreamingClient()
 
@@ -10,28 +11,33 @@ print("Opening input and output topics")
 input_topic = client.get_topic_consumer(os.environ["input"], "v3.4", auto_offset_reset=qx.AutoOffsetReset.Latest)
 output_topic = client.get_topic_producer(os.environ["output"])
 
-async def on_new_stream(input_stream: StreamReaderNew, output_stream: StreamWriterNew):
-    print("New stream: " + input_stream.stream_id)
 
-    df = input_stream.df[["gForceX", "gForceY", "gForceZ"]]
+def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
+    df = df[["gForceX", "gForceY", "gForceZ"]]
 
-    df = df[df["gForceX"] != None]
+    df = df[df["gForceX"] is not None]
 
-    df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
+    print(df)
 
-    df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
+    #df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
 
-    df.set_columns_print_width(10)
+    #df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
 
-    print(df.header)
+def on_stream_received(stream_consumer: qx.StreamConsumer):
+    print("New stream: " + stream_consumer.stream_id)
 
-    async for row in df:
-        print(row)
-        await output_stream.write(row)
+    stream_consumer.timeseries.on_dataframe_received = on_dataframe_received
 
 
 
-StreamReaderNew.process_stream(input_topic, output_topic, on_new_stream)
+
+ 
+
+  
+
+
+input_topic.on_stream_received = on_stream_received
+
 
 print("Listening to streams. Press CTRL-C to exit.")
 qx.App.run()

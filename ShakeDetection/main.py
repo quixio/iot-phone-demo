@@ -19,9 +19,13 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
 
         print(df)
 
-    #df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
+        df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
 
-    #df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
+        df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
+
+        output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)
+
+
 
 def on_stream_received(stream_consumer: qx.StreamConsumer):
     print("New stream: " + stream_consumer.stream_id)

@@ -19,7 +19,7 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
 
         print(df)
 
-        df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]), axis=0 )
+        df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]), axis=1 )
 
         df["shaking"] = df.apply(lambda x: 1 if x["gForceTotal"] > 15 else 0)
 

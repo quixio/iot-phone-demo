@@ -13,11 +13,11 @@ output_topic = client.get_topic_producer(os.environ["output"])
 
 
 def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
-    df = df[["gForceX", "gForceY", "gForceZ"]]
+    
+    if "gForceX" in df: 
+        df = df[["gForceX", "gForceY", "gForceZ"]]
 
-    df = df[df["gForceX"] is not None]
-
-    print(df)
+        print(df)
 
     #df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]) )
 

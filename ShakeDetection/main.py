@@ -15,7 +15,7 @@ output_topic = client.get_topic_producer(os.environ["output"])
 def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
     if "gForceX" in df: 
-        df = df[["gForceX", "gForceY", "gForceZ"]]
+        df = df[["time", "gForceX", "gForceY", "gForceZ"]]
 
         print(df)
 

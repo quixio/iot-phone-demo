@@ -20,7 +20,7 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
         print(df)
 
         df["gForceTotal"] = df.apply(lambda x: abs(x["gForceX"]) +  abs(x["gForceY"]) +  abs(x["gForceZ"]), axis=1 )
-
+        print(df["gForceTotal"])
         df["shaking"] = df["gForceTotal"].apply(lambda x: 1 if x > 15 else 0)
 
         output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)

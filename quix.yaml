@@ -27,10 +27,10 @@ deployments:
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service
-    version: fleetapp-v1
+    version: 26a36d085834ed5bfd938132dc6821636b6c507a
     resources:
-      cpu: 200
-      memory: 200
+      cpu: 1000
+      memory: 500
       replicas: 1
     publicAccess:
       enabled: true

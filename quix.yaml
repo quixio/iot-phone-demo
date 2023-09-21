@@ -50,7 +50,7 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: shaking-ml-old-v1.2
+    version: shake-fn-old
     resources:
       cpu: 1000
       memory: 2000

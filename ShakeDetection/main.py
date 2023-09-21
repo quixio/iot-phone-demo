@@ -4,6 +4,7 @@ import pandas as pd
 from azure.storage.blob import BlobClient
 import pickle
 
+
 blob = BlobClient.from_connection_string(
     "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
     "models",
@@ -18,7 +19,6 @@ loaded_model = pickle.load(open("XGB_model.pkl", 'rb'))
 client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")
-
 input_topic = client.get_topic_consumer(os.environ["input"], "v3.4", auto_offset_reset=qx.AutoOffsetReset.Latest)
 output_topic = client.get_topic_producer(os.environ["output"])
 
@@ -32,7 +32,6 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
         print(df[["gForceTotal", "shaking"]])
 
         output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)
-
 
 
 def on_stream_received(stream_consumer: qx.StreamConsumer):

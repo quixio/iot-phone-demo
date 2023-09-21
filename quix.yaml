@@ -70,7 +70,7 @@ deployments:
   - name: ShakeDetection 2
     application: ShakeDetection
     deploymentType: Service
-    version: ml
+    version: using-function
     resources:
       cpu: 200
       memory: 500

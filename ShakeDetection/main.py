@@ -41,13 +41,6 @@ def on_stream_received(stream_consumer: qx.StreamConsumer):
     stream_consumer.timeseries.on_dataframe_received = on_dataframe_received
 
 
-
-
- 
-
-  
-
-
 input_topic.on_stream_received = on_stream_received
 
 

@@ -1,11 +1,6 @@
 name: Model training
 language: python
 variables:
-  - name: output
-    inputType: OutputTopic
-    description: This is the Quix topic that will receive the stream
-    defaultValue: influxdb
-    required: true
   - name: task_interval
     inputType: FreeText
     description: Interval to run query. Must be within the InfluxDB notation; 1s, 1m, 1h, 1d, 1w, 1mo, 1y

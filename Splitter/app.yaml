@@ -5,11 +5,11 @@ variables:
     inputType: InputTopic
     description: Name of the input topic to listen to.
     required: false
-  - name: output
+  - name: gps
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: transform
-    required: false
+    defaultValue: gps
+    required: true
   - name: gforce_topic
     inputType: OutputTopic
     description: ''

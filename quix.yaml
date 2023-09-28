@@ -92,7 +92,7 @@ deployments:
         description: ''
         required: true
         value: gforce
-  - name: InfluxDB Sink
+  - name: GForce InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service
     version: influxsink-v1
@@ -106,7 +106,7 @@ deployments:
         inputType: InputTopic
         description: This is the input topic
         required: true
-        value: gforce
+        value: phone-data
       - name: INFLUXDB_HOST
         inputType: FreeText
         description: Host address for the InfluxDB instance.
@@ -131,12 +131,12 @@ deployments:
         inputType: FreeText
         description: Columns to be used as tags when writing data to InfluxDB.
         required: false
-        value: "['TAG__rider', 'TAG__device_id']"
+        value: "['tag1', 'tag2']"
       - name: INFLUXDB_MEASUREMENT_NAME
         inputType: FreeText
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
         required: false
-        value: gforce
+        value: Test
 
 # This section describes the Topics of the data pipeline
 topics:

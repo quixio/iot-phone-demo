@@ -3,3 +3,4 @@ pandas==2.0.3
 requests
 azure-storage-blob
 xgboost==0.90
+scikit-learn

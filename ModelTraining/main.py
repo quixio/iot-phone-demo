@@ -15,9 +15,6 @@ try:
     # Query InfluxDB 3.0 usinfg influxql or sql
     table = client.query(query=f"SELECT * FROM \"gforce\" WHERE time >= now() - interval '1 hour'")
 
-    # Convert the result to a pandas dataframe. Required to be processed through Quix. 
-    df = table.to_pandas().drop(columns=["iox::measurement"])
-
     # If there are rows to write to the stream at this time
     print(df)
 

@@ -29,6 +29,7 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
         # Reformat the dataframe to match the InfluxDB format
         df = df.rename(columns={'timestamp': 'time'})
         df = df.set_index('time')
+        df["stream_id"] = stream_consumer.stream_id
 
         client.write(df, data_frame_measurement_name=measurement_name, data_frame_tag_columns=tag_columns) 
 

@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import influxdb_client_3 as InfluxDBClient3
 import ast
+from tqdm import tqdm
 
 client = qx.QuixStreamingClient()
 
@@ -21,6 +22,8 @@ client = InfluxDBClient3.InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          org=os.environ["INFLUXDB_ORG"],
                          database=os.environ["INFLUXDB_DATABASE"])
 
+pbar = tqdm(unit="item", leave=True)
+
 
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     try:
@@ -29,7 +32,8 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
         df = df.set_index('time')
 
         client.write(df, data_frame_measurement_name=measurement_name, data_frame_tag_columns=tag_columns) 
-        print("Write successful")
+
+        pbar.update(df.shape[0])
     except Exception as e:
         print(e)
         print("Write failed")

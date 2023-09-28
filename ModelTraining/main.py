@@ -108,3 +108,5 @@ blob = BlobClient.from_connection_string(
 
 with open(filename, "rb") as data:
     blob.upload_blob(data)
+
+print("Training completed.")

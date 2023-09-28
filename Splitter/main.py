@@ -6,7 +6,8 @@ import pandas as pd
 client = qx.QuixStreamingClient()
 
 topic_consumer = client.get_topic_consumer(os.environ["input"], consumer_group = "empty-transformation")
-topic_producer = client.get_topic_producer(os.environ["output"])
+gps_topic_producer = client.get_topic_producer(os.environ["gps"])
+gps_topic_producer = client.get_topic_producer(os.environ["gps"])
 
 
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):

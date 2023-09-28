@@ -42,22 +42,6 @@ run = True
 # Alternatively, you can always pass an SDK token manually as an argument.
 client = qx.QuixStreamingClient()
 
-# Initializing the Quix output topic for data streaming
-print("Opening output topic")
-producer_topic = client.get_topic_producer(os.environ["output"])
-
-# Creating a new data stream for Quix
-# A stream represents a collection of data belonging to a single session of a source.
-# A stream is a collection of data that belong to a single session of a single source.
-stream_producer = producer_topic.create_stream()
-# Editing the properties of the stream
-# Assigning a stream ID allows for appending data to the stream later on.
-# stream = producer_topic.create_stream("my-own-stream-id")  # To append data into the stream later, assign a stream id.
-stream_producer.properties.name = "influxdb-query"  # Give the stream a human readable name (for the data catalogue).
-stream_producer.properties.location = "/influxdb"  # Save stream in specific folder to organize your workspace.
-stream_producer.properties.metadata["version"] = "Version 1"  # Add stream metadata to add context to time series data.
-
-
 
 client = InfluxDBClient3.InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          host=os.environ["INFLUXDB_HOST"],

@@ -7,7 +7,7 @@ import pickle
 blob = BlobClient.from_connection_string(
     "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
     "models",
-    "XGB_model.pkl")
+    "XGB_model-v1.pkl")
 
 with open("XGB_model.pkl", "wb+") as my_blob:
     blob_data = blob.download_blob()

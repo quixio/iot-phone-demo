@@ -14,7 +14,7 @@ variables:
   - name: INFLUXDB_ORG
     inputType: FreeText
     description: Organization name in InfluxDB.
-    defaultValue: <ORG>
+    defaultValue: Quix
     required: true
   - name: INFLUXDB_DATABASE
     inputType: FreeText

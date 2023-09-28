@@ -31,7 +31,7 @@ version = os.environ["version"]
 training_stream_ids = os.environ["training"].split(",")
 training_stream_ids_query = str.join(",", list(map(lambda x: '\'' + x + '\'', training_stream_ids)))
 
-testing_stream_ids = os.environ["training"].split(",")
+testing_stream_ids = os.environ["testing"].split(",")
 testing_stream_ids_query = str.join(",", list(map(lambda x: '\'' + x + '\'', training_stream_ids)))
 
 

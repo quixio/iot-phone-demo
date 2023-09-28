@@ -97,7 +97,7 @@ deployments:
     deploymentType: Service
     version: influxsink-v1
     resources:
-      cpu: 200
+      cpu: 1000
       memory: 500
       replicas: 1
     desiredStatus: Running
@@ -106,7 +106,7 @@ deployments:
         inputType: InputTopic
         description: This is the input topic
         required: true
-        value: gps
+        value: gforce
       - name: INFLUXDB_HOST
         inputType: FreeText
         description: Host address for the InfluxDB instance.
@@ -131,12 +131,12 @@ deployments:
         inputType: FreeText
         description: Columns to be used as tags when writing data to InfluxDB.
         required: false
-        value: "['tag1', 'tag2']"
+        value: "['TAG__rider', 'TAG__device_id']"
       - name: INFLUXDB_MEASUREMENT_NAME
         inputType: FreeText
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
         required: false
-        value: gps
+        value: gforce
   - name: GPS InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service

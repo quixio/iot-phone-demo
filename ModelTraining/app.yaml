@@ -36,6 +36,11 @@ variables:
     description: ''
     defaultValue: Tomas-S20-350c01,Tomas-S20-1d8fc9
     required: true
+  - name: testing
+    inputType: FreeText
+    description: ''
+    defaultValue: Tomas-S20-71fb86,Tomas-S20-f024fc
+    required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

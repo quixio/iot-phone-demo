@@ -9,6 +9,9 @@ import os
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
+import tensorflow as tf
 
 client = InfluxDBClient3.InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          host=os.environ["INFLUXDB_HOST"],
@@ -39,7 +42,33 @@ testing_stream_ids_query = str.join(",", list(map(lambda x: '\'' + x + '\'', tra
 query_training = f"SELECT * FROM \"gforce\" WHERE \"stream_id\" IN ({training_stream_ids_query})"
 query_testing = f"SELECT * FROM \"gforce\" WHERE \"stream_id\" IN ({testing_stream_ids_query})"
 
-print(query_training)
+print("Loading data from InfluxDb...")
+
+df = query_influx(query_training)
+df_test = query_influx(query_testing)
+
+print("Data loaded.")
+
+df["gForceTotal"] = df["gForceX"].abs() +  df["gForceY"].abs() + df["gForceZ"].abs()
+df_test["gForceTotal"] = df_test["gForceX"].abs() +  df_test["gForceY"].abs() + df_test["gForceZ"].abs()
+
+X_train = df[['gForceZ', 'gForceY', 'gForceX', 'gForceTotal']]
+y_train = (df["TAG__team"]=="shaking").astype(int)
+
+X_test = df_test[['gForceZ', 'gForceY', 'gForceX', 'gForceTotal']]
+y_test = (df_test["TAG__team"]=="shaking").astype(int)
 
 
 
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(input_shape=(X_train.shape[1],)),
+  tf.keras.layers.Dense(50, activation='relu'),
+  tf.keras.layers.Dense(50, activation='relu'),
+  tf.keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='sgd',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+model.summary()

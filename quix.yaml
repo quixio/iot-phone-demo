@@ -17,7 +17,7 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: qr-settings-share
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: BearerToken
         inputType: Secret

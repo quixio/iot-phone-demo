@@ -15,8 +15,9 @@ try:
     # Query InfluxDB 3.0 usinfg influxql or sql
     table = client.query(query=f"SELECT * FROM \"gforce\" WHERE time >= now() - interval '1 hour'")
 
+    df = table.to_pandas()
     # If there are rows to write to the stream at this time
-    print(table)
+    print(df)
 
             
 except Exception as e:

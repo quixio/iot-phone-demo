@@ -14,7 +14,7 @@ with open("XGB_model_v1.pkl", "wb+") as my_blob:
     blob_data.readinto(my_blob)
 loaded_model = pickle.load(open("XGB_model_v1.pkl", 'rb'))
 
-
+print("Loaded")
 client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")

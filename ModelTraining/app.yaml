@@ -7,9 +7,9 @@ variables:
     defaultValue: us-east-1-1.aws.cloud2.influxdata.com
     required: true
   - name: INFLUXDB_TOKEN
-    inputType: FreeText
+    inputType: Secret
     description: Authentication token to access InfluxDB.
-    defaultValue: <TOKEN>
+    defaultValue: influx_token
     required: true
   - name: INFLUXDB_ORG
     inputType: FreeText

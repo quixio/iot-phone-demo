@@ -1,11 +1,6 @@
 name: Model training
 language: python
 variables:
-  - name: task_interval
-    inputType: FreeText
-    description: Interval to run query. Must be within the InfluxDB notation; 1s, 1m, 1h, 1d, 1w, 1mo, 1y
-    defaultValue: 5m
-    required: true
   - name: INFLUXDB_HOST
     inputType: FreeText
     description: Host address for the InfluxDB instance.

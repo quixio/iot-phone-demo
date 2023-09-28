@@ -5,3 +5,4 @@ azure-storage-blob
 xgboost==0.90
 scikit-learn
 seaborn
+tensorflow==1.2.0

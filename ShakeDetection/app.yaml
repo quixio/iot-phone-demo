@@ -11,6 +11,11 @@ variables:
     description: Name of the output topic to write to.
     defaultValue: events
     required: true
+  - name: model
+    inputType: FreeText
+    description: ''
+    defaultValue: XGB_model_v1.2.pkl
+    required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

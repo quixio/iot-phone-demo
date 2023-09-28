@@ -12,9 +12,11 @@ blob = BlobClient.from_connection_string(
 with open("XGB_model_v1.pkl", "wb+") as my_blob:
     blob_data = blob.download_blob()
     blob_data.readinto(my_blob)
-loaded_model = pickle.load(open("XGB_model_v1.pkl", 'rb'))
 
 print("Loaded")
+
+loaded_model = pickle.load(open("XGB_model_v1.pkl", 'rb'))
+
 client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")

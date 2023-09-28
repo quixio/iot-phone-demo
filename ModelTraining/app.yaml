@@ -29,7 +29,7 @@ variables:
   - name: version
     inputType: FreeText
     description: ''
-    defaultValue: v1.4
+    defaultValue: v1.5
     required: true
   - name: training
     inputType: FreeText

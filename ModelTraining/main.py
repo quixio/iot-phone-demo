@@ -13,7 +13,7 @@ measurement_name = os.environ.get("INFLUXDB_MEASUREMENT_NAME")
 
 try:
     # Query InfluxDB 3.0 usinfg influxql or sql
-    table = client.query(query=f"SELECT * FROM \"gforce\" WHERE time >= now() - interval '1 hour'", language="influxql")
+    table = client.query(query=f"SELECT * FROM \"gforce\" WHERE time >= now() - interval '1 hour'")
 
     # Convert the result to a pandas dataframe. Required to be processed through Quix. 
     df = table.to_pandas().drop(columns=["iox::measurement"])

@@ -182,6 +182,55 @@ deployments:
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
         required: false
         value: gps
+  - name: Model training
+    application: ModelTraining
+    deploymentType: Job
+    version: 2f27e3e564d53cbdde4a82f5ccd66ecd97f85cd6
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    variables:
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: us-east-1-1.aws.cloud2.influxdata.com
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        value: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: true
+        value: Quix
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data is stored.
+        required: true
+        value: Quix
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to read data from. If not specified, the name of the output topic will be used
+        required: false
+        value: gforce
+      - name: version
+        inputType: FreeText
+        description: ''
+        required: true
+        value: v1.6
+      - name: training
+        inputType: FreeText
+        description: ''
+        required: true
+        value: Tomas-S20-350c01,Tomas-S20-1d8fc9
+      - name: testing
+        inputType: FreeText
+        description: ''
+        required: true
+        value: Tomas-S20-71fb86,Tomas-S20-f024fc
 
 # This section describes the Topics of the data pipeline
 topics:

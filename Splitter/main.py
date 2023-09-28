@@ -6,7 +6,11 @@ from tqdm import tqdm
 
 client = qx.QuixStreamingClient()
 
-topic_consumer = client.get_topic_consumer(os.environ["input"], consumer_group = "empty-transformation")
+topic_consumer = client.get_topic_consumer(
+    os.environ["input"], 
+    consumer_group = "splitter",
+    auto_offset_reset=qx.AutoOffsetReset.Earliest)
+
 gps_topic_producer = client.get_topic_producer(os.environ["gps_topic"])
 gforce_topic_producer = client.get_topic_producer(os.environ["gforce_topic"])
 

@@ -14,7 +14,7 @@ variables:
   - name: model
     inputType: FreeText
     description: ''
-    defaultValue: XGB_model_1.2.pkl
+    defaultValue: XGB_model_1.3.pkl
     required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py

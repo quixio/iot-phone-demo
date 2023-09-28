@@ -9,7 +9,7 @@ variables:
   - name: INFLUXDB_HOST
     inputType: FreeText
     description: Host address for the InfluxDB instance.
-    defaultValue: eu-central-1-1.aws.cloud2.influxdata.com
+    defaultValue: us-east-1-1.aws.cloud2.influxdata.com
     required: true
   - name: INFLUXDB_TOKEN
     inputType: Secret

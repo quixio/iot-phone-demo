@@ -95,7 +95,7 @@ deployments:
   - name: GForce InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service
-    version: influxsink-v1
+    version: influxsink-v1.1
     resources:
       cpu: 1000
       memory: 500
@@ -140,9 +140,9 @@ deployments:
   - name: GPS InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service
-    version: influxsink-v1
+    version: influxsink-v1.1
     resources:
-      cpu: 200
+      cpu: 1000
       memory: 500
       replicas: 1
     desiredStatus: Running

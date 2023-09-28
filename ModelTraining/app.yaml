@@ -26,6 +26,11 @@ variables:
     description: The InfluxDB measurement to read data from. If not specified, the name of the output topic will be used
     defaultValue: gforce
     required: false
+  - name: version
+    inputType: FreeText
+    description: ''
+    defaultValue: v1.4
+    required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

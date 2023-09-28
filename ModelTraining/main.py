@@ -49,62 +49,24 @@ client = InfluxDBClient3.InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          database=os.environ["INFLUXDB_DATABASE"])
 
 
-measurement_name = os.environ.get("INFLUXDB_MEASUREMENT_NAME", os.environ["output"])
-interval = os.environ.get("task_interval", "5m")
-interval_seconds = interval_to_seconds(interval)
+measurement_name = os.environ.get("INFLUXDB_MEASUREMENT_NAME")
 
-# Function to fetch data from InfluxDB and send it to Quix
-# It runs in a continuous loop, periodically fetching data based on the interval.
-def get_data():
+try:
+    # Query InfluxDB 3.0 usinfg influxql or sql
+    table = client.query(query=f"SELECT * FROM {measurement_name} WHERE time >= now() - {interval}", language="influxql")
 
-    # Run in a loop until the main thread is terminated
-    while run:
-        try:
-            # Query InfluxDB 3.0 usinfg influxql or sql
-            table = client.query(query=f"SELECT * FROM {measurement_name} WHERE time >= now() - {interval}", language="influxql")
+    # Convert the result to a pandas dataframe. Required to be processed through Quix. 
+    df = table.to_pandas().drop(columns=["iox::measurement"])
 
-            # Convert the result to a pandas dataframe. Required to be processed through Quix. 
-            df = table.to_pandas().drop(columns=["iox::measurement"])
+    # If there are rows to write to the stream at this time
+    print(df)
 
-            # If there are rows to write to the stream at this time
-            stream_producer.timeseries.buffer.publish(df)
-            print("query success")
-
-            # Wait for the next interval
-            sleep(interval_seconds)
-                 
-        except Exception as e:
-            print("query failed", flush=True)
-            print(f"error: {e}",  flush=True)
-            sleep(1)
+            
+except Exception as e:
+    print("query failed", flush=True)
+    print(f"error: {e}",  flush=True)
+    sleep(1)
 
 
 
 
-# Function to handle shutdown procedures
-# This is triggered when the main application receives termination signals.
-def before_shutdown():
-    global run
-
-    # Stop the main loop
-    run = False
-
-
-# Main execution function
-# It starts a separate thread to fetch data from InfluxDB.
-def main():
-    thread = Thread(target = get_data)
-    thread.start()
-
-    # handle termination signals and close streams
-    qx.App.run(before_shutdown = before_shutdown)
-
-    # wait for worker thread to end
-    thread.join()
-
-    print("Exiting")
-
-
-# Main execution check: Ensures the script is being run as a standalone file and not imported as a module.
-if __name__ == "__main__":
-    main()

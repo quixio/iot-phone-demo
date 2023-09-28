@@ -12,6 +12,8 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from xgboost import XGBClassifier
 import tensorflow as tf
+import pickle
+from azure.storage.blob import BlobServiceClient, BlobClient
 
 client = InfluxDBClient3.InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          host=os.environ["INFLUXDB_HOST"],
@@ -72,3 +74,37 @@ model.compile(optimizer='sgd',
               metrics=['accuracy'])
 
 model.summary()
+
+model.fit(X_train, y_train, epochs=5)
+model.evaluate(X_test,  y_test, verbose=2)
+
+
+xgb_model = XGBClassifier()
+xgb_model = xgb_model.fit(X=X_train, y=y_train)
+
+y_pred_train = xgb_model.predict(X_train)
+y_pred_test = xgb_model.predict(X_test)
+
+ac_train = round(accuracy_score(y_train, y_pred_train), 4)
+print('Train set precission :', ac_train)
+
+ac_test = round(accuracy_score(y_test, y_pred_test), 4)
+print('Test set precission :', ac_test)
+
+
+df["PRED"] = xgb_model.predict(X_train)
+df_test["PRED"] = xgb_model.predict(X_test)
+
+# save the model to disk
+filename = 'XGB_model_'+ version + '.pkl'
+pickle.dump(xgb_model, open(filename, 'wb'))
+
+
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    filename)
+
+
+with open(filename, "rb") as data:
+    blob.upload_blob(data)

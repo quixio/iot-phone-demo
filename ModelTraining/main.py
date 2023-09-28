@@ -16,7 +16,7 @@ try:
     table = client.query(query=f"SELECT * FROM \"gforce\" WHERE time >= now() - interval '1 hour'")
 
     # If there are rows to write to the stream at this time
-    print(df)
+    print(table)
 
             
 except Exception as e:

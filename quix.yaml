@@ -185,7 +185,7 @@ deployments:
   - name: Model training
     application: ModelTraining
     deploymentType: Job
-    version: 2f27e3e564d53cbdde4a82f5ccd66ecd97f85cd6
+    version: 4ce188105459a0d7d253667c3614ec4a7fe32ce7
     resources:
       cpu: 1000
       memory: 2000
@@ -220,12 +220,12 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.7
+        value: v1.8
       - name: training
         inputType: FreeText
         description: ''
         required: true
-        value: Tomas-S20-675b75', 'Tomas-S20-dc243d,Tomas-S20-4b6071,Tomas-S20-dd27f6
+        value: Tomas-S20-350c01,Tomas-S20-1d8fc9
       - name: testing
         inputType: FreeText
         description: ''

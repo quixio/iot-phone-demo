@@ -50,7 +50,7 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: 712c18518257a564414bafcee909f4bd2799ea04
+    version: ab69008cd72edd5e42b2196c2cf3afc24b69c4ec
     resources:
       cpu: 1000
       memory: 2000
@@ -67,6 +67,11 @@ deployments:
         description: Name of the output topic to write to.
         required: true
         value: events
+      - name: model
+        inputType: FreeText
+        description: ''
+        required: true
+        value: XGB_model_v1.8.pkl
   - name: Splitter
     application: Splitter
     deploymentType: Service

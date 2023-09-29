@@ -188,7 +188,7 @@ deployments:
     version: 2f27e3e564d53cbdde4a82f5ccd66ecd97f85cd6
     resources:
       cpu: 1000
-      memory: 500
+      memory: 2000
       replicas: 1
     variables:
       - name: INFLUXDB_HOST
@@ -220,12 +220,12 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.6
+        value: v1.7
       - name: training
         inputType: FreeText
         description: ''
         required: true
-        value: Tomas-S20-350c01,Tomas-S20-1d8fc9
+        value: Tomas-S20-675b75', 'Tomas-S20-dc243d,Tomas-S20-4b6071,Tomas-S20-dd27f6
       - name: testing
         inputType: FreeText
         description: ''

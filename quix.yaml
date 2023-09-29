@@ -300,7 +300,7 @@ topics:
       retentionInMinutes: 60
       retentionInBytes: 52428800
   - name: events-replay
-    persisted: false
+    persisted: true
     configuration:
       partitions: 1
       replicationFactor: 2

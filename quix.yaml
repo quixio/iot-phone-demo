@@ -236,6 +236,26 @@ deployments:
         description: ''
         required: true
         value: Tomas-S20-71fb86,Tomas-S20-f024fc
+  - name: ShakeDetection backtest
+    application: ShakeDetection
+    deploymentType: Service
+    version: 6fc3a89ab1b2a2b0dff81685660f6d08979dfe03
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data-replay
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: true
+        value: events-replay
 
 # This section describes the Topics of the data pipeline
 topics:

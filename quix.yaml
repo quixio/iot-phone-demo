@@ -239,7 +239,7 @@ deployments:
   - name: ShakeDetection backtest
     application: ShakeDetection
     deploymentType: Service
-    version: 6fc3a89ab1b2a2b0dff81685660f6d08979dfe03
+    version: shake-v5
     resources:
       cpu: 1000
       memory: 2000
@@ -256,6 +256,11 @@ deployments:
         description: Name of the output topic to write to.
         required: true
         value: events-replay
+      - name: model
+        inputType: FreeText
+        description: ''
+        required: true
+        value: XGB_model_v1.8.pkl
 
 # This section describes the Topics of the data pipeline
 topics:

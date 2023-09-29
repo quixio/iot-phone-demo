@@ -23,7 +23,7 @@ client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")
 
-input_topic = client.get_topic_consumer(os.environ["input"], "v3.4", auto_offset_reset=qx.AutoOffsetReset.Latest)
+input_topic = client.get_topic_consumer(os.environ["input"])
 output_topic = client.get_topic_producer(os.environ["output"])
 
 

@@ -9,7 +9,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: events
+    defaultValue: events-replay
     required: true
   - name: model
     inputType: FreeText

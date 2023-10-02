@@ -32,7 +32,7 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     if "gForceX" in df: 
         df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
         res = loaded_model.predict(df[["gForceZ","gForceY","gForceX","gForceTotal"]])
-        df["shaking"] = res[0]
+        df["shaking"] = res
         print(res)
         print(df[["gForceTotal", "shaking"]])
 

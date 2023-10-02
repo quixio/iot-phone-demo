@@ -35,7 +35,7 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: fleetconsole
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: topic
         inputType: FreeText

@@ -23,7 +23,7 @@ client = qx.QuixStreamingClient()
 
 print("Opening input and output topics")
 
-input_topic = client.get_topic_consumer(os.environ["input"], "v4")
+input_topic = client.get_topic_consumer(os.environ["input"], "v5")
 output_topic = client.get_topic_producer(os.environ["output"])
 
 
@@ -31,8 +31,9 @@ def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
     if "gForceX" in df: 
         df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
-        df["shaking"] = loaded_model.predict(df[["gForceZ","gForceY","gForceX","gForceTotal"]])[0]
-
+        res = loaded_model.predict(df[["gForceZ","gForceY","gForceX","gForceTotal"]])
+        df["shaking"] = res[0]
+        print(res)
         print(df[["gForceTotal", "shaking"]])
 
         output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)

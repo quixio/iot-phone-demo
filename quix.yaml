@@ -61,17 +61,17 @@ deployments:
         inputType: InputTopic
         description: Name of the input topic to listen to.
         required: true
-        value: phone-data-replay
+        value: phone-data
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
         required: true
-        value: events-replay
+        value: events
       - name: model
         inputType: FreeText
         description: ''
         required: true
-        value: XGB_model_v1.8.pkl
+        value: XGB_model_v1.10.pkl
   - name: Splitter
     application: Splitter
     deploymentType: Service

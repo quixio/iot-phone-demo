@@ -1,0 +1,46 @@
+name: Model training
+language: python
+variables:
+  - name: INFLUXDB_HOST
+    inputType: FreeText
+    description: Host address for the InfluxDB instance.
+    defaultValue: us-east-1-1.aws.cloud2.influxdata.com
+    required: true
+  - name: INFLUXDB_TOKEN
+    inputType: Secret
+    description: Authentication token to access InfluxDB.
+    defaultValue: influx_token
+    required: true
+  - name: INFLUXDB_ORG
+    inputType: FreeText
+    description: Organization name in InfluxDB.
+    defaultValue: Quix
+    required: true
+  - name: INFLUXDB_DATABASE
+    inputType: FreeText
+    description: Database name in InfluxDB where data is stored.
+    defaultValue: Quix
+    required: true
+  - name: INFLUXDB_MEASUREMENT_NAME
+    inputType: FreeText
+    description: The InfluxDB measurement to read data from. If not specified, the name of the output topic will be used
+    defaultValue: gforce
+    required: false
+  - name: version
+    inputType: FreeText
+    description: ''
+    defaultValue: ''
+    required: true
+  - name: training
+    inputType: FreeText
+    description: ''
+    defaultValue: Tomas-S20-350c01,Tomas-S20-1d8fc9
+    required: true
+  - name: testing
+    inputType: FreeText
+    description: ''
+    defaultValue: Tomas-S20-71fb86,Tomas-S20-f024fc
+    required: true
+dockerfile: build/dockerfile
+runEntryPoint: main.py
+defaultFile: main.py

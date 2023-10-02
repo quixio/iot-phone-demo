@@ -50,7 +50,7 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: shake-v2
+    version: 7d2084b1ce0036242ad59d694d36be2a206d5f80
     resources:
       cpu: 1000
       memory: 2000
@@ -67,20 +67,242 @@ deployments:
         description: Name of the output topic to write to.
         required: true
         value: events
+      - name: model
+        inputType: FreeText
+        description: ''
+        required: true
+        value: XGB_model_v1.8.pkl
+  - name: Splitter
+    application: Splitter
+    deploymentType: Service
+    version: splitter-v1
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data
+      - name: gps_topic
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: true
+        value: gps
+      - name: gforce_topic
+        inputType: OutputTopic
+        description: ''
+        required: true
+        value: gforce
+  - name: GForce InfluxDB Sink
+    application: InfluxDBSink
+    deploymentType: Service
+    version: influxsink-v1.1
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: gforce
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: us-east-1-1.aws.cloud2.influxdata.com
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        value: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: false
+        value: Quix
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data should be stored.
+        required: true
+        value: Quix
+      - name: INFLUXDB_TAG_COLUMNS
+        inputType: FreeText
+        description: Columns to be used as tags when writing data to InfluxDB.
+        required: false
+        value: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
+        required: false
+        value: gforce
+  - name: GPS InfluxDB Sink
+    application: InfluxDBSink
+    deploymentType: Service
+    version: influxsink-v1.1
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: gps
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: us-east-1-1.aws.cloud2.influxdata.com
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        value: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: false
+        value: Quix
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data should be stored.
+        required: true
+        value: Quix
+      - name: INFLUXDB_TAG_COLUMNS
+        inputType: FreeText
+        description: Columns to be used as tags when writing data to InfluxDB.
+        required: false
+        value: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
+        required: false
+        value: gps
+  - name: Model training
+    application: ModelTraining
+    deploymentType: Job
+    version: 4ce188105459a0d7d253667c3614ec4a7fe32ce7
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    variables:
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: us-east-1-1.aws.cloud2.influxdata.com
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        value: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: true
+        value: Quix
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data is stored.
+        required: true
+        value: Quix
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to read data from. If not specified, the name of the output topic will be used
+        required: false
+        value: gforce
+      - name: version
+        inputType: FreeText
+        description: ''
+        required: true
+        value: v1.9
+      - name: training
+        inputType: FreeText
+        description: ''
+        required: true
+        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-b628c2
+      - name: testing
+        inputType: FreeText
+        description: ''
+        required: true
+        value: Tomas-S20-71fb86,Tomas-S20-f024fc
+  - name: ShakeDetection backtest
+    application: ShakeDetection
+    deploymentType: Service
+    version: shake-v6
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    desiredStatus: Stopped
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: true
+        value: phone-data-replay
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: true
+        value: events-replay
+      - name: model
+        inputType: FreeText
+        description: ''
+        required: true
+        value: XGB_model_v1.8.pkl
 
 # This section describes the Topics of the data pipeline
 topics:
   - name: phone-data
-    persisted: true
+    persisted: false
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: events
+    persisted: false
+    configuration:
+      partitions: 2
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000
+  - name: gforce
     persisted: true
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
+  - name: gps
+    persisted: false
+    configuration:
+      partitions: 2
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000
+  - name: phone-data-replay
+    persisted: false
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 60
+      retentionInBytes: 52428800
+  - name: events-replay
+    persisted: true
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: 60
+      retentionInBytes: 52428800

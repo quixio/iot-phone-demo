@@ -1,0 +1,8 @@
+influxdb3-python==0.3.0
+pandas==2.0.3
+requests
+azure-storage-blob
+xgboost==0.90
+scikit-learn
+seaborn
+tensorflow

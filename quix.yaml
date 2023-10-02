@@ -239,7 +239,7 @@ deployments:
   - name: ShakeDetection backtest
     application: ShakeDetection
     deploymentType: Service
-    version: shake-v5
+    version: shake-v6
     resources:
       cpu: 1000
       memory: 2000

@@ -145,7 +145,7 @@ deployments:
   - name: GPS InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service
-    version: influxsink-v1.1
+    version: influxsink-v1.2
     resources:
       cpu: 1000
       memory: 500

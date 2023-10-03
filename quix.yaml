@@ -260,7 +260,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: XGB_model_v1.8.pkl
+        value: XGB_model_v1.11.pkl
 
 # This section describes the Topics of the data pipeline
 topics:

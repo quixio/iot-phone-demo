@@ -3,6 +3,9 @@ import os
 import pandas as pd
 import influxdb_client_3 as InfluxDBClient3
 import ast
+import datetime
+
+
 
 client = qx.QuixStreamingClient()
 
@@ -32,10 +35,11 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
 
         client.write(df, data_frame_measurement_name=measurement_name, data_frame_tag_columns=tag_columns) 
 
-        print(f"Persisted {df.shape[0]} rows.")
+        print(f"{str(datetime.datetime.utcnow())}: Persisted {df.shape[0]} rows.")
     except Exception as e:
+        print("{str(datetime.datetime.utcnow())}: Write failed")
         print(e)
-        print("Write failed")
+
 
 
 def on_stream_received_handler(stream_consumer: qx.StreamConsumer):

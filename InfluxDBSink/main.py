@@ -6,7 +6,6 @@ import ast
 import datetime
 
 
-
 client = qx.QuixStreamingClient()
 
 # get the topic consumer for a specific consumer group

@@ -45,7 +45,7 @@ def on_stream_received_handler(stream_consumer: qx.StreamConsumer):
     buffer.time_span_in_milliseconds = 250
     buffer.buffer_timeout = 250
 
-    buffer.on_data_released = on_dataframe_received_handler
+    buffer.on_dataframe_released = on_dataframe_received_handler
 
 
 # subscribe to new streams being received

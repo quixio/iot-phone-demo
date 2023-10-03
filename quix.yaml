@@ -225,12 +225,12 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.10
+        value: v1.11
       - name: training
         inputType: FreeText
         description: ''
         required: true
-        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-38deac
+        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-38deac,Tomas-S20-732379
       - name: testing
         inputType: FreeText
         description: ''

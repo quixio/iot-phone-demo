@@ -4,6 +4,7 @@ import pandas as pd
 import influxdb_client_3 as InfluxDBClient3
 import ast
 from tqdm import tqdm
+import sys
 
 client = qx.QuixStreamingClient()
 
@@ -51,7 +52,7 @@ topic_consumer.on_stream_received = on_stream_received_handler
 
 print("Listening to streams. Press CTRL-C to exit.")
 
-pbar = tqdm(unit="item", leave=True)
+pbar = tqdm(unit="item", leave=True, ascii=True, file=sys.stdout)
 
 # Handle termination signals and provide a graceful exit
 qx.App.run()

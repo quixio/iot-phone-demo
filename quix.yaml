@@ -50,7 +50,7 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: 7d2084b1ce0036242ad59d694d36be2a206d5f80
+    version: shake-v6
     resources:
       cpu: 1000
       memory: 2000
@@ -71,7 +71,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: XGB_model_v1.8.pkl
+        value: XGB_model_v1.12.pkl
   - name: Splitter
     application: Splitter
     deploymentType: Service
@@ -145,7 +145,7 @@ deployments:
   - name: GPS InfluxDB Sink
     application: InfluxDBSink
     deploymentType: Service
-    version: influxsink-v1.1
+    version: a381a40add1dec9bfe716e1caf37ffd20c7920c2
     resources:
       cpu: 1000
       memory: 500
@@ -225,12 +225,12 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.9
+        value: v1.12
       - name: training
         inputType: FreeText
         description: ''
         required: true
-        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-b628c2
+        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-38deac,Tomas-S20-732379,Tomas-S20-18babb
       - name: testing
         inputType: FreeText
         description: ''
@@ -244,7 +244,7 @@ deployments:
       cpu: 1000
       memory: 2000
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -260,7 +260,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: XGB_model_v1.8.pkl
+        value: XGB_model_v1.12.pkl
 
 # This section describes the Topics of the data pipeline
 topics:

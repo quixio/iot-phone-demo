@@ -3,7 +3,8 @@ import os
 import pandas as pd
 import influxdb_client_3 as InfluxDBClient3
 import ast
-from tqdm import tqdm
+import datetime
+
 
 client = qx.QuixStreamingClient()
 
@@ -33,25 +34,27 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
 
         client.write(df, data_frame_measurement_name=measurement_name, data_frame_tag_columns=tag_columns) 
 
-        pbar.update(df.shape[0])
+        print(f"{str(datetime.datetime.utcnow())}: Persisted {df.shape[0]} rows.")
     except Exception as e:
+        print("{str(datetime.datetime.utcnow())}: Write failed")
         print(e)
-        print("Write failed")
+
 
 
 def on_stream_received_handler(stream_consumer: qx.StreamConsumer):
-    # subscribe to new DataFrames being received
-    # if you aren't familiar with DataFrames there are other callbacks available
-    # refer to the docs here: https://docs.quix.io/sdk/subscribe.html
-    stream_consumer.timeseries.on_dataframe_received = on_dataframe_received_handler
+    
+    # Buffer to batch rows every 250ms to reduce CPU overhead.
+    buffer = stream_consumer.timeseries.create_buffer()
+    buffer.time_span_in_milliseconds = 250
+    buffer.buffer_timeout = 250
+
+    buffer.on_dataframe_released = on_dataframe_received_handler
 
 
 # subscribe to new streams being received
 topic_consumer.on_stream_received = on_stream_received_handler
 
 print("Listening to streams. Press CTRL-C to exit.")
-
-pbar = tqdm(unit="item", leave=True)
 
 # Handle termination signals and provide a graceful exit
 qx.App.run()

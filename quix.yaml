@@ -225,7 +225,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.12
+        value: v1.15
       - name: training
         inputType: FreeText
         description: ''

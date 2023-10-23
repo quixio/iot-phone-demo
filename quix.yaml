@@ -23,7 +23,7 @@ deployments:
         inputType: Secret
         description: ''
         required: true
-        value: qr_bearer_token
+        secretKey: qr_bearer_token
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service
@@ -121,7 +121,7 @@ deployments:
         inputType: Secret
         description: Authentication token to access InfluxDB.
         required: true
-        value: influx_token
+        secretKey: influx_token
       - name: INFLUXDB_ORG
         inputType: FreeText
         description: Organization name in InfluxDB.
@@ -166,7 +166,7 @@ deployments:
         inputType: Secret
         description: Authentication token to access InfluxDB.
         required: true
-        value: influx_token
+        secretKey: influx_token
       - name: INFLUXDB_ORG
         inputType: FreeText
         description: Organization name in InfluxDB.
@@ -205,7 +205,7 @@ deployments:
         inputType: Secret
         description: Authentication token to access InfluxDB.
         required: true
-        value: influx_token
+        secretKey: influx_token
       - name: INFLUXDB_ORG
         inputType: FreeText
         description: Organization name in InfluxDB.

@@ -190,7 +190,7 @@ deployments:
   - name: Model training
     application: ModelTraining
     deploymentType: Job
-    version: 4ce188105459a0d7d253667c3614ec4a7fe32ce7
+    version: 3358851684bef5318cb879e95a30a3b88aa89fa5
     resources:
       cpu: 1000
       memory: 2000
@@ -225,7 +225,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: v1.15
+        value: v1.16
       - name: training
         inputType: FreeText
         description: ''

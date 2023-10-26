@@ -17,13 +17,13 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: qr-settings-share
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: BearerToken
         inputType: Secret
         description: ''
         required: true
-        value: qr_bearer_token
+        secretKey: qr_bearer_token
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service

@@ -23,10 +23,17 @@ def print_row(row: Row, ctx: MessageContext):
 # Hook up to termination signal (for docker image) and CTRL-C
 print("Listening to streams. Press CTRL-C to exit.")
 
+def fill_gaps(value, ctx):
+    if 'gForceX' not in value:
+        value["gForceX"] = None
+        value["gForceY"] = None
+        value["gForceZ"] = None
+
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
 sdf = app.dataframe(topics_in=[input_topic])
-sdf = sdf["gForceX" in sdf]
+sdf = sdf.apply(fill_gaps)
+sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["gForceX", "gForceY", "gForceZ"]]
 sdf = sdf.apply(print_row)  # easy way to print out
 

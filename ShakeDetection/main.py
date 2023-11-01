@@ -67,7 +67,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     state.set("rolling_10s", filtered_window)
     data_df = pd.DataFrame([{'gForceZ': 0.0, 'gForceY': 0.0, 'gForceX': 0.0, 'gForceTotal': 0.0}])
     value["gForceTotal_10s"] = sum(filtered_window.values()) / len(filtered_window)
-    value["shaking"] = loaded_model.predict(data_df)[0]
+    value["shaking"] = int(loaded_model.predict(data_df)[0])
 
 
 

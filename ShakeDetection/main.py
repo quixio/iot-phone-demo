@@ -16,7 +16,7 @@ input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer
 
 
 
-def print_row(row: Row):
+def print_row(row: Row, ctx: ):
     print(row)
 
 # Hook up to termination signal (for docker image) and CTRL-C

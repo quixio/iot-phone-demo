@@ -1,7 +1,7 @@
 
 #from quix_function import QuixFunction
 import os
-from streamingdataframes import Application, MessageContext
+from streamingdataframes import Application, MessageContext, State
 from streamingdataframes.models.rows import Row
 from streamingdataframes.models.serializers import (
     QuixTimeseriesSerializer,
@@ -30,11 +30,18 @@ def fill_gaps(value, ctx):
         value["gForceZ"] = None
 
 
+def rolling_window(value: dict, ctx: MessageContext, state: State):
+
+
+
 # "Gold" members get realtime notifications about purchase events larger than $1000
 sdf = app.dataframe(topics_in=[input_topic])
 sdf = sdf.apply(fill_gaps)
 sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["gForceX", "gForceY", "gForceZ"]]
+
+sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
+
 sdf = sdf.apply(print_row)  # easy way to print out
 
 

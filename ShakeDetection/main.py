@@ -31,7 +31,20 @@ def fill_gaps(value, ctx):
 
 
 def rolling_window(value: dict, ctx: MessageContext, state: State):
-    return
+    
+    state_value = state.get("rolling_10s", {})
+
+    state_value[value["Timestamp"]] = value["gForceTotal"]
+    
+    timestamps = state_value.keys()
+    last_timestamp = max(timestamps)
+    filtered_window = {}
+    for key in state_value:
+        if last_timestamp - key > 10000000000:
+            filtered_window[key] = state_value[key]
+    
+    print(len(filtered_window))
+    state.set("rolling_10s", filtered_window)
 
 
 
@@ -39,10 +52,10 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
 sdf = app.dataframe(topics_in=[input_topic])
 sdf = sdf.apply(fill_gaps)
 sdf = sdf[sdf["gForceX"].isnot(None)]
-sdf = sdf[["gForceX", "gForceY", "gForceZ"]]
+sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
-
+sdf["gForceTotal_10s"] = sdf["gForceTotal"].apply(rolling_window)
 sdf = sdf.apply(print_row)  # easy way to print out
 
 

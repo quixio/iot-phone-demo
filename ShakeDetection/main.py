@@ -1,53 +1,40 @@
-import quixstreams as qx
+
+#from quix_function import QuixFunction
 import os
-import pandas as pd
-from azure.storage.blob import BlobClient
-import pickle
+from setup_logger import logger
+from queue import Queue
+from threading import Thread
+from quix_function import QuixFunction
+from queue_helper import consume_queue, stop
+from bigquery_helper import connect_bigquery, create_paramdata_table, create_metadata_table, create_eventdata_table, create_properties_table, create_parents_table
 
-model = os.environ["model"]
+from streamingdataframes import Application
+from streamingdataframes.models.rows import Row
+from streamingdataframes.models.serializers import (
+    QuixTimeseriesSerializer,
+    QuixDeserializer,
+    JSONDeserializer
+)
 
-blob = BlobClient.from_connection_string(
-    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
-    "models",
-    model)
-
-with open(model, "wb+") as my_blob:
-    blob_data = blob.download_blob()
-    blob_data.readinto(my_blob)
-
-print("Loaded")
-
-loaded_model = pickle.load(open(model, 'rb'))
-
-client = qx.QuixStreamingClient()
-
-print("Opening input and output topics")
-
-input_topic = client.get_topic_consumer(os.environ["input"], "v7", auto_offset_reset=qx.AutoOffsetReset.Latest)
-output_topic = client.get_topic_producer(os.environ["output"])
-
-
-def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
-    
-    if "gForceX" in df: 
-        df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
-        res = loaded_model.predict(df[["gForceZ","gForceY","gForceX","gForceTotal"]])
-        df["shaking"] = res
-        print(res)
-        print(df[["gForceTotal", "shaking"]])
-
-        output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)
+# Quix app has an option to auto create topics
+# Quix app does not require the broker being defined
+app = Application.Quix("big-query-sink-v3", auto_offset_reset="earliest")
+input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer())
 
 
 
-def on_stream_received(stream_consumer: qx.StreamConsumer):
-    print("New stream: " + stream_consumer.stream_id)
+def print_row(row: Row):
+    print(row)
 
-    stream_consumer.timeseries.on_dataframe_received = on_dataframe_received
+# Hook up to termination signal (for docker image) and CTRL-C
+logger.info("Listening to streams. Press CTRL-C to exit.")
+
+def before_shutdown():
+    stop()
+
+# "Gold" members get realtime notifications about purchase events larger than $1000
+sdf = app.dataframe(topics_in=[input_topic])
+sdf = sdf.apply(print_row)  # easy way to print out
 
 
-input_topic.on_stream_received = on_stream_received
-
-
-print("Listening to streams. Press CTRL-C to exit.")
-qx.App.run()
+app.run(sdf)

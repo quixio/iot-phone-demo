@@ -12,6 +12,7 @@ import signal
 from azure.storage.blob import BlobClient
 import pickle
 import pandas as pd
+import numpy as np
 
 model = os.environ["model"]
 
@@ -66,7 +67,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     state.set("rolling_10s", filtered_window)
 
     value["gForceTotal_10s"] = sum(filtered_window.values()) / len(filtered_window)
-    value["shaking"] = loaded_model.predict({'f1': 0.0, 'f2': 0.0, 'f3': 0.0, 'f4': 0.0})
+    value["shaking"] = loaded_model.predict(np.array([[0.0, 0.0, 0.0, 0.0]]))
 
 
 

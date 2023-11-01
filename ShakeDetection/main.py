@@ -36,16 +36,13 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     state_value = {int(k): v for k,v in state_value.items()}
 
     state_value[value["Timestamp"]] = value["gForceTotal"]
-    print(state_value)
     timestamps = state_value.keys()
-    print(timestamps)
     last_timestamp = max(timestamps)
     filtered_window = {}
     for key in state_value:
         if (last_timestamp - key) < 10000000000:
             filtered_window[key] = state_value[key]
     
-    print(filtered_window)
     state.set("rolling_10s", filtered_window)
 
     value["gForceTotal_10s"] = sum(filtered_window.values()) / len(filtered_window)

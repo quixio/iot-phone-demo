@@ -13,6 +13,7 @@ from streamingdataframes.models.serializers import (
 # Quix app does not require the broker being defined
 app = Application.Quix("big-query-sink-v3", auto_offset_reset="earliest")
 input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer())
+output_topic = app.topic(os.environ["output"], value_deserializer=QuixDeserializer())
 
 
 
@@ -57,7 +58,8 @@ sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
 sdf.apply(rolling_window, stateful=True)
-sdf = sdf.apply(print_row)  # easy way to print out
+sdf.apply(print_row)  # easy way to print out
 
+sdf.to_topic(output_topic)
 
 app.run(sdf)

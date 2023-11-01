@@ -31,6 +31,7 @@ def fill_gaps(value, ctx):
 
 
 def rolling_window(value: dict, ctx: MessageContext, state: State):
+    return
 
 
 

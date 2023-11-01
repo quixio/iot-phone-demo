@@ -63,8 +63,8 @@ sdf.apply(print_row)  # easy way to print out
 
 sdf.to_topic(output_topic)
 
-signal.signal(signal.SIGINT, lambda: print("SIGINT"))
-signal.signal(signal.SIGTERM, lambda: print("SIGTERM"))
+signal.signal(signal.SIGINT, lambda _,_2: print("SIGINT"))
+signal.signal(signal.SIGTERM, lambda _,_2: print("SIGTERM"))
 
 try:
     app.run(sdf)

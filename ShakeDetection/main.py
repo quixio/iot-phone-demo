@@ -11,6 +11,7 @@ from streamingdataframes.models.serializers import (
 import signal
 from azure.storage.blob import BlobClient
 import pickle
+import pandas as pd
 
 model = os.environ["model"]
 
@@ -65,7 +66,8 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     state.set("rolling_10s", filtered_window)
 
     value["gForceTotal_10s"] = sum(filtered_window.values()) / len(filtered_window)
-    value["shaking"] = loaded_model.predict({"gForceY": value["gForceY"], "gForceZ":value["gForceZ"], "gForceX": value["gForceX"], "gForceTotal":value["gForceTotal"]})
+    payload = pd.Series({"gForceY": value["gForceY"], "gForceZ":value["gForceZ"], "gForceX": value["gForceX"], "gForceTotal":value["gForceTotal"]})
+    value["shaking"] = loaded_model.predict(payload)
 
 
 

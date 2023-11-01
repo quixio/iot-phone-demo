@@ -46,6 +46,8 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     print(len(filtered_window))
     state.set("rolling_10s", filtered_window)
 
+    value["gForceTotal_10s"] = sum(filtered_window.values()) / len(filtered_window)
+
 
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
@@ -55,7 +57,7 @@ sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
-sdf["gForceTotal_10s"] = sdf["gForceTotal"].apply(rolling_window)
+sdf.apply(rolling_window, stateful=True)
 sdf = sdf.apply(print_row)  # easy way to print out
 
 

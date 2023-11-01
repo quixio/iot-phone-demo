@@ -9,6 +9,23 @@ from streamingdataframes.models.serializers import (
     JSONDeserializer
 )
 import signal
+from azure.storage.blob import BlobClient
+import pickle
+
+model = os.environ["model"]
+
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    model)
+
+with open(model, "wb+") as my_blob:
+    blob_data = blob.download_blob()
+    blob_data.readinto(my_blob)
+
+print("Loaded")
+
+loaded_model = pickle.load(open(model, 'rb'))
 
 # Quix app has an option to auto create topics
 # Quix app does not require the broker being defined

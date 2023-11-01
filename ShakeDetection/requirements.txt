@@ -1,4 +1,4 @@
-quixstreams==0.5.5
+./quix_streamingdataframes-0.0.1a1-py3-none-any.whl
 azure-storage-blob
 xgboost==0.90
 scikit-learn 

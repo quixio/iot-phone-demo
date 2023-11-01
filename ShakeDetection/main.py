@@ -33,12 +33,13 @@ def fill_gaps(value, ctx):
 def rolling_window(value: dict, ctx: MessageContext, state: State):
     
     state_value = state.get("rolling_10s", {})
+    state_value = {int(k): v for k,v in state_value.items()}
 
-    state_value[+value["Timestamp"]] = value["gForceTotal"]
+    state_value[value["Timestamp"]] = value["gForceTotal"]
     print(state_value)
     timestamps = state_value.keys()
     print(timestamps)
-    last_timestamp = max(map(lambda x: int(x), timestamps))
+    last_timestamp = max(timestamps)
     filtered_window = {}
     for key in state_value:
         if (last_timestamp - key) < 10000000000:

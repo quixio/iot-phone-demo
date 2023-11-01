@@ -38,7 +38,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     print(state_value)
     timestamps = state_value.keys()
     print(timestamps)
-    last_timestamp = max(timestamps)
+    last_timestamp = max(map(lambda x: +x, timestamps))
     filtered_window = {}
     for key in state_value:
         if (last_timestamp - key) < 10000000000:

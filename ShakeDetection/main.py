@@ -37,6 +37,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     state_value[value["Timestamp"]] = value["gForceTotal"]
     print(state_value)
     timestamps = state_value.keys()
+    print(timestamps)
     last_timestamp = max(timestamps)
     filtered_window = {}
     for key in state_value:

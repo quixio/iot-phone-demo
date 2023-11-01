@@ -26,6 +26,7 @@ print("Listening to streams. Press CTRL-C to exit.")
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
 sdf = app.dataframe(topics_in=[input_topic])
+sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["gForceX", "gForceY", "gForceZ"]]
 sdf = sdf.apply(print_row)  # easy way to print out
 

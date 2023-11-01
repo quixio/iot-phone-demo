@@ -1,13 +1,6 @@
 
 #from quix_function import QuixFunction
 import os
-from setup_logger import logger
-from queue import Queue
-from threading import Thread
-from quix_function import QuixFunction
-from queue_helper import consume_queue, stop
-from bigquery_helper import connect_bigquery, create_paramdata_table, create_metadata_table, create_eventdata_table, create_properties_table, create_parents_table
-
 from streamingdataframes import Application
 from streamingdataframes.models.rows import Row
 from streamingdataframes.models.serializers import (
@@ -27,10 +20,8 @@ def print_row(row: Row):
     print(row)
 
 # Hook up to termination signal (for docker image) and CTRL-C
-logger.info("Listening to streams. Press CTRL-C to exit.")
+print("Listening to streams. Press CTRL-C to exit.")
 
-def before_shutdown():
-    stop()
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
 sdf = app.dataframe(topics_in=[input_topic])

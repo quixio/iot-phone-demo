@@ -78,7 +78,6 @@ sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
 sdf.apply(rolling_window, stateful=True)
-sdf = sdf[["Timestamp", "gForceTotal", "shaking"]]
 sdf.apply(print_row)  # easy way to print out
 
 sdf.to_topic(output_topic)

@@ -1,7 +1,7 @@
 
 #from quix_function import QuixFunction
 import os
-from streamingdataframes import Application
+from streamingdataframes import Application, MessageContext
 from streamingdataframes.models.rows import Row
 from streamingdataframes.models.serializers import (
     QuixTimeseriesSerializer,
@@ -16,8 +16,9 @@ input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer
 
 
 
-def print_row(row: Row, ctx: ):
+def print_row(row: Row, ctx: MessageContext):
     print(row)
+    print(ctx)
 
 # Hook up to termination signal (for docker image) and CTRL-C
 print("Listening to streams. Press CTRL-C to exit.")

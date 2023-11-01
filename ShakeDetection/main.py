@@ -18,7 +18,7 @@ input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer
 
 def print_row(row: Row, ctx: MessageContext):
     print(row)
-    print(ctx)
+
 
 # Hook up to termination signal (for docker image) and CTRL-C
 print("Listening to streams. Press CTRL-C to exit.")
@@ -26,6 +26,7 @@ print("Listening to streams. Press CTRL-C to exit.")
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
 sdf = app.dataframe(topics_in=[input_topic])
+sdf = sdf[["gForceX", "gForceY", "gForceZ"]]
 sdf = sdf.apply(print_row)  # easy way to print out
 
 

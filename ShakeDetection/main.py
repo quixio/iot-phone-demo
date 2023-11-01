@@ -34,7 +34,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
     
     state_value = state.get("rolling_10s", {})
 
-    state_value[value["Timestamp"]] = value["gForceTotal"]
+    state_value[+value["Timestamp"]] = value["gForceTotal"]
     print(state_value)
     timestamps = state_value.keys()
     print(timestamps)

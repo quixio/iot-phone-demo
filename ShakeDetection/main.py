@@ -12,7 +12,6 @@ import signal
 from azure.storage.blob import BlobClient
 import pickle
 import pandas as pd
-import numpy as np
 
 model = os.environ["model"]
 

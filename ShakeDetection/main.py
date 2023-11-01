@@ -8,6 +8,7 @@ from streamingdataframes.models.serializers import (
     QuixDeserializer,
     JSONDeserializer
 )
+import signal
 
 # Quix app has an option to auto create topics
 # Quix app does not require the broker being defined
@@ -61,6 +62,9 @@ sdf.apply(rolling_window, stateful=True)
 sdf.apply(print_row)  # easy way to print out
 
 sdf.to_topic(output_topic)
+
+signal.signal(signal.SIGINT, lambda: print("SIGINT"))
+signal.signal(signal.SIGTERM, lambda: print("SIGTERM"))
 
 try:
     app.run(sdf)

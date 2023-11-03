@@ -1,2 +1,1 @@
 ./Splitter/quix_streamingdataframes-0.0.1a1-py3-none-any.whl
-tqdm

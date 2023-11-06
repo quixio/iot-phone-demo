@@ -23,7 +23,7 @@ sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 
-sdf["shaking"] = sdf["gForceTotal"] > 15
+sdf["shaking"] = 1 if sdf["gForceTotal"] > 15 else 0
 
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out

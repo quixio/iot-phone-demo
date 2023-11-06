@@ -22,7 +22,7 @@ with open(model, "wb+") as my_blob:
     blob_data = blob.download_blob()
     blob_data.readinto(my_blob)
 
-def predict(value: dict):
+def predict(value: dict, ctx):
     data_df = pd.DataFrame([{'gForceZ': value["gForceZ"], 'gForceY': value["gForceY"], 'gForceX': value["gForceX"], 'gForceTotal': value["gForceTotal"]}])
     return int(loaded_model.predict(data_df)[0])
 

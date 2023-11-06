@@ -1,11 +1,12 @@
 import os
 from quixstreams import Application, State
+from quixstreams.models.serializers.quix import QuixDeserializer, QuixTimeseriesSerializer
 
 
 app = Application.Quix("big-query-sink-v5", auto_offset_reset="latest")
 
-input_topic = app.topic(os.environ["input"], value_deserializer="quix")
-output_topic = app.topic(os.environ["output"], value_serializer="quix_timeseries")
+input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer())
+output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSerializer())
 
 sdf = app.dataframe(input_topic)
 

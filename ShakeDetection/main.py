@@ -71,7 +71,7 @@ def rolling_window(value: dict, ctx: MessageContext, state: State):
 
 
 # "Gold" members get realtime notifications about purchase events larger than $1000
-sdf = app.dataframe(topics_in=[input_topic])
+sdf = app.dataframe(input_topic)
 sdf = sdf.apply(fill_gaps)
 sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]

@@ -29,7 +29,7 @@ def gForceTotalSum(row: dict, ctx, state: State):
     state_value = state.get("sum-1", 0)
     state_value += row["gForceTotal"]
     state.set("sum-1", state_value)
-    return state_value
+    return row
 
 sdf["sum"] = sdf.apply(gForceTotalSum, stateful=True)
 

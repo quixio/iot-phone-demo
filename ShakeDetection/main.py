@@ -7,7 +7,7 @@ import pandas as pd
 from azure.storage.blob import BlobClient
 
 
-model = os.environ["model"]
+model = "XGB_model_v1.8.pkl"
 blob = BlobClient.from_connection_string(
     "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
     "models",

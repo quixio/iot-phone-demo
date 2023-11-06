@@ -22,7 +22,7 @@ sdf = app.dataframe(input_topic)
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
-sdf.apply(print_row)  # easy way to print out
+sdf.apply(lambda row: print(row))  # easy way to print out
 
 #sdf.to_topic(output_topic)
 

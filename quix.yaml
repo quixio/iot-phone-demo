@@ -50,7 +50,7 @@ deployments:
   - name: ShakeDetection
     application: ShakeDetection
     deploymentType: Service
-    version: a93ff85c67488f78ab0ee169e92579da53cb40b9
+    version: a7d1e36abc1b3724e061bb6440b4b620229149be
     resources:
       cpu: 1000
       memory: 2000
@@ -64,7 +64,7 @@ deployments:
         inputType: InputTopic
         description: Name of the input topic to listen to.
         required: true
-        value: phone-data
+        value: gforce
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
@@ -74,7 +74,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: XGB_model_v1.19.pkl
+        value: XGB_model_v1.8.pkl
   - name: Splitter
     application: Splitter
     deploymentType: Service

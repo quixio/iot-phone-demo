@@ -24,7 +24,7 @@ with open(model, "wb+") as my_blob:
 
 def predict(value: dict, ctx):
     data_df = pd.DataFrame([{'gForceZ': value["gForceZ"], 'gForceY': value["gForceY"], 'gForceX': value["gForceX"], 'gForceTotal': value["gForceTotal"]}])
-    data_df["shaking"] =  int(loaded_model.predict(data_df)[0])
+    value["shaking"] =  int(loaded_model.predict(data_df)[0])
 
 print("Loaded")
 

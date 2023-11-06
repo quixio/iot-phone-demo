@@ -21,8 +21,8 @@ def sum_gForceTotal(row: dict, ctx, state: State):
     state.set("sum", state_value)
 
     
-sdf.apply(sum_gForceTotal)
-sdf = sdf[["shaking", "gForceTotal"]]
+sdf.apply(sum_gForceTotal, stateful=True)
+sdf = sdf[["sum", "gForceTotal"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

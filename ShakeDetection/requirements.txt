@@ -1,4 +1,5 @@
 azure-storage-blob
 xgboost==0.90
 scikit-learn
+pandas
 ./quix_streamingdataframes-0.0.1a1-py3-none-any.whl

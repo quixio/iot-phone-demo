@@ -77,7 +77,7 @@ sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
-sdf.apply(rolling_window, stateful=True)
+#sdf.apply(rolling_window, stateful=True)
 sdf.apply(print_row)  # easy way to print out
 
 sdf.to_topic(output_topic)

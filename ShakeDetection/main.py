@@ -24,7 +24,7 @@ sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 
 def print_console(row: dict, ctx):
-    print ("{:<8} {:<15} {:<10}".format(row["gForceX"], row["gForceY"], row["gForceZ"]))
+    print ("{:<5} {:<5} {:<5}".format(row["gForceX"], row["gForceY"], row["gForceZ"]))
     return row
 
 sdf.apply(print_console)  # easy way to print out

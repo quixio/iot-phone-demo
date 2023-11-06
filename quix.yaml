@@ -170,31 +170,6 @@ deployments:
         description: ''
         required: true
         value: Tomas-S20-71fb86,Tomas-S20-f024fc
-  - name: ShakeDetection backtest
-    application: ShakeDetection
-    deploymentType: Service
-    version: shake-v6
-    resources:
-      cpu: 1000
-      memory: 2000
-      replicas: 1
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: true
-        value: phone-data-replay
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: true
-        value: events-replay
-      - name: model
-        inputType: FreeText
-        description: ''
-        required: true
-        value: XGB_model_v1.12.pkl
   - name: QR Settings Share
     application: QR Settings Share
     deploymentType: Service

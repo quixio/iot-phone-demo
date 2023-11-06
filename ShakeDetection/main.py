@@ -13,12 +13,14 @@ blob = BlobClient.from_connection_string(
     "models",
     model,
 )
-loaded_model = pickle.load(open(model, "rb"))
 with open(model, "wb+") as my_blob:
     print("Loading the model...")
     blob_data = blob.download_blob()
     blob_data.readinto(my_blob)
     print("Loaded")
+
+loaded_model = pickle.load(open(model, "rb"))
+
 
 def gForceTotalSum(row: dict, _, state: State):
     state_value = state.get("sum-1", 0.0)

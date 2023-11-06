@@ -9,7 +9,7 @@ deployments:
   - name: Splitter
     application: Splitter
     deploymentType: Service
-    version: splitter-v1
+    version: fa7f2a2de5560cf8c91724c18f1c03a26304b7b7
     resources:
       cpu: 1000
       memory: 500

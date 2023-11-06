@@ -60,7 +60,7 @@ sdf.apply(predict)
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out
 
-#sdf.to_topic(output_topic)
+sdf.to_topic(output_topic)
 
 print("Listening to streams. Press CTRL-C to exit.")
 app.run(sdf)

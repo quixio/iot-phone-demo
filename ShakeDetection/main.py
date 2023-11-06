@@ -24,7 +24,7 @@ sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 sdf.apply(print_row)  # easy way to print out
 
-sdf.to_topic(output_topic)
+#sdf.to_topic(output_topic)
 
 print("Listening to streams. Press CTRL-C to exit.")
 app.run(sdf)

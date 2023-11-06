@@ -24,7 +24,7 @@ with open(model, "wb+") as my_blob:
 
 def predict(value: dict, ctx):
     data_df = pd.DataFrame([{'gForceZ': value["gForceZ"], 'gForceY': value["gForceY"], 'gForceX': value["gForceX"], 'gForceTotal': value["gForceTotal"]}])
-    return int(loaded_model.predict(data_df)[0])
+    data_df["shaking"] =  loaded_model.predict(data_df)[0]
 
 print("Loaded")
 
@@ -57,7 +57,7 @@ def gForceTotalSum(row: dict, ctx, state: State):
 sdf = sdf.apply(gForceTotalSum, stateful=True)
 
 sdf = sdf[["gForceTotal", "sum", "shaking"]]
-sdf["shaking"] = sdf["shaking"].apply(predict)
+sdf.apply(predict)
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out
 

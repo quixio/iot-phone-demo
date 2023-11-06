@@ -30,7 +30,7 @@ def gForceTotalSum(row: dict, ctx, state: State):
     state_value += row["gForceTotal"]
     state.set("sum", state_value)
 
-sdf["sum"] = sdf.apply(gForceTotal)
+sdf["sum"] = sdf.apply(gForceTotalSum)
 
 
 

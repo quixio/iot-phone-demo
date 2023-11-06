@@ -6,7 +6,30 @@ from streamingdataframes.models.serializers import (
     QuixDeserializer,
     JSONDeserializer
 )
-import signal
+
+from azure.storage.blob import BlobClient
+import pickle
+import pandas as pd
+
+
+model = os.environ["model"]
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    model)
+
+with open(model, "wb+") as my_blob:
+    blob_data = blob.download_blob()
+    blob_data.readinto(my_blob)
+
+def predict(value: dict):
+    data_df = pd.DataFrame([{'gForceZ': value["gForceZ"], 'gForceY': value["gForceY"], 'gForceX': value["gForceX"], 'gForceTotal': value["gForceTotal"]}])
+    return int(loaded_model.predict(data_df)[0])
+
+print("Loaded")
+
+loaded_model = pickle.load(open(model, 'rb'))
+
 
 # Quix app does not require the broker being defined
 app = Application.Quix("big-query-sink-v5", auto_offset_reset="latest", )
@@ -34,7 +57,7 @@ def gForceTotalSum(row: dict, ctx, state: State):
 sdf = sdf.apply(gForceTotalSum, stateful=True)
 
 sdf = sdf[["gForceTotal", "sum", "shaking"]]
-sdf["shaking"] = sdf["shaking"].apply(lambda v, ctx: 1 if v else 0)
+sdf["shaking"] = sdf["shaking"].apply(predict)
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out
 

@@ -34,6 +34,7 @@ def gForceTotalSum(row: dict, ctx, state: State):
 sdf = sdf.apply(gForceTotalSum, stateful=True)
 
 sdf = sdf[["gForceTotal", "sum"]]
+sdf["shaking"] = sdf["shaking"].apply(lambda v, ctx: 1 if v else 0)
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out
 

@@ -76,7 +76,7 @@ sdf = sdf.apply(fill_gaps)
 sdf = sdf[sdf["gForceX"].isnot(None)]
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
-sdf["gForceTotal"] = sdf["gForceX"] + sdf["gForceY"] + sdf["gForceZ"]
+sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 sdf.apply(rolling_window, stateful=True)
 sdf.apply(print_row)  # easy way to print out
 

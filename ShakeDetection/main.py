@@ -22,7 +22,7 @@ sdf = app.dataframe(input_topic)
 sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
-sdf.apply(lambda row,ctx: print(row))  # easy way to print out
+sdf.apply(lambda row,ctx: "{:<8} {:<15} {:<10}".format(row["gForceX"], row["gForceY"], row["gForceZ"]))  # easy way to print out
 
 #sdf.to_topic(output_topic)
 

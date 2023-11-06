@@ -11,8 +11,7 @@ output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSe
 sdf = app.dataframe(input_topic)
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
-sdf["shaking"] = sdf["gForceTotal"] > 15
-
+sdf["shaking"] = sdf["gForceTotal"] > 15
 sdf = sdf[["shaking", "gForceTotal"]]
 
 sdf.apply(lambda row, ctx: print(row))

@@ -56,7 +56,6 @@ def gForceTotalSum(row: dict, ctx, state: State):
 
 sdf = sdf.apply(gForceTotalSum, stateful=True)
 
-sdf = sdf[["gForceTotal", "sum", "shaking"]]
 sdf.apply(predict)
 
 sdf.apply(lambda row,ctx: print(row))  # easy way to print out

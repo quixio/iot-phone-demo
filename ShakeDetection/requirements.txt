@@ -1,5 +1,0 @@
-quixstreams==2.0alpha1
-azure-storage-blob
-xgboost==0.90
-scikit-learn 
-pandas

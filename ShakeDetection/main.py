@@ -10,7 +10,7 @@ output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSe
 
 sdf = app.dataframe(input_topic)
 
-sdf.apply(lambda row, ctx: print(row))
+#sdf.apply(lambda row, ctx: print(row))
 
 sdf.to_topic(output_topic)
 

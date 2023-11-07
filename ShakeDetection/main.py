@@ -14,14 +14,7 @@ sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"
 sdf["shaking"] = sdf["gForceTotal"] > 15
 sdf["shaking"] = sdf["shaking"].apply(lambda value, _: 1 if value else 0)
 
-def sum_gForceTotal(row: dict, ctx, state: State):
-    sum_value = state.get("sum", 0)
-    sum_value += row["gForceTotal"]
-    state.set("sum", sum_value)
-    row["sum"] = sum_value
-    
-sdf.apply(sum_gForceTotal, stateful=True)
-sdf = sdf[["sum", "gForceTotal"]]
+sdf = sdf[["shaking", "gForceTotal"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

@@ -13,7 +13,7 @@ sdf = app.dataframe(input_topic)
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 sdf["shaking"] = sdf["gForceTotal"] > 15
 sdf["shaking"] = sdf["shaking"].apply(lambda value, _: 1 if value else 0)
-sdf = sdf[["shaking", "gForceTotal"]]
+#sdf = sdf[["shaking", "gForceTotal"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

@@ -16,7 +16,18 @@ sdf["shaking"] = sdf["gForceTotal"] > 15
 
 sdf["shaking"] = sdf["shaking"].apply(lambda value, ctx: 1 if value else 0)
 
-sdf = sdf[["Timestamp", "gForceTotal", "shaking"]]
+def sum_gForceTotal(row:dict, ctx, state: State):
+    state_value = state.get("sum", 0)
+
+    state_value += sdf["gForceTotal"] 
+    row["sum"] = state_value
+
+    state.set("sum", state_value)
+
+
+sdf.apply(sum_gForceTotal, stateful=True)
+
+sdf = sdf[["Timestamp", "gForceTotal", "sum"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

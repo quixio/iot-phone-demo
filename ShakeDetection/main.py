@@ -10,7 +10,9 @@ output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSe
 
 sdf = app.dataframe(input_topic)
 
-# Here put transformation logic.
+sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
+
+sdf[["Timestamp", "gForceTotal"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

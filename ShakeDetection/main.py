@@ -46,9 +46,9 @@ sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"
 
 sdf.apply(predict)
 
-print_sdf = sdf[["shaking", "gForceTotal"]]
+#print_sdf = sdf[["shaking", "gForceTotal"]]
 
-print_sdf.apply(lambda row, ctx: print(row))
+sdf.apply(lambda row, ctx: print(row))
 
 sdf.to_topic(output_topic)
 

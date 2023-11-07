@@ -16,7 +16,7 @@ sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"
 def sum_gForceTotal(row:dict, ctx, state: State):
     state_value = state.get("sum", 0)
 
-    state_value += sdf["gForceTotal"] 
+    state_value += row["gForceTotal"] 
     row["sum"] = state_value
 
     state.set("sum", state_value)

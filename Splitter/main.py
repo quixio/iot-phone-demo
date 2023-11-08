@@ -36,7 +36,5 @@ topic_consumer.on_stream_received = on_stream_received_handler
 
 print("Listening to streams. Press CTRL-C to exit.")
 
-pbar = tqdm(unit="item", leave=True)
-
 # Handle termination signals and provide a graceful exit
 qx.App.run()

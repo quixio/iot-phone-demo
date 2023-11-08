@@ -19,11 +19,11 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
     print(df["gForceX"])
     if "gForceX" in df:
         print(df.columns)
-        g_force_data = df[df["gForceX"] is not None] 
+        g_force_data = df[df["gForceX"].notna()] 
     else:
         g_force_data = pd.DataFrame()
         
-    gps_data = df[df["BatteryLevel"] is not None] if "BatteryLevel" in df else pd.DataFrame()
+    gps_data = df[df["BatteryLevel"].notna()] if "BatteryLevel" in df else pd.DataFrame()
 
     if g_force_data.shape[0] > 0:
         gforce_topic_producer.create_stream(stream_consumer.stream_id).timeseries.publish(g_force_data)

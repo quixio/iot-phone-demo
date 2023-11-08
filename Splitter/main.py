@@ -26,10 +26,10 @@ def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.Dat
     gps_data = df[df["BatteryLevel"].notna()] if "BatteryLevel" in df else pd.DataFrame()
 
     if g_force_data.shape[0] > 0:
-        gforce_topic_producer.create_stream(stream_consumer.stream_id).timeseries.publish(g_force_data)
+        gforce_topic_producer.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(g_force_data)
 
     if gps_data.shape[0] > 0:
-        gps_topic_producer.create_stream(stream_consumer.stream_id).timeseries.publish(gps_data)
+        gps_topic_producer.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(gps_data)
 
 
 

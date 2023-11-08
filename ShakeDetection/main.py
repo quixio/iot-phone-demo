@@ -34,7 +34,7 @@ def predict(value: dict, _):
     )
     value["shaking"] = int(loaded_model.predict(data_df)[0])
 
-app = Application.Quix("transformation-v1", auto_offset_reset="latest")
+app = Application.Quix("transformation-v2", auto_offset_reset="latest")
 
 input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer())
 output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSerializer())

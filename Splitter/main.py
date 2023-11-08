@@ -16,13 +16,7 @@ gforce_topic_producer = client.get_topic_producer(os.environ["gforce_topic"])
 
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
-    print(df["gForceX"])
-    if "gForceX" in df:
-        print(df.columns)
-        g_force_data = df[df["gForceX"].notna()] 
-    else:
-        g_force_data = pd.DataFrame()
-        
+    g_force_data = df[df["gForceX"].notna()] if "gForceX" in df else pd.DataFrame()
     gps_data = df[df["BatteryLevel"].notna()] if "BatteryLevel" in df else pd.DataFrame()
 
     if g_force_data.shape[0] > 0:

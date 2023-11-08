@@ -1,7 +1,6 @@
 import quixstreams as qx
 import os
 import pandas as pd
-from tqdm import tqdm
 
 
 client = qx.QuixStreamingClient()
@@ -17,12 +16,15 @@ gforce_topic_producer = client.get_topic_producer(os.environ["gforce_topic"])
 
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
-    topic_producer = gforce_topic_producer if ("gForceX" in df and df["gForceX"] is not None) else gps_topic_producer 
+    g_force_data = df["gForceX" in df and df["gForceX"] is not None]
+    gps_data = df["BatteryLevel" in df and df["BatteryLevel"] is not None]
 
-    stream_producer = topic_producer.get_or_create_stream(stream_id = stream_consumer.stream_id)
-    stream_producer.timeseries.buffer.publish(df)
+    if g_force_data.shape[0] > 0:
+        gforce_topic_producer.create_stream(stream_consumer.stream_id).timeseries.publish(g_force_data)
 
-    pbar.update(df.shape[0])
+    if gps_data.shape[0] > 0:
+        gps_topic_producer.create_stream(stream_consumer.stream_id).timeseries.publish(gps_data)
+
 
 
 def on_stream_received_handler(stream_consumer: qx.StreamConsumer):

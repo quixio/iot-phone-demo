@@ -17,7 +17,7 @@ gforce_topic_producer = client.get_topic_producer(os.environ["gforce_topic"])
 
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
-    topic_producer = gforce_topic_producer if "gForceX" in df else gps_topic_producer 
+    topic_producer = gforce_topic_producer if ("gForceX" in df and df["gForceX"] is not None) else gps_topic_producer 
 
     stream_producer = topic_producer.get_or_create_stream(stream_id = stream_consumer.stream_id)
     stream_producer.timeseries.buffer.publish(df)

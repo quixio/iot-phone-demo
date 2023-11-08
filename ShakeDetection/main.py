@@ -43,19 +43,7 @@ sdf = app.dataframe(input_topic)
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs() 
 
-
-def sum_gForceTotal(row:dict, ctx, state: State):
-    state_value = state.get("sum", 0)
-
-    state_value += row["gForceTotal"] 
-    row["sum"] = state_value
-
-    state.set("sum", state_value)
-
-
 sdf.apply(predict)
-
-
 
 sdf = sdf[["Timestamp", "gForceTotal", "shaking"]]
 

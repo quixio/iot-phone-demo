@@ -17,6 +17,7 @@ gforce_topic_producer = client.get_topic_producer(os.environ["gforce_topic"])
 def on_dataframe_received_handler(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
     
     if "gForceX" in df:
+        print(df.columns)
         g_force_data = df[df["gForceX"] is not None] 
     else:
         g_force_data = pd.DataFrame()

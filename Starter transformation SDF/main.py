@@ -12,11 +12,18 @@ sdf = app.dataframe(input_topic)
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 
+def sum_gForceTotal(row: dict, ctx, state: State):
 
-sdf["shaking"] = sdf["gForceTotal"] > 15
-sdf["shaking"] = sdf["shaking"].apply(lambda v,_: 1 if v else 0)
+    state_value = state.get("sum", 0)
 
-sdf = sdf[["Timestamp","gForceTotal", "shaking"]]
+    state_value += row["gForceTotal"]
+
+    state.set("sum", state_value)
+    row["sum"] = state_value
+
+sdf.apply(sum_gForceTotal, stateful=True)
+
+sdf = sdf[["Timestamp","gForceTotal", "sum"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

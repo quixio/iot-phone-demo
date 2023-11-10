@@ -12,7 +12,11 @@ sdf = app.dataframe(input_topic)
 
 sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 
-sdf = sdf[["Timestamp","gForceTotal"]]
+
+sdf["shaking"] = sdf["gForceTotal"] > 15
+sdf["shaking"] = sdf["gForceTotal"].apply(lambda v,_: 1 if v else 0)
+
+sdf = sdf[["Timestamp","gForceTotal", "shaking"]]
 
 sdf.apply(lambda row, ctx: print(row))
 

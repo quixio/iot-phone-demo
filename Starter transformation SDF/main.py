@@ -14,7 +14,7 @@ sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"
 
 
 sdf["shaking"] = sdf["gForceTotal"] > 15
-sdf["shaking"] = sdf["gForceTotal"].apply(lambda v,_: 1 if v else 0)
+sdf["shaking"] = sdf["shaking"].apply(lambda v,_: 1 if v else 0)
 
 sdf = sdf[["Timestamp","gForceTotal", "shaking"]]
 

@@ -1,44 +1,66 @@
-import quixstreams as qx
-from sdk.stream_reader_new import StreamReaderNew
-from sdk.stream_writer_new import StreamWriterNew
 import os
+from streamingdataframes import Application, MessageContext, State
+from streamingdataframes.models.rows import Row
+from streamingdataframes.models.serializers import (
+    QuixTimeseriesSerializer,
+    QuixDeserializer,
+    JSONDeserializer
+)
+
+from azure.storage.blob import BlobClient
+import pickle
 import pandas as pd
 
-client = qx.QuixStreamingClient()
 
-print("Opening input and output topics")
+model = os.environ["model"]
+blob = BlobClient.from_connection_string(
+    "DefaultEndpointsProtocol=https;AccountName=quixmodelregistry;AccountKey=9OkHZOhAW+1vtwWjReLKLQ8zyPzB0lDjaxjpTvIxaCrrlfe5rBehIc2NexmrrlyZoyUokfxlBkuaLUVUpoUoBQ==;EndpointSuffix=core.windows.net",
+    "models",
+    model)
 
-input_topic = client.get_topic_consumer(os.environ["input"], "v3.4", auto_offset_reset=qx.AutoOffsetReset.Latest)
-output_topic = client.get_topic_producer(os.environ["output"])
+with open(model, "wb+") as my_blob:
+    blob_data = blob.download_blob()
+    blob_data.readinto(my_blob)
 
+def predict(value: dict, ctx):
+    data_df = pd.DataFrame([{'gForceZ': value["gForceZ"], 'gForceY': value["gForceY"], 'gForceX': value["gForceX"], 'gForceTotal': value["gForceTotal"]}])
+    value["shaking"] =  int(loaded_model.predict(data_df)[0])
 
-def on_dataframe_received(stream_consumer: qx.StreamConsumer, df: pd.DataFrame):
-    
-    if "gForceX" in df: 
-        df["gForceTotal"] = df["gForceX"].abs() + df["gForceY"].abs() + df["gForceZ"].abs()
-        df["shaking"] = df["gForceTotal"].apply(lambda x: 1 if x > 15 else 0)
+print("Loaded")
 
-        print(df[["gForceTotal", "shaking"]])
-
-        output_topic.get_or_create_stream(stream_consumer.stream_id).timeseries.publish(df)
-
-
-
-def on_stream_received(stream_consumer: qx.StreamConsumer):
-    print("New stream: " + stream_consumer.stream_id)
-
-    stream_consumer.timeseries.on_dataframe_received = on_dataframe_received
+loaded_model = pickle.load(open(model, 'rb'))
 
 
+# Quix app does not require the broker being defined
+app = Application.Quix("big-query-sink-v5", auto_offset_reset="latest", )
+input_topic = app.topic(os.environ["input"], value_deserializer=QuixDeserializer())
+output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSerializer())
+
+# Hook up to termination signal (for docker image) and CTRL-C
 
 
- 
 
-  
+# "Gold" members get realtime notifications about purchase events larger than $1000
+sdf = app.dataframe(input_topic)
+sdf = sdf[["Timestamp", "gForceX", "gForceY", "gForceZ"]]
 
+sdf["gForceTotal"] = sdf["gForceX"].abs() + sdf["gForceY"].abs() + sdf["gForceZ"].abs()
 
-input_topic.on_stream_received = on_stream_received
+sdf["shaking"] = sdf["gForceTotal"] > 15 
 
+def gForceTotalSum(row: dict, ctx, state: State):
+    state_value = state.get("sum-1", 0.0)
+    state_value += row["gForceTotal"]
+    state.set("sum-1", state_value)
+    row["sum"] = state_value
+
+sdf = sdf.apply(gForceTotalSum, stateful=True)
+
+sdf.apply(predict)
+
+sdf.apply(lambda row,ctx: print(row))  # easy way to print out
+
+sdf.to_topic(output_topic)
 
 print("Listening to streams. Press CTRL-C to exit.")
-qx.App.run()
+app.run(sdf)

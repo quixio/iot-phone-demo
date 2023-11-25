@@ -4,12 +4,17 @@ variables:
   - name: input
     inputType: InputTopic
     description: Name of the input topic to listen to.
-    defaultValue: phone-data
+    defaultValue: gforce
     required: true
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
     defaultValue: events
+    required: true
+  - name: model
+    inputType: FreeText
+    description: ''
+    defaultValue: XGB_model_v1.8.pkl
     required: true
 dockerfile: build/dockerfile
 runEntryPoint: main.py

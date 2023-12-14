@@ -10,9 +10,17 @@ output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSe
 
 sdf = app.dataframe(input_topic)
 
+def expand_values(row: dict):
+    row.update(row["values"])
+
+    del row["values"]
+
+    return row
+
 # Here put transformation logic.
 sdf = sdf.update(lambda row: print(row))
 sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True)
+sdf = sdf.apply(expand_values)
 sdf = sdf.update(lambda row: print(row))
 
 #sdf = sdf.to_topic(output_topic)

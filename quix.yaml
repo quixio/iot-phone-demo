@@ -264,6 +264,26 @@ deployments:
         description: ''
         required: true
         value: XGB_model_v1.12.pkl
+  - name: SensorLogger parser
+    application: SensorLogger parser
+    deploymentType: Service
+    version: e52f9a2cc90f0bd0946f9aeda04e0235499e5c78
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: iphone
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: iphone-telemetry
 
 # This section describes the Topics of the data pipeline
 topics:

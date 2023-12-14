@@ -12,7 +12,7 @@ sdf = app.dataframe(input_topic)
 
 # Here put transformation logic.
 sdf = sdf.update(lambda row: print(row))
-sdf = sdf.apply(lambda value: json.loads(value["Value"]))
+sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True)
 sdf = sdf.update(lambda row: print(row))
 
 sdf = sdf.to_topic(output_topic)

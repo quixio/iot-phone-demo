@@ -23,7 +23,7 @@ sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True
 sdf = sdf.apply(expand_values)
 sdf = sdf.update(lambda row: print(row))
 
-#sdf = sdf.to_topic(output_topic)
+sdf = sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run(sdf)

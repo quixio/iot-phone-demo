@@ -21,6 +21,7 @@ def expand_values(row: dict):
 sdf = sdf.update(lambda row: print(row))
 sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True)
 sdf = sdf.apply(expand_values)
+sdf["timestamp"] = sdf["time"]
 sdf = sdf.update(lambda row: print(row))
 
 sdf = sdf.to_topic(output_topic)

@@ -1,7 +1,7 @@
 import os
 from quixstreams import Application, State
 from quixstreams.models.serializers.quix import QuixDeserializer, QuixTimeseriesSerializer
-
+import json
 
 app = Application.Quix("transformation-v2", auto_offset_reset="latest")
 
@@ -11,7 +11,7 @@ output_topic = app.topic(os.environ["output"], value_serializer=QuixTimeseriesSe
 sdf = app.dataframe(input_topic)
 
 # Here put transformation logic.
-
+sdf = sdf.apply(lambda value: json.loads(value["Value"]))
 sdf = sdf.update(lambda row: print(row))
 
 sdf = sdf.to_topic(output_topic)

@@ -22,7 +22,7 @@ sdf = sdf.update(lambda value: print(value))
 sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True)
 sdf = sdf.apply(expand_values)
 sdf["Timestamp"] = sdf["time"]
-sdf = sdf.update(lambda row: print(row))
+#sdf = sdf.update(lambda row: print(row))
 
 #sdf = sdf.to_topic(output_topic)
 

@@ -18,7 +18,7 @@ def expand_values(row: dict):
     return row
 
 # Here put transformation logic.
-sdf = sdf.update(lambda value: print(json.loads(value["Value"])["payload"]))
+sdf = sdf.update(lambda value: print(value))
 sdf = sdf.apply(lambda value: json.loads(value["Value"])["payload"], expand=True)
 sdf = sdf.apply(expand_values)
 sdf["Timestamp"] = sdf["time"]

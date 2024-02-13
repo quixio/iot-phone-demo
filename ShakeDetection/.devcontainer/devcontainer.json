@@ -1,0 +1,20 @@
+
+{
+  "name": "Python 3",
+  "build": {
+    "dockerfile": "../dockerfile",
+    "context": ".."
+  },
+  "settings": { 
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylint"
+  ],
+  "forwardPorts": [
+    80
+  ],
+  "remoteUser": "root"
+}

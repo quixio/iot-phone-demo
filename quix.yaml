@@ -279,6 +279,66 @@ deployments:
         description: This is the output topic for hello world data
         required: true
         value: raw
+  - name: influx-sink
+    application: influx-sink
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: sensor-data
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: us-east-1-1.aws.cloud2.influxdata.com
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        secretKey: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: false
+        value: Quix
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
+        required: false
+        value: Quix
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data should be stored.
+        required: true
+        value: Quix
+      - name: INFLUXDB_TAG_KEYS
+        inputType: FreeText
+        description: The tags to include when writing the measurement data
+        required: false
+        value: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+      - name: INFLUXDB_FIELD_KEYS
+        inputType: FreeText
+        description: The fields to include when writing the measurement data
+        required: true
+        value: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
+      - name: CONSUMER_GROUP_NAME
+        inputType: FreeText
+        description: The name of the consumer group to use when consuming from Kafka
+        required: true
+        value: influxdb-sink
+      - name: TIMESTAMP_COLUMN
+        inputType: FreeText
+        description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
+        required: false
+        value: timestamp
 
 # This section describes the Topics of the data pipeline
 topics:

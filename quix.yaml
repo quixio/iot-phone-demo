@@ -208,13 +208,6 @@ topics:
       replicationFactor: 2
       retentionInMinutes: 60
       retentionInBytes: 52428800
-  - name: events-replay
-    persisted: true
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
   - name: hello-world-source
     persisted: false
     configuration:

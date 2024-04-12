@@ -10,7 +10,7 @@ export class EnvironmentVariablesService {
 
   /*~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-*/
   /*WORKING LOCALLY? UPDATE THESE!*/
-  private workingLocally = false; // set to true if working locally
+  private workingLocally = true; // set to true if working locally
   public token: string = ''; // Create a token in the Tokens menu and paste it here
   public topic: string = ''; // Create a topic in the Topic tab
   public eventTopic: string = ''; // Create a topic in the Topic tab

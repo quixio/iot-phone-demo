@@ -1,4 +1,3 @@
-import { EventData } from "./eventData";
 
 export interface Vehicle {
   latitude?: number;
@@ -14,7 +13,7 @@ export interface Vehicle {
   wear?: number;
   tail?: { lat: number, lng: number }[];
   alerts?: {
-    data: EventData[],
+    data: any[],
     position: Position[]
   };
 }

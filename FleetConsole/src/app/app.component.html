@@ -58,7 +58,7 @@
             [latitude]="vehicle.alerts!.position[i].latitude" [longitude]="vehicle.alerts!.position[i].longitude"
             iconUrl="assets/alert-marker.png" *ngFor="let event of vehicle.alerts?.data; let i = index">
             <agm-info-window [disableAutoPan]="false" (infoWindowClose)="onInfoWindowClose(i)" #infoWindow>
-              <p [style.margin-bottom.px]="5"><strong>{{ event.value }}</strong></p>
+              <p [style.margin-bottom.px]="5"><strong>{{ event.title }}</strong></p>
               {{ (event.timestamp / 1000000) | date: 'HH:mm:ss.SSS' }}
             </agm-info-window>
           </agm-marker>
@@ -153,7 +153,7 @@
                   <ng-container *ngIf="(data.length - i) as index">
                     <span fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon fontIcon="warning" color="warn" inline></mat-icon>
-                      {{ data[index - 1].value }}
+                      {{ data[index - 1].title }}
                     </span>
                   </ng-container>
                 </td>

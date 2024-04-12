@@ -1,5 +1,5 @@
 import os
-from quixstreams import Application
+from quixstreams import Application, message_key
 import json
 import pandas as pd
 import pickle
@@ -16,7 +16,7 @@ with open(model_pickle_path, 'rb') as file:
 print("Model loaded from pickle file:")
 
 
-app = Application(consumer_group="crash-prediction-ml-v1", auto_offset_reset="earliest")
+app = Application(consumer_group="crash-prediction-ml-v2", auto_offset_reset="latest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda row, *_: int(row["timestamp"] / 1000000))
 output_topic = app.topic(os.environ["output"])
@@ -45,6 +45,8 @@ def predict(row: dict):
     
     return row 
 
+sdf = sdf.update(print)
+
 sdf = sdf.apply(predict)
 
 # We filter only windows where crash was detected.
@@ -54,6 +56,8 @@ sdf = sdf[sdf["crash"] == 1]
 sdf = sdf.apply(lambda row: {
     "alert": {
         "title": "Crash detected",
+        "id": "crash",
+      
         "timestamp": row["timestamp"],
         "location": {
             "latitude": row["value"][-1]["location-latitude"],

@@ -1,5 +1,5 @@
 import { AgmInfoWindow } from '@agm/core';
-import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatDialogState } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,12 +11,11 @@ import { Subject, take } from 'rxjs';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertsDialogComponent } from './components/alerts-dialog/alerts-dialog.component';
 import { Alert } from './models/alert';
-import { EventData } from './models/eventData';
-import { ParameterData } from './models/parameterData';
 import { bufferThrottleTime } from './models/utils';
 import { Position, Vehicle } from './models/vehicle';
 import { EnvironmentVariablesService } from './services/environment-variables.service';
 import { UserService } from './services/user.service';
+import { WebsocketService } from './services/websockets';
 
 @Component({
   selector: 'app-root',
@@ -82,7 +81,7 @@ export class AppComponent implements OnInit {
     options: this.options
   }
 
-  chartParameters = ['gForceX', 'gForceY', 'gForceZ', 'crash'];
+  chartParameters = ['accelerometer-x', 'accelerometer-y', 'accelerometer-z'];
   chartColors = ['#008eff', '#ca5fff', '#fe9353', '#ff4040']
   vehicles = new Map<string, Vehicle>();
   vehicleControl = new FormControl()
@@ -93,8 +92,8 @@ export class AppComponent implements OnInit {
   selectedIndex: number | undefined;
   connected: boolean;
   reconnecting: boolean;
-  dataSource: EventData[] = [];
-  dataSourceChange = new Subject<EventData>();
+  dataSource: any[] = [];
+  dataSourceChange = new Subject<any>();
   scroll: { height: number, top: number };
 
   get selectedPosition(): Position | undefined {
@@ -107,6 +106,7 @@ export class AppComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UserService,
     private matDialog: MatDialog,
+    private websocketService: WebsocketService
   ) {
     Chart.register(
       LinearScale,
@@ -169,142 +169,166 @@ export class AppComponent implements OnInit {
 
     this.markerImg = this.generateSVGForPoint()
 
-    this.environmentVariablesService.ConfigurationLoaded.subscribe(_=>{
-      let token = this.environmentVariablesService.token;
-      let dataTopic = this.environmentVariablesService.topic;
-      let eventTopic = this.environmentVariablesService.eventTopic;
-      let hubUrl = this.environmentVariablesService.hubUrl;
+    // this.environmentVariablesService.ConfigurationLoaded.subscribe(_=>{
+    //   let token = this.environmentVariablesService.token;
+    //   let dataTopic = this.environmentVariablesService.topic;
+    //   let eventTopic = this.environmentVariablesService.eventTopic;
+    //   let hubUrl = this.environmentVariablesService.hubUrl;
 
-      const options = { accessTokenFactory: () => token };
-      const connection = new HubConnectionBuilder()
-          .withAutomaticReconnect()
-          .withUrl(hubUrl, options)
-          .build();
-      connection.onreconnecting(e => {
-        this.connected = false;
-        this.reconnecting = true;
-      });
-      connection.onreconnected(e => {
+      // const options = { accessTokenFactory: () => token };
+      // const connection = new HubConnectionBuilder()
+      //     .withAutomaticReconnect()
+      //     .withUrl(hubUrl, options)
+      //     .build();
+      // connection.onreconnecting(e => {
+      //   this.connected = false;
+      //   this.reconnecting = true;
+      // });
+      // connection.onreconnected(e => {
+      //   this.connected = true;
+      //   this.reconnecting = false;
+      // });
+      // connection.onclose(e => {
+      //   this.connected = false;
+      //   this.reconnecting = false;
+      // });
+
+      this.websocketService.connect().subscribe(() => {
         this.connected = true;
-        this.reconnecting = false;
-      });
-      connection.onclose(e => {
-        this.connected = false;
-        this.reconnecting = false;
-      });
-      connection.start().then(() => {
-        console.log('SignalR connected.');
-        this.connected = true;
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Speed');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Latitude');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Longitude');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Altitude');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Accuracy');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'Heading');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'gForceX');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'gForceY');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'gForceZ');
-        connection.invoke('SubscribeToParameter', dataTopic, '*', 'BatteryLevel');
-        connection.invoke('SubscribeToParameter', eventTopic, '*', 'shaking');
-        connection.invoke('SubscribeToEvent', eventTopic, '*', 'crash');
-      });
 
-      connection.on('EventDataReceived', (data: EventData) => {
-        if (this.chartParameters.includes(data.id)) {
-          this.updateChart(data.id, { x: data.timestamp / 1000000, y: 1 }, true)
-        }
+        this.websocketService.getMessages().subscribe(
+          message => {
+                
 
-        const alert: Alert = {
-          title: data.value,
-          streamId: data.streamId,
-          timestamp: data.timestamp,
-          color: 'warn',
-          icon: 'warning'
-        };
+                if (message.alert){
+                  let data = message["alert"]
+          
+                  const alert: Alert = {
+                    title: data.title,
+                    streamId: message.streamId,
+                    timestamp: data.timestamp,
+                    color: 'warn',
+                    icon: 'warning'
+                  };
+          
+                  this.unreadAlertsCount++;
+                  this.alerts.push(alert);
+                  this.openSnackBar(alert);
+          
+                  const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
+                  const position: Position = { latitude: data.location.latitude || 0, longitude: data.location.longitude || 0, };
+          
+                  if (!vehicle.alerts) vehicle.alerts = { data: [], position: [] } ;
+                  vehicle.alerts.data = [...vehicle.alerts.data, data];
+                  vehicle.alerts.position = [...vehicle.alerts.position, position]
+                  this.vehicles.set(message.streamId, vehicle);
+          
+                  this.dataSourceChange.next(data);
+                }
 
-        this.unreadAlertsCount++;
-        this.alerts.push(alert);
-        this.openSnackBar(alert);
+                if (message["accelerometer-x"]){
+                  if (!this.vehicleControl.value) this.vehicleControl.setValue(message.streamId);
 
-        const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
-        const position: Position = { latitude: vehicle.latitude || 0, longitude: vehicle.longitude || 0, };
 
-        if (!vehicle.alerts) vehicle.alerts = { data: [], position: [] } ;
-        vehicle.alerts.data = [...vehicle.alerts.data, data];
-        vehicle.alerts.position = [...vehicle.alerts.position, position]
-        this.vehicles.set(data.streamId, vehicle);
+                  const vehicle: Vehicle = this.vehicles.get(message.streamId) || {};
 
-        this.dataSourceChange.next(data);
-      });
+                  vehicle.name = message.streamId;
 
-      connection.on('ParameterDataReceived', (data: ParameterData) => {
+                    Object.keys(message).forEach((key) => {
+                      if (this.chartParameters.includes(key)) {
+                        this.updateChart(key, { x: message.timestamp / 1000000, y: message[key] })
+                      }
+                    });
 
-        if (data.topicName == eventTopic && data.numericValues["shaking"][0] == 1){
-          const alert: Alert = {
-            title: "Shake detected",
-            streamId: data.streamId,
-            timestamp: data.timestamps[0],
-            color: 'warn',
-            icon: 'warning'
-          };
-
-          const eventData: EventData = {
-            id: "alert",
-            value : "Shake detected",
-            timestamp : data.timestamps[0],
-            topicName : eventTopic,
-            streamId : data.streamId,
-            tags : {}
-          }
-
-          this.unreadAlertsCount++;
-          this.alerts.push(alert);
-          this.openSnackBar(alert);
-
-          const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
-          const position: Position = { latitude: vehicle.latitude || 0, longitude: vehicle.longitude || 0, };
-
-          if (!vehicle.alerts) vehicle.alerts = { data: [], position: [] } ;
-          vehicle.alerts.data = [...vehicle.alerts.data, eventData];
-          vehicle.alerts.position = [...vehicle.alerts.position, position]
-          this.vehicles.set(data.streamId, vehicle);
-
-          this.dataSourceChange.next(eventData);
-        }
-
-        if (!this.vehicleControl.value) this.vehicleControl.setValue(data.streamId);
-
-        const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
-        data.timestamps.forEach((timestamp, i) => {
-          vehicle.name = data.streamId;
-
-          Object.keys(data.numericValues).forEach((key) => {
-            if (this.chartParameters.includes(key)) {
-              this.updateChart(key, { x: timestamp / 1000000, y: data.numericValues[key][i] })
-            }
-          });
-
-          if (data.numericValues['BatteryLevel']) vehicle.batteryLevel = data.numericValues['BatteryLevel'][i] * 100;
-          if (data.numericValues['Accuracy']) vehicle.accuracy = data.numericValues['Accuracy'][i];
-          if (data.numericValues['Heading']) vehicle.heading = data.numericValues['Heading'][i];
-          if (data.numericValues['Accuracy'] && data.numericValues['Accuracy'][i] > 0 && data.numericValues['Accuracy'][i] < 100) {
-            if (data.numericValues['Latitude']) vehicle.latitude = data.numericValues['Latitude'][i];
-            if (data.numericValues['Longitude']) vehicle.longitude = data.numericValues['Longitude'][i];
-            if (data.numericValues['Altitude']) vehicle.altitude = data.numericValues['Altitude'][i];
-            if (data.numericValues['Speed']) vehicle.speed = data.numericValues['Speed'][i];
-            if (vehicle.latitude && vehicle.longitude) {
-              vehicle.tail = [...(vehicle.tail || []), { lat: vehicle.latitude, lng: vehicle.longitude }]
-              vehicle.lastPosition = new Date(timestamp / 1000000);
-            }
-          }
-        });
-        this.vehicles.set(data.streamId, vehicle);
+                    if (message["location-speed"]) vehicle.speed = message["location-speed"];
+                    if (message["location-horizontalAccuracy"]) vehicle.accuracy = message["location-horizontalAccuracy"];
+                    if (message["battery-batteryLevel"]) vehicle.batteryLevel = message["battery-batteryLevel"];
+                    if (message["location-heading"]) vehicle.heading = message["location-heading"];
+                    if (message["location-latitude"]) vehicle.latitude = message["location-latitude"];
+                    if (message["location-longitude"]) vehicle.longitude = message["location-longitude"];
+                    if (message["location-altitude"]) vehicle.altitude = message["location-altitude"];
+                      if (vehicle.latitude && vehicle.longitude) {
+                        vehicle.tail = [...(vehicle.tail || []), { lat: vehicle.latitude, lng: vehicle.longitude }]
+                        vehicle.lastPosition = new Date(message["timestamp"] / 1000000);
+                      }
+                  
+                  this.vehicles.set(message.streamId, vehicle);
+                }
+          },
+          error => console.error('Error:', error),
+          () => console.log('Connection closed')
+        );
       });
 
-      this.dataSourceChange.pipe(bufferThrottleTime<EventData>(500)).subscribe((data) => {
+
+      // connection.on('ParameterDataReceived', (data: ParameterData) => {
+
+      //   if (data.topicName == eventTopic && data.numericValues["shaking"][0] == 1){
+      //     const alert: Alert = {
+      //       title: "Shake detected",
+      //       streamId: data.streamId,
+      //       timestamp: data.timestamps[0],
+      //       color: 'warn',
+      //       icon: 'warning'
+      //     };
+
+      //     const eventData: EventData = {
+      //       id: "alert",
+      //       value : "Shake detected",
+      //       timestamp : data.timestamps[0],
+      //       topicName : eventTopic,
+      //       streamId : data.streamId,
+      //       tags : {}
+      //     }
+
+      //     this.unreadAlertsCount++;
+      //     this.alerts.push(alert);
+      //     this.openSnackBar(alert);
+
+      //     const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
+      //     const position: Position = { latitude: vehicle.latitude || 0, longitude: vehicle.longitude || 0, };
+
+      //     if (!vehicle.alerts) vehicle.alerts = { data: [], position: [] } ;
+      //     vehicle.alerts.data = [...vehicle.alerts.data, eventData];
+      //     vehicle.alerts.position = [...vehicle.alerts.position, position]
+      //     this.vehicles.set(data.streamId, vehicle);
+
+      //     this.dataSourceChange.next(eventData);
+      //   }
+
+      //   if (!this.vehicleControl.value) this.vehicleControl.setValue(data.streamId);
+
+      //   const vehicle: Vehicle = this.vehicles.get(data.streamId) || {};
+      //   data.timestamps.forEach((timestamp, i) => {
+      //     vehicle.name = data.streamId;
+
+      //     Object.keys(data.numericValues).forEach((key) => {
+      //       if (this.chartParameters.includes(key)) {
+      //         this.updateChart(key, { x: timestamp / 1000000, y: data.numericValues[key][i] })
+      //       }
+      //     });
+
+      //     if (data.numericValues['BatteryLevel']) vehicle.batteryLevel = data.numericValues['BatteryLevel'][i] * 100;
+      //     if (data.numericValues['Accuracy']) vehicle.accuracy = data.numericValues['Accuracy'][i];
+      //     if (data.numericValues['Heading']) vehicle.heading = data.numericValues['Heading'][i];
+      //     if (data.numericValues['Accuracy'] && data.numericValues['Accuracy'][i] > 0 && data.numericValues['Accuracy'][i] < 100) {
+      //       if (data.numericValues['Latitude']) vehicle.latitude = data.numericValues['Latitude'][i];
+      //       if (data.numericValues['Longitude']) vehicle.longitude = data.numericValues['Longitude'][i];
+      //       if (data.numericValues['Altitude']) vehicle.altitude = data.numericValues['Altitude'][i];
+      //       if (data.numericValues['Speed']) vehicle.speed = data.numericValues['Speed'][i];
+      //       if (vehicle.latitude && vehicle.longitude) {
+      //         vehicle.tail = [...(vehicle.tail || []), { lat: vehicle.latitude, lng: vehicle.longitude }]
+      //         vehicle.lastPosition = new Date(timestamp / 1000000);
+      //       }
+      //     }
+      //   });
+      //   this.vehicles.set(data.streamId, vehicle);
+      // });
+
+      this.dataSourceChange.pipe(bufferThrottleTime<any>(500)).subscribe((data) => {
         this.dataSource = [ ...this.dataSource, ...data];
       });
-    });
+    // });
   }
 
   updateScroll(): void {

@@ -47,55 +47,6 @@ deployments:
         description: The topic to read events from
         required: true
         value: events
-  - name: Model training
-    application: ModelTraining
-    deploymentType: Job
-    version: 3358851684bef5318cb879e95a30a3b88aa89fa5
-    resources:
-      cpu: 1000
-      memory: 2000
-      replicas: 1
-    variables:
-      - name: INFLUXDB_HOST
-        inputType: FreeText
-        description: Host address for the InfluxDB instance.
-        required: true
-        value: us-east-1-1.aws.cloud2.influxdata.com
-      - name: INFLUXDB_TOKEN
-        inputType: Secret
-        description: Authentication token to access InfluxDB.
-        required: true
-        secretKey: influx_token
-      - name: INFLUXDB_ORG
-        inputType: FreeText
-        description: Organization name in InfluxDB.
-        required: true
-        value: Quix
-      - name: INFLUXDB_DATABASE
-        inputType: FreeText
-        description: Database name in InfluxDB where data is stored.
-        required: true
-        value: Quix
-      - name: INFLUXDB_MEASUREMENT_NAME
-        inputType: FreeText
-        description: The InfluxDB measurement to read data from. If not specified, the name of the output topic will be used
-        required: false
-        value: gforce
-      - name: version
-        inputType: FreeText
-        description: ''
-        required: true
-        value: v1.19
-      - name: training
-        inputType: FreeText
-        description: ''
-        required: true
-        value: Tomas-S20-350c01,Tomas-S20-1d8fc9,Tomas-S20-38deac,Tomas-S20-732379,Tomas-S20-18babb
-      - name: testing
-        inputType: FreeText
-        description: ''
-        required: true
-        value: Tomas-S20-71fb86,Tomas-S20-f024fc
   - name: Web Gateway
     application: web-gateway
     deploymentType: Service

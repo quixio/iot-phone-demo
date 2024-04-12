@@ -1,4 +1,4 @@
-name: clickstreams-web-sockets
+name: FleetConsole Websockets
 language: Python
 variables:
   - name: input

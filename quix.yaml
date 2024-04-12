@@ -9,7 +9,7 @@ deployments:
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service
-    version: fleetapp-v1
+    version: latest
     resources:
       cpu: 200
       memory: 200

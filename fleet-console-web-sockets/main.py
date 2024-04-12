@@ -56,7 +56,7 @@ class webSocketSource:
 
     async def start_websocket_server(self):
         print("Listening for websocket connections..")
-        server = await websockets.serve(self.handle_websocket, '0.0.0.0', 8081)
+        server = await websockets.serve(self.handle_websocket, '0.0.0.0', 80)
         await server.wait_closed()
 
 async def main():

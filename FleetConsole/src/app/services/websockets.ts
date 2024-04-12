@@ -26,7 +26,7 @@ export class WebsocketService {
 
   // Method to connect to the WebSocket server
   public connect(): Observable<void> {
-    const WS_ENDPOINT = 'ws://localhost:8081/' + this.generateGUID();
+    const WS_ENDPOINT = this.determineWebSocketUrl() + this.generateGUID();
   
     // Initialize the WebSocket connection
     this.socket$ = webSocket(WS_ENDPOINT);
@@ -55,4 +55,22 @@ export class WebsocketService {
   public sendMessage(message: any): void {
     this.socket$.next(message);
   }
+
+  private determineWebSocketUrl() {
+    // Detect the current host of the frontend
+    const host = window.location.host;
+  
+    // Check if the frontend is running locally
+    if (host.includes('localhost')) {
+      // Use the hardcoded WebSocket URL for local development
+      return 'ws://localhost:80';
+    } else {
+      // Build the WebSocket URL based on the current host
+      // Assuming that the WebSocket server's subdomain and path are different
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const websocketHost = host.replace('fleetconsole', 'fleet-console-web-sockets');
+      return `${protocol}//${websocketHost}/`;
+    }
+  }
+  
 }

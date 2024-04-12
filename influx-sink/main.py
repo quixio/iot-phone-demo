@@ -103,7 +103,6 @@ def send_data_to_influx(message: dict, state: State):
         # Check if it's time to write the batch
         if len(points_buffer) >= 10000 or int(time() * 1e9) - last_write_time_ns >= 15e9:  # 10k records have accumulated or 15 seconds have passed
             with influx3_client as client:
-                print(points_buffer)
                 logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")
                 
                 client.write(record=points_buffer)

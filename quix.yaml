@@ -6,24 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: QR Settings Share
-    application: QR Settings Share
-    deploymentType: Service
-    version: qr-v1.1
-    resources:
-      cpu: 200
-      memory: 200
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: qr-settings-share
-    desiredStatus: Running
-    variables:
-      - name: BearerToken
-        inputType: Secret
-        description: ''
-        required: true
-        secretKey: qr_bearer_token
   - name: Fleet console
     application: FleetConsole
     deploymentType: Service

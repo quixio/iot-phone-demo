@@ -16,7 +16,7 @@ with open(model_pickle_path, 'rb') as file:
 print("Model loaded from pickle file:")
 
 
-app = Application(consumer_group="crash-prediction-ml-v2", auto_offset_reset="latest", use_changelog_topics=False)
+app = Application(consumer_group="crash-prediction-ml-v2", auto_offset_reset="earliest", use_changelog_topics=True)
 
 input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda row, *_: int(row["timestamp"] / 1000000))
 output_topic = app.topic(os.environ["output"])

@@ -54,13 +54,15 @@ last_write_time_ns = int(time() * 1e9)  # Convert current time from seconds to n
 
 def send_data_to_influx(messages: List[dict]):
 
+    points_buffer = []
+
+
     for message in messages:
         if timestamp_column == '':
             message_time_ns = (message_context().timestamp).milliseconds * 1000 * 1000
         else:
             message_time_ns = message[timestamp_column]
 
-        points_buffer = []
         
         # Initialize the tags and fields dictionaries
         tags = {}

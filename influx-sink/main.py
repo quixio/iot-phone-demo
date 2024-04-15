@@ -95,10 +95,10 @@ def send_data_to_influx(messages: List[dict]):
             point.field(field_key, field_value)
         points_buffer.append(point.to_line_protocol())
 
-        with influx3_client as client:
-            logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")
-            
-            client.write(record=points_buffer)
+    with influx3_client as client:
+        logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")
+        
+        client.write(record=points_buffer)
 
  
 

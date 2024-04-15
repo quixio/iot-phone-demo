@@ -104,7 +104,6 @@ def send_data_to_influx(messages: List[dict]):
 
 sdf = app.dataframe(input_topic)
 sdf = sdf.tumbling_window(1000, 1000).reduce(lambda state, row: state + [row], lambda row: [row]).final()
-sdf = sdf.update(print)
 sdf = sdf.apply(lambda row: row["value"]).update(send_data_to_influx)
 
 if __name__ == "__main__":

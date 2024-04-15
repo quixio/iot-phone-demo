@@ -5,7 +5,7 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="raw-to-table-v5", auto_offset_reset="latest", use_changelog_topics=False)
+app = Application(consumer_group="raw-to-table-v5", auto_offset_reset="earliest", use_changelog_topics=True)
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])

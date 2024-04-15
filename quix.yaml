@@ -173,13 +173,6 @@ deployments:
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: phone-data
-    persisted: false
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 1048576000
   - name: events
     persisted: false
     configuration:
@@ -187,66 +180,17 @@ topics:
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
-  - name: gforce
-    persisted: true
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 1048576000
-  - name: gps
-    persisted: false
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 1048576000
-  - name: phone-data-replay
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-  - name: events-replay
-    persisted: true
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 60
-      retentionInBytes: 52428800
-  - name: hello-world-source
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
   - name: raw
     persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000
   - name: sensor-data
     persisted: false
     configuration:
       partitions: 1
       replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: input-data
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: alerts
-    persisted: false
-    configuration:
-      partitions: 1
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000

@@ -7,14 +7,6 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 
-import pickle
-
-model_pickle_path = 'my_model.pkl'
-with open(model_pickle_path, 'rb') as file:
-    loaded_model = pickle.load(file)
-
-print("Model loaded from pickle file:")
-
 
 app = Application(consumer_group=str(uuid.uuid4()), auto_offset_reset="earliest", use_changelog_topics=False)
 
@@ -23,14 +15,7 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf.hopping_window(5000, 250).reduce(lambda state, row: { **state, **row}, lambda row: row).final()
-
-sdf = sdf.apply(lambda row:{
-    "timestamp": row["start"],
-    **row["value"]
-})
 sdf = sdf[sdf.contains("location-latitude") & sdf.contains("accelerometer-x")]
-
 
 sdf["accelerometer-total-g"] = sdf["accelerometer-x"].abs() + sdf["accelerometer-y"].abs() +sdf["accelerometer-z"].abs()
 
@@ -86,11 +71,9 @@ sdf = sdf.tumbling_window(60000).reduce(count_alerts, lambda row: count_alerts({
 
 sdf = sdf[sdf["value"]["count"] == 1]
 
-#sdf = sdf.update(lambda row: print(json.dumps(row, indent=4)))
+sdf = sdf.update(lambda row: print(json.dumps(row, indent=4)))
 
-
-
-#sdf = sdf.to_topic(output_topic)
+sdf = sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run(sdf)

@@ -9,6 +9,7 @@ from time import time
 # import vendor-specific modules
 from quixstreams import Application, State
 from quixstreams import message_context
+from typing import List, Dict
 
 from influxdb_client_3 import Point, InfluxDBClient3
 
@@ -51,24 +52,16 @@ service_start_state = True
 last_write_time_ns = int(time() * 1e9)  # Convert current time from seconds to nanoseconds
 
 
-def send_data_to_influx(message: dict, state: State):
-    global last_write_time_ns, points_buffer, service_start_state
+def send_data_to_influx(messages: List[dict]):
 
-    if timestamp_column == '':
-        message_time_ns = (message_context().timestamp).milliseconds * 1000 * 1000
-    else:
-        message_time_ns = message[timestamp_column]
+    for message in messages:
+        if timestamp_column == '':
+            message_time_ns = (message_context().timestamp).milliseconds * 1000 * 1000
+        else:
+            message_time_ns = message[timestamp_column]
 
-    try:
-
-        # if the service just started, check for any state values to load.
-        if service_start_state:
-            # we only need this check on startup.
-            service_start_state = False
-            # load the points buffer from state right into the variable or supply a default.
-            points_buffer = state.get('points_buffer', [])
-            logger.info("Pickled buffer loaded from state.")
-
+        points_buffer = []
+        
         # Initialize the tags and fields dictionaries
         tags = {}
         fields = {}
@@ -100,30 +93,17 @@ def send_data_to_influx(message: dict, state: State):
             point.field(field_key, field_value)
         points_buffer.append(point.to_line_protocol())
 
-        # Check if it's time to write the batch
-        if len(points_buffer) >= 10000 or int(time() * 1e9) - last_write_time_ns >= 15e9:  # 10k records have accumulated or 15 seconds have passed
-            with influx3_client as client:
-                logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")
-                
-                client.write(record=points_buffer)
+        with influx3_client as client:
+            logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")
+            
+            client.write(record=points_buffer)
 
-            # Clear the buffer and update the last write time
-            points_buffer = []
-            last_write_time_ns = int(time() * 1e9)
-        
-        if len(points_buffer) > 0:
-            # if there is anything in the buffer, store it to state.
-            state.set('points_buffer', points_buffer)
-        else:
-            # if we just wrote to InfluxDb and the buffer is empty, delete the state.
-            state.delete('points_buffer')
-
-    except Exception as e:
-        logger.info(f"{str(datetime.utcnow())}: Write failed")
-        logger.info(e)
+ 
 
 sdf = app.dataframe(input_topic)
-sdf = sdf.update(send_data_to_influx, stateful=True)
+sdf = sdf.tumbling_window(1000, 1000).reduce(lambda state, row: state + [row], lambda row: [row]).final()
+
+sdf = sdf.apply(lambda row: row["value"]).update(send_data_to_influx)
 
 if __name__ == "__main__":
     logger.info("Starting application")

@@ -23,10 +23,10 @@ api = Api(app, version='1.0', title='API Documentation', description='A simple A
 
 ns = api.namespace('my_namespace', description='Namespace operations')
 
-@ns.route('/')
+@ns.route('/', methods=['POST'])
 class WebServer(Resource):
 
-    @app.route("/", methods=['POST'])
+    #@app.route("/", methods=['POST'])
     def post_data():
         
         data = request.json

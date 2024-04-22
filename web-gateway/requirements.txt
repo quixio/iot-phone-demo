@@ -3,3 +3,4 @@ flask
 flask_cors
 waitress
 python-dotenv
+flask-restplus

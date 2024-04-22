@@ -4,6 +4,7 @@ import json
 from flask import Flask, request, Response
 from waitress import serve
 
+# Ensure these imports are correctly set up in your project
 from setup_logging import get_logger
 from quixstreams import Application
 from flask_restx import Api, Resource
@@ -25,22 +26,18 @@ ns = api.namespace('my_namespace', description='Namespace operations')
 
 @ns.route('/', methods=['POST'])
 class WebServer(Resource):
-
-    #@app.route("/", methods=['POST'])
-    def post_data():
-        
+    def post(self):
         data = request.json
-
-        print(data)
-
-        logger.info(f"{str(datetime.datetime.utcnow())} posted.")
+        logger.info(f"{str(datetime.datetime.utcnow())} posted: {data}")
         
-        producer.produce(topic.name, json.dumps(data), "test data")
-
-        response = Response(status=200)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-
-        return response
+        # It's recommended to catch potential exceptions here for robustness
+        try:
+            producer.produce(topic.name, json.dumps(data), "test data")
+        except Exception as e:
+            logger.error(f"Failed to produce to topic: {e}")
+            return {"error": "Internal server error"}, 500
+        
+        return {"message": "Data posted successfully"}, 200
 
 
 if __name__ == '__main__':

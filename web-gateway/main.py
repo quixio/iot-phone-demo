@@ -6,7 +6,7 @@ from waitress import serve
 
 from setup_logging import get_logger
 from quixstreams import Application
-from flask-restx import Api, Resource
+from flask_restx import Api, Resource
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv

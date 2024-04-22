@@ -26,6 +26,7 @@ ns = api.namespace('my_namespace', description='Namespace operations')
 
 @ns.route('/', methods=['POST'])
 class WebServer(Resource):
+
     def post(self):
         data = request.json
         logger.info(f"{str(datetime.datetime.utcnow())} posted: {data}")

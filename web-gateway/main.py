@@ -5,8 +5,8 @@ from flask import Flask, request, Response
 from waitress import serve
 
 from setup_logging import get_logger
-
 from quixstreams import Application
+from flask_restplus import Api, Resource
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv

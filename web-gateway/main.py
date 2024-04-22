@@ -23,7 +23,7 @@ api = Api(app, version='1.0', title='API Documentation', description='A simple A
 
 ns = api.namespace('my_namespace', description='Namespace operations')
 
-@app.route("/", methods=['POST'])
+#@app.route("/", methods=['POST'])
 @ns.route('/')
 def post_data():
     

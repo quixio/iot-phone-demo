@@ -21,7 +21,7 @@ logger = get_logger()
 app = Flask(__name__)
 
 
-@app.route("/data/", methods=['POST'])
+@app.route("/", methods=['POST'])
 def post_data():
     
     data = request.json
@@ -30,7 +30,7 @@ def post_data():
 
     logger.info(f"{str(datetime.datetime.utcnow())} posted.")
     
-    producer.produce(topic.name, json.dumps(data), data["sessionId"])
+    producer.produce(topic.name, json.dumps(data), "test data")
 
     response = Response(status=200)
     response.headers.add('Access-Control-Allow-Origin', '*')

@@ -19,6 +19,8 @@ producer = quix_app.get_producer()
 logger = get_logger()
 
 app = Flask(__name__)
+api = Api(app, version='1.0', title='API Documentation', description='A simple API')
+
 ns = api.namespace('my_namespace', description='Namespace operations')
 
 @app.route("/", methods=['POST'])

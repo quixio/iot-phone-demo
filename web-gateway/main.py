@@ -23,22 +23,24 @@ api = Api(app, version='1.0', title='API Documentation', description='A simple A
 
 ns = api.namespace('my_namespace', description='Namespace operations')
 
-#@app.route("/", methods=['POST'])
-@ns.route('/', methods=['POST'])
-def post_data():
-    
-    data = request.json
+@ns.route('/'
+class WebServer(Resource):
 
-    print(data)
+    @app.route("/", methods=['POST'])
+    def post_data():
+        
+        data = request.json
 
-    logger.info(f"{str(datetime.datetime.utcnow())} posted.")
-    
-    producer.produce(topic.name, json.dumps(data), "test data")
+        print(data)
 
-    response = Response(status=200)
-    response.headers.add('Access-Control-Allow-Origin', '*')
+        logger.info(f"{str(datetime.datetime.utcnow())} posted.")
+        
+        producer.produce(topic.name, json.dumps(data), "test data")
 
-    return response
+        response = Response(status=200)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
+        return response
 
 
 if __name__ == '__main__':

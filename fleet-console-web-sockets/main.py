@@ -37,11 +37,13 @@ class webSocketSource:
                             del self.websocket_connections[key]
                         print(f"Send {str(len(self.websocket_connections))} times.")
                     
+                    self._consumer.commit(message)
+
                     await asyncio.sleep(0)
                 else:
                     await asyncio.sleep(1)
             except Exception as e:
-                print(f"Message processing failed with error: {e}")
+                print(f"Message processing failed error: {e}")
                 
     async def handle_websocket(self, websocket, path):
         print(path + " user connected.")

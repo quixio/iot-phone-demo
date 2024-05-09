@@ -44,7 +44,6 @@ class webSocketSource:
                     await asyncio.sleep(1)
             except Exception as e:
                 print(f"Message processing failed error: {e}")
-
                 
     async def handle_websocket(self, websocket, path):
         print(path + " user connected.")

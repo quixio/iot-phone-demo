@@ -1,5 +1,0 @@
-quixstreams==2.4.1
-python-dotenv
-pandas==1.4.2
-numpy==1.22.3
-scikit-learn==1.0.2

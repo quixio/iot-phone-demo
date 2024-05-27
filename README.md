@@ -1,1 +1,1 @@
-#IoT demo with Quix and InfluxDB
+# IoT demo with Quix and InfluxDB

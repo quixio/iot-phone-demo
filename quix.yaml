@@ -66,7 +66,23 @@ deployments:
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
         value: timestamp
+  - name: Web Gateway
+    application: web-gateway
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: web-gateway
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic for hello world data
+        required: true
+        value: raw
 
 # This section describes the Topics of the data pipeline
-topics:
- 
+topics: []

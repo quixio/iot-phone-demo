@@ -14,6 +14,7 @@ variables:
   - name: INFLUXDB_TOKEN
     inputType: Secret
     description: Authentication token to access InfluxDB.
+    defaultValue: influx_token
     required: true
   - name: INFLUXDB_ORG
     inputType: FreeText

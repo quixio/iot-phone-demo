@@ -79,9 +79,6 @@ def send_data_to_influx(messages: List[dict]):
                 if message[field_key] is not None:  # skip None values
                     fields[field_key] = message[field_key]
 
-        logger.debug(f"Using tag keys: {', '.join(tags.keys())}")
-        logger.debug(f"Using field keys: {', '.join(fields.keys())}")
-
         # Check if fields dictionary is not empty
         if not fields and not tags:
             logger.debug("Fields and Tags are empty: No data to write to InfluxDB.")
@@ -94,6 +91,9 @@ def send_data_to_influx(messages: List[dict]):
         for field_key, field_value in fields.items():
             point.field(field_key, field_value)
         points_buffer.append(point.to_line_protocol())
+
+    for point in points_buffer:
+            logger.debug(f"Line Protocol: {point}")
 
     with influx3_client as client:
         logger.info(f"Writing batch of {len(points_buffer)} points written to InfluxDB.")

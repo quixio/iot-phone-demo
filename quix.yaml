@@ -90,3 +90,7 @@ topics:
     persisted: false
     configuration:
       partitions: 1
+  - name: raw-data
+    persisted: false
+    configuration:
+      partitions: 1

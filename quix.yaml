@@ -92,6 +92,11 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: table-data
+      - name: period
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 1000
 
 # This section describes the Topics of the data pipeline
 topics:

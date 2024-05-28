@@ -106,3 +106,5 @@ topics:
       partitions: 1
   - name: table-data
     persisted: false
+  - name: table-data-10hz
+    persisted: false

@@ -49,7 +49,7 @@ variables:
   - name: TIMESTAMP_COLUMN
     inputType: FreeText
     description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
-    defaultValue: timestamp
+    defaultValue: time
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py

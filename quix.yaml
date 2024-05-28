@@ -56,7 +56,6 @@ deployments:
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
         value: time
-  
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -66,7 +65,3 @@ topics:
       partitions: 1
   - name: table-data
     persisted: false
-  - name: sensor-data
-    persisted: false
-    configuration:
-      partitions: 1

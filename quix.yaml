@@ -92,3 +92,7 @@ topics:
       partitions: 1
   - name: table-data
     persisted: false
+  - name: sensor-data
+    persisted: false
+    configuration:
+      partitions: 1

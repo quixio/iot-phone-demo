@@ -44,7 +44,7 @@ variables:
   - name: CONSUMER_GROUP_NAME
     inputType: FreeText
     description: The name of the consumer group to use when consuming from Kafka
-    defaultValue: influxdb-sink
+    defaultValue: influxdb-sink-v1
     required: true
   - name: TIMESTAMP_COLUMN
     inputType: FreeText

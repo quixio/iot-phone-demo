@@ -34,7 +34,7 @@ variables:
   - name: INFLUXDB_TAG_KEYS
     inputType: FreeText
     description: The tags to include when writing the measurement data
-    defaultValue: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+    defaultValue: '[]'
     required: false
   - name: INFLUXDB_FIELD_KEYS
     inputType: FreeText

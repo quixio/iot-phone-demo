@@ -24,7 +24,7 @@ variables:
   - name: INFLUXDB_MEASUREMENT_NAME
     inputType: FreeText
     description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
-    defaultValue: Quix2
+    defaultValue: Quix3
     required: false
   - name: INFLUXDB_DATABASE
     inputType: FreeText

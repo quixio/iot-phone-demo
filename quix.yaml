@@ -86,10 +86,6 @@ deployments:
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: raw
-    persisted: false
-    configuration:
-      partitions: 1
   - name: raw-data
     persisted: false
     configuration:

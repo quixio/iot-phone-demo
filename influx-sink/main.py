@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 import pickle
 from time import time
+import time
 
 # import vendor-specific modules
 from quixstreams import Application, State
@@ -34,7 +35,7 @@ timestamp_column = os.environ.get("TIMESTAMP_COLUMN", "")
 # Create a Quix platform-specific application instead
 app = Application.Quix(consumer_group=consumer_group_name, auto_offset_reset="earliest", use_changelog_topics=False)
 
-input_topic = app.topic(os.environ["input"])
+input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda *_: int(time.time() * 1000))
 
                                            
 influx3_client = InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],

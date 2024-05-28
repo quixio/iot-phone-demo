@@ -36,12 +36,6 @@ app = Application.Quix(consumer_group=consumer_group_name, auto_offset_reset="ea
 
 input_topic = app.topic(os.environ["input"])
 
-# Read the environment variable and convert it to a dictionary
-tag_keys = ast.literal_eval(os.environ.get("INFLUXDB_TAG_KEYS", "[]"))
-field_keys = ast.literal_eval(os.environ.get("INFLUXDB_FIELD_KEYS", "[]"))
-
-# Read the environment variable for the field(s) to get.
-# For multiple fields, use a list "["field1","field2"]"
                                            
 influx3_client = InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          host=os.environ["INFLUXDB_HOST"],
@@ -74,15 +68,14 @@ def send_data_to_influx(messages: List[dict]):
         fields = {}
 
         # Iterate over the tag_dict and field_dict to populate tags and fields
-        for tag_key in tag_keys:
-            if tag_key in message:
-                if message[tag_key] is not None:  # skip None values
-                    tags[tag_key] = message[tag_key]
+        if "tags" in message:
+            if tag_key in message["tags"]:
+                tags[tag_key] = message[tag_key]
 
-        for field_key in field_keys:
             if field_key in message:
-                if message[field_key] is not None:  # skip None values
-                    fields[field_key] = message[field_key]
+                if field_key is "tags" or field_key is timestamp_column:
+                    continue
+                fields[field_key] = message[field_key]
 
         # Check if fields dictionary is not empty
         if not fields and not tags:

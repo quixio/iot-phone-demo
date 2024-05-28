@@ -10,7 +10,6 @@ from time import time
 from quixstreams import Application, State
 from quixstreams import message_context
 from typing import List, Dict
-import time
 
 from influxdb_client_3 import Point, InfluxDBClient3
 
@@ -35,7 +34,7 @@ timestamp_column = os.environ.get("TIMESTAMP_COLUMN", "")
 # Create a Quix platform-specific application instead
 app = Application.Quix(consumer_group=consumer_group_name, auto_offset_reset="earliest", use_changelog_topics=False)
 
-input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda *_: int(time.time() * 1000))
+input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda *_: int(time() * 1000))
                                            
 influx3_client = InfluxDBClient3(token=os.environ["INFLUXDB_TOKEN"],
                          host=os.environ["INFLUXDB_HOST"],

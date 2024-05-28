@@ -14,7 +14,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -91,6 +91,10 @@ topics:
     configuration:
       partitions: 1
   - name: raw-data
+    persisted: false
+    configuration:
+      partitions: 1
+  - name: sensor-data
     persisted: false
     configuration:
       partitions: 1

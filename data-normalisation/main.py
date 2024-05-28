@@ -31,7 +31,7 @@ sdf = sdf.apply(lambda message: message["payload"], expand=True)
 
 sdf = sdf.apply(transpose)
 
-sdf = sdf.hopping_window(10000, 1000, 500).reduce(lambda state, row: {**state, **row}, lambda row: row).final()
+sdf = sdf.hopping_window(10000, int(os.environ["period"]), 500).reduce(lambda state, row: {**state, **row}, lambda row: row).final()
 
 sdf = sdf.apply(lambda row: {
     **row["value"],

@@ -73,7 +73,7 @@ def send_data_to_influx(messages: List[dict]):
                 tags[tag_key] = message["tags"][tag_key]
 
             for field_key in message:
-                if field_key is "tags" or field_key is timestamp_column:
+                if field_key == "tags" or field_key == timestamp_column:
                     continue
                 fields[field_key] = message[field_key]
 

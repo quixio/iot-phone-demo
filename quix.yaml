@@ -20,7 +20,7 @@ deployments:
         inputType: InputTopic
         description: This is the input topic
         required: true
-        value: sensor-data
+        value: table-data
       - name: INFLUXDB_HOST
         inputType: FreeText
         description: Host address for the InfluxDB instance.
@@ -46,16 +46,6 @@ deployments:
         description: Database name in InfluxDB where data should be stored.
         required: true
         value: Quix
-      - name: INFLUXDB_TAG_KEYS
-        inputType: FreeText
-        description: The tags to include when writing the measurement data
-        required: false
-        value: '[]'
-      - name: INFLUXDB_FIELD_KEYS
-        inputType: FreeText
-        description: The fields to include when writing the measurement data
-        required: true
-        value: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
       - name: CONSUMER_GROUP_NAME
         inputType: FreeText
         description: The name of the consumer group to use when consuming from Kafka
@@ -65,7 +55,7 @@ deployments:
         inputType: FreeText
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
-        value: timestamp
+        value: time
   - name: Web Gateway
     application: web-gateway
     deploymentType: Service
@@ -105,17 +95,13 @@ deployments:
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: raw
-    persisted: false
-    configuration:
-      partitions: 1
   - name: raw-data
-    persisted: false
-    configuration:
-      partitions: 1
-  - name: sensor-data
     persisted: false
     configuration:
       partitions: 1
   - name: table-data
     persisted: false
+  - name: sensor-data
+    persisted: false
+    configuration:
+      partitions: 1

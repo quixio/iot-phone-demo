@@ -6,47 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Fleet console
-    application: fleet-console
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 200
-      memory: 200
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: fleetconsole
-    desiredStatus: Running
-    variables:
-      - name: topic
-        inputType: FreeText
-        description: The topic to read telementry data from
-        required: true
-        value: phone-data
-      - name: eventTopic
-        inputType: FreeText
-        description: The topic to read events from
-        required: true
-        value: events
-  - name: Web Gateway
-    application: web-gateway
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: web-gateway
-    desiredStatus: Running
-    variables:
-      - name: output
-        inputType: OutputTopic
-        description: This is the output topic for hello world data
-        required: true
-        value: raw
   - name: influx-sink
     application: influx-sink
     deploymentType: Service
@@ -55,7 +14,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -91,7 +50,7 @@ deployments:
         inputType: FreeText
         description: The tags to include when writing the measurement data
         required: false
-        value: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+        value: '[]'
       - name: INFLUXDB_FIELD_KEYS
         inputType: FreeText
         description: The fields to include when writing the measurement data
@@ -107,90 +66,37 @@ deployments:
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
         value: timestamp
-  - name: Raw to table
-    application: raw-to-table
+  - name: Web Gateway
+    application: web-gateway
     deploymentType: Service
     version: latest
     resources:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: false
-        value: raw
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: false
-        value: sensor-data
-  - name: crash-detection
-    application: crash-detection
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 500
-      memory: 1000
-      replicas: 1
-    desiredStatus: Running
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: false
-        value: sensor-data
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: false
-        value: events
-  - name: FleetConsole Websockets
-    application: fleet-console-web-sockets
-    deploymentType: Service
-    version: latest
-    resources:
-      cpu: 1000
-      memory: 500
-      replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: fleet-console-web-sockets
-    desiredStatus: Running
+      urlPrefix: web-gateway
     variables:
-      - name: input
-        inputType: InputTopic
-        description: Output topic
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic for hello world data
         required: true
-        value: sensor-data
-      - name: events_topic
-        inputType: InputTopic
-        description: Output topic
-        required: true
-        value: events
+        value: raw-data
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: events
-    persisted: false
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 1048576000
   - name: raw
     persisted: false
     configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 52428800
+      partitions: 1
+  - name: raw-data
+    persisted: false
+    configuration:
+      partitions: 1
   - name: sensor-data
     persisted: false
     configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 52428800
+      partitions: 1
+  - name: table-data
+    persisted: false

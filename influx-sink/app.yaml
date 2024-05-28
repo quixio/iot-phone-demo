@@ -4,7 +4,7 @@ variables:
   - name: input
     inputType: InputTopic
     description: This is the input topic
-    defaultValue: sensor-data
+    defaultValue: table-data
     required: true
   - name: INFLUXDB_HOST
     inputType: FreeText
@@ -24,32 +24,22 @@ variables:
   - name: INFLUXDB_MEASUREMENT_NAME
     inputType: FreeText
     description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
-    defaultValue: Quix
+    defaultValue: Quix3
     required: false
   - name: INFLUXDB_DATABASE
     inputType: FreeText
     description: Database name in InfluxDB where data should be stored.
     defaultValue: Quix
     required: true
-  - name: INFLUXDB_TAG_KEYS
-    inputType: FreeText
-    description: The tags to include when writing the measurement data
-    defaultValue: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
-    required: false
-  - name: INFLUXDB_FIELD_KEYS
-    inputType: FreeText
-    description: The fields to include when writing the measurement data
-    defaultValue: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
-    required: true
   - name: CONSUMER_GROUP_NAME
     inputType: FreeText
     description: The name of the consumer group to use when consuming from Kafka
-    defaultValue: influxdb-sink
+    defaultValue: influxdb-sink-v1
     required: true
   - name: TIMESTAMP_COLUMN
     inputType: FreeText
     description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
-    defaultValue: timestamp
+    defaultValue: time
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py

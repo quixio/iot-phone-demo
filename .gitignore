@@ -131,8 +131,9 @@ dist
 
 .DS_Store
 ShakeDetection/venv/
-venv/
+.venv/
 
 **/certificates/
 
 **/state/
+

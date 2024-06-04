@@ -170,6 +170,23 @@ deployments:
         description: Output topic
         required: true
         value: events
+  - name: DemoAPI
+    application: DemoAPI
+    deploymentType: Service
+    version: latest
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: demoapi
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: This is the output topic for hello world data
+        required: true
+        value: hello-world-source
 
 # This section describes the Topics of the data pipeline
 topics:

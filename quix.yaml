@@ -221,23 +221,22 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: events
-    persisted: false
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: raw
-    persisted: false
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 52428800
   - name: sensor-data
-    persisted: false
     configuration:
       partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 52428800
+  - name: hello-world-source
+  - name: f1-demo-normalised

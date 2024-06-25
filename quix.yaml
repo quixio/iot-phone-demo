@@ -240,3 +240,7 @@ topics:
       retentionInBytes: 52428800
   - name: hello-world-source
   - name: f1-demo-normalised
+  - name: f1-data
+    configuration:
+      partitions: 1
+      replicationFactor: 2

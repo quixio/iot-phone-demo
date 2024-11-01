@@ -1,0 +1,21 @@
+# Use the official Telegraf image as the base
+FROM telegraf:latest
+
+# Install curl to download the certificate
+RUN apt-get update && apt-get install -y curl jq && rm -rf /var/lib/apt/lists/*
+
+# Set write permissions for the /etc/ssl/certs directory
+RUN chmod 777 /etc/ssl/certs
+
+# Copy the Telegraf configuration and the download script into the container
+COPY telegraf.conf /etc/telegraf/telegraf.conf
+COPY download_cert.sh /usr/local/bin/download_cert.sh
+
+# Make the download script executable
+RUN chmod +x /usr/local/bin/download_cert.sh
+
+# Expose the HTTP listener port
+EXPOSE 80
+
+# Run the download script and start Telegraf
+CMD ["/bin/bash", "-c", "/usr/local/bin/download_cert.sh"]

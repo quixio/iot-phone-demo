@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define variables
-PORTAL_URL="${Quix__Portal__Api}/workspaces/tomas-crashdetection-dev/broker/librdkafka"
+PORTAL_URL="${Quix__Portal__Api}/workspaces/${Quix__Workspace__Id}/broker/librdkafka"
 AUTH_TOKEN="${Quix__Sdk__Token}"
 CERT_PATH="/etc/ssl/certs/ca.pem"
 

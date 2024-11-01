@@ -1,7 +1,7 @@
 name: http-telegraf-source
 language: Python
 variables:
-  - name: output
+  - name: OUTPUT_TOPIC
     inputType: OutputTopic
     description: Name of the output topic to write into
     defaultValue: test

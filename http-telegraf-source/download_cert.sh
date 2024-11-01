@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define variables
-PORTAL_URL=$($Quix__Portal__Api + "/workspaces/tomas-crashdetection-dev/broker/librdkafka")
-AUTH_TOKEN=$Quix__Sdk__Token
+PORTAL_URL="${Quix__Portal__Api}/workspaces/tomas-crashdetection-dev/broker/librdkafka"
+AUTH_TOKEN="${Quix__Sdk__Token}"
 CERT_PATH="/etc/ssl/certs/ca.pem"
 
 # Download the broker configuration as JSON

@@ -15,10 +15,10 @@ response=$(curl -s -X 'GET' "$PORTAL_URL" \
 echo "$response"
 
 # Check if the response is valid JSON
-#if ! echo "$response" | jq . > /dev/null 2>&1; then
-#  echo "Failed to fetch broker configuration or response is not JSON"
-#  exit 1
-#fi
+if ! echo "$response" | jq . > /dev/null 2>&1; then
+  echo "Failed to fetch broker configuration or response is not JSON"
+  exit 1
+fi
 
 # Extract values from JSON response and export them as environment variables
 export KAFKA_BOOTSTRAP_SERVERS=$(echo "$response" | jq -r '.["bootstrap.servers"]')

@@ -226,3 +226,4 @@ topics:
       partitions: 1
       replicationFactor: 2
   - name: demo-data.csv
+  - name: csv_source

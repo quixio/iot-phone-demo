@@ -214,3 +214,9 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Bronze
+  - name: telegraf_metrics
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+    dataTier: Bronze

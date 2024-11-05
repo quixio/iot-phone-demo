@@ -225,3 +225,4 @@ topics:
     configuration:
       partitions: 1
       replicationFactor: 2
+  - name: demo-data.csv

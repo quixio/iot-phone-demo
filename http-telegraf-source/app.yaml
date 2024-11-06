@@ -7,5 +7,5 @@ variables:
     defaultValue: test
     required: true
 dockerfile: dockerfile
-runEntryPoint: main.py
-defaultFile: main.py
+runEntryPoint: dockerfile
+defaultFile: dockerfile

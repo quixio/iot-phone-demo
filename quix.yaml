@@ -172,7 +172,7 @@ deployments:
         value: events
   - name: http-telegraf-source
     application: http-telegraf-source
-    version: v1
+    version: latest
     deploymentType: Service
     resources:
       cpu: 200

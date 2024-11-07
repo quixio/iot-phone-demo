@@ -21,7 +21,9 @@ WORKDIR /app
 # Copy the built shaded JAR file from the previous stage
 COPY --from=build /app/target/kafka-message-count-1.0-SNAPSHOT.jar app.jar
 
+ENV JMX_PORT=80
+
 # Expose port if needed (e.g., for metrics)
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

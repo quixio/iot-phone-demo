@@ -182,7 +182,7 @@ deployments:
       enabled: true
       urlPrefix: telegraf
     variables:
-      - name: OUTPUT_TOPIC
+      - name: output
         inputType: OutputTopic
         description: Name of the output topic to write into
         required: true

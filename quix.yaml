@@ -224,7 +224,7 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write to.
         required: false
-        value: transform
+        value: count
 
 # This section describes the Topics of the data pipeline
 topics:

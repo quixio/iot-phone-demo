@@ -4,7 +4,7 @@ import os
 from quixstreams import Application
 from dotenv import load_dotenv
 import json
-import traceback
+
 load_dotenv()
 
 class webSocketSource:

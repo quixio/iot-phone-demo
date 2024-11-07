@@ -29,7 +29,7 @@ public class MessageCountPerSecond {
             props.put("default.value.serde", "org.apache.kafka.common.serialization.Serdes$StringSerde");
 
             StreamsBuilder builder = new StreamsBuilder();
-            KStream<String, String> messageStream = builder.stream( workspace_id + "-" + System.getenv("input"));
+            KStream<String, String> messageStream = builder.stream(workspace_id + "-" + System.getenv("input"));
 
             // Count messages per second
             KTable<Windowed<String>, Long> messageCountPerSecond = messageStream

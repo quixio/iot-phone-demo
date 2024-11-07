@@ -206,6 +206,25 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: count
+  - name: Kafka Streams template
+    application: Kafka Streams template
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: raw
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: transform
 
 # This section describes the Topics of the data pipeline
 topics:

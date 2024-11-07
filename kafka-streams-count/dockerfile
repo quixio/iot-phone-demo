@@ -19,10 +19,9 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built shaded JAR file from the previous stage
-COPY --from=build /app/target/*-shaded.jar app.jar
+COPY --from=build /app/target/kafka-message-count-1.0-SNAPSHOT.jar app.jar
 
 # Expose port if needed (e.g., for metrics)
 EXPOSE 8080
 
-# Set the entrypoint to run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]

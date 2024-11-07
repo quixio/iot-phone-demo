@@ -148,7 +148,7 @@ deployments:
         required: false
         value: events
   - name: FleetConsole Websockets
-    application: fleetconsole-sockets
+    application: fleet-console-web-sockets
     version: latest
     deploymentType: Service
     resources:
@@ -157,7 +157,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: fleet-console-web-sockets
+      urlPrefix: fleet-console-ws
     desiredStatus: Running
     variables:
       - name: input

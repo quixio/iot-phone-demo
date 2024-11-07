@@ -12,6 +12,6 @@ variables:
     defaultValue: transform
     required: false
 dockerfile: dockerfile
-runEntryPoint: /src/main/java/com/example/MessageCountPerSecond.java
-defaultFile: /src/main/java/com/example/MessageCountPerSecond.java
+runEntryPoint: src/main/java/com/example/MessageCountPerSecond.java
+defaultFile: src/main/java/com/example/MessageCountPerSecond.java
 libraryItemId: kstreams

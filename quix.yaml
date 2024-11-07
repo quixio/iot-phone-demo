@@ -220,11 +220,6 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Bronze
-  - name: message-count-app-KSTREAM-AGGREGATE-STATE-STORE-0000000001-changelog
-    configuration:
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
   - name: tranform
     configuration:
       replicationFactor: 2

@@ -1,21 +1,31 @@
-# Use the official Telegraf image as the base
+# Use Golang image for building Telegraf
+FROM --platform=linux/amd64 golang:1.23-alpine AS builder
+
+# Install required packages
+RUN apk add --no-cache git make
+
+# Clone Telegraf source code
+WORKDIR /go/src/github.com/influxdata
+RUN git clone https://github.com/influxdata/telegraf.git
+
+# Copy the custom plugin code into the Telegraf outputs directory
+COPY plugins/outputs /go/src/github.com/influxdata/telegraf/plugins/outputs/
+
+# Build Telegraf with the custom plugin
+WORKDIR /go/src/github.com/influxdata/telegraf
+RUN go mod download && go build -o telegraf ./cmd/telegraf
+
+# Use the official Telegraf image for the final container
 FROM telegraf:latest
 
-# Install curl to download the certificate
-RUN apt-get update && apt-get install -y curl jq && rm -rf /var/lib/apt/lists/*
+# Copy the built Telegraf binary from the builder stage
+COPY --from=builder /go/src/github.com/influxdata/telegraf/telegraf /usr/bin/telegraf
 
-# Set write permissions for the /etc/ssl/certs directory
-RUN chmod 777 /etc/ssl/certs
+# Ensure the binary has executable permissions
+RUN chmod +x /usr/bin/telegraf
 
-# Copy the Telegraf configuration and the download script into the container
+# Copy custom Telegraf configuration
 COPY telegraf.conf /etc/telegraf/telegraf.conf
-COPY download_cert.sh /usr/local/bin/download_cert.sh
 
-# Make the download script executable
-RUN chmod +x /usr/local/bin/download_cert.sh
-
-# Expose the HTTP listener port
-EXPOSE 80
-
-# Run the download script and start Telegraf
-CMD ["/bin/bash", "-c", "/usr/local/bin/download_cert.sh"]
+# Default command to run Telegraf
+CMD ["/usr/bin/telegraf", "--config", "/etc/telegraf/telegraf.conf"]

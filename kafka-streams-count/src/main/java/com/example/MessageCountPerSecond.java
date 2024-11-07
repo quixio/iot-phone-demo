@@ -19,6 +19,7 @@ public class MessageCountPerSecond {
     public static void main(String[] args) {
         try {
 
+            System.getenv().forEach((key, value) -> System.out.println(key + " = " + value));
             String workspace_id = System.getenv("Quix__Workspace__Id");
 
             // Get Kafka configuration properties

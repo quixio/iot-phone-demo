@@ -148,7 +148,7 @@ deployments:
         required: false
         value: events
   - name: FleetConsole Websockets
-    application: fleet-console-web-sockets
+    application: fleetconsole-sockets
     version: latest
     deploymentType: Service
     resources:

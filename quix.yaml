@@ -203,6 +203,11 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: grafana
+    network:
+      serviceName: grafana
+      ports:
+        - port: 80
+          targetPort: 3000
     variables:
       - name: output
         inputType: OutputTopic

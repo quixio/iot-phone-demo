@@ -9,7 +9,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: transform
+    defaultValue: count-1s
     required: false
 dockerfile: dockerfile
 runEntryPoint: src/main/java/com/example/MessageCountPerSecond.java

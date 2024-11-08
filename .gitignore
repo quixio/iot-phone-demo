@@ -136,3 +136,5 @@ venv/
 **/certificates/
 
 **/state/
+
+.venv/

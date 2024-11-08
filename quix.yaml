@@ -157,7 +157,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: fleet-console-web-sockets
+      urlPrefix: fleet-console-ws
     desiredStatus: Running
     variables:
       - name: input
@@ -236,6 +236,23 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: csv-data
+  - name: http-telegraf-source
+    application: http-telegraf-source
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: telegraf
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write into
+        required: true
+        value: test
 
 # This section describes the Topics of the data pipeline
 topics:

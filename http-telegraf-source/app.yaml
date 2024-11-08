@@ -1,11 +1,11 @@
-name: JSON replay
-language: python
+name: http-telegraf-source
+language: Python
 variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write into
-    defaultValue: f1-data
+    defaultValue: test
     required: true
 dockerfile: dockerfile
-runEntryPoint: main.py
-defaultFile: main.py
+runEntryPoint: dockerfile
+defaultFile: dockerfile

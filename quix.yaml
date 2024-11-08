@@ -225,6 +225,11 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: influxdb
+    network:
+      serviceName: influxdb
+      ports:
+        - port: 80
+          targetPort: 8086
     variables:
       - name: output
         inputType: OutputTopic

@@ -209,25 +209,9 @@ topics:
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
-  - name: test
-    configuration:
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-    dataTier: Bronze
   - name: telegraf_metrics
     configuration:
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Bronze
-  - name: tranform
-    configuration:
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-  - name: count
-    configuration:
-      replicationFactor: 3
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800

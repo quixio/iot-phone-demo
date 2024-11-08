@@ -31,10 +31,4 @@ EXPOSE 80
 # Run the application with JMX enabled
 ENTRYPOINT ["java", \
     "-javaagent:/app/jmx_prometheus_javaagent.jar=80:/app/config.yaml", \
-    "-Dcom.sun.management.jmxremote", \
-    "-Dcom.sun.management.jmxremote.port=8080", \
-    "-Dcom.sun.management.jmxremote.rmi.port=8081", \
-    "-Dcom.sun.management.jmxremote.authenticate=false", \
-    "-Dcom.sun.management.jmxremote.ssl=false", \
-    "-Djava.rmi.server.hostname=localhost", \
     "-jar", "/app/app.jar"]

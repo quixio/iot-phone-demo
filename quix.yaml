@@ -187,7 +187,6 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: test
-  
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -213,5 +212,12 @@ topics:
     configuration:
       replicationFactor: 2
       retentionInMinutes: 1440
+      retentionInBytes: 52428800
+    dataTier: Bronze
+  - name: telegraf
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: -1
       retentionInBytes: 52428800
     dataTier: Bronze

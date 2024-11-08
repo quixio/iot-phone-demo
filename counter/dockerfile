@@ -17,13 +17,24 @@ FROM openjdk:17-jdk-slim
 
 # Set the working directory in the container
 WORKDIR /app
+COPY config.yaml /app/config.yaml
 
 # Copy the built shaded JAR file from the previous stage
 COPY --from=build /app/target/kafka-message-count-1.0-SNAPSHOT.jar app.jar
 
-ENV JMX_PORT=80
+# Copy the Prometheus JMX Exporter and configuration file
+ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.1/jmx_prometheus_javaagent-0.16.1.jar /app/jmx_prometheus_javaagent.jar
 
-# Expose port if needed (e.g., for metrics)
+# Expose port 80 for Prometheus metrics
 EXPOSE 80
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with JMX enabled
+ENTRYPOINT ["java", \
+    "-javaagent:/app/jmx_prometheus_javaagent.jar=80:/app/config.yaml", \
+    "-Dcom.sun.management.jmxremote", \
+    "-Dcom.sun.management.jmxremote.port=8080", \
+    "-Dcom.sun.management.jmxremote.rmi.port=8081", \
+    "-Dcom.sun.management.jmxremote.authenticate=false", \
+    "-Dcom.sun.management.jmxremote.ssl=false", \
+    "-Djava.rmi.server.hostname=localhost", \
+    "-jar", "/app/app.jar"]

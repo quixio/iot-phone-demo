@@ -170,7 +170,7 @@ deployments:
         description: Output topic
         required: true
         value: events
-  - name: http-telegraf-source
+  - name: Telegraf
     application: http-telegraf-source
     version: latest
     deploymentType: Service
@@ -186,7 +186,7 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write into
         required: true
-        value: test
+        value: telegraf
 
 # This section describes the Topics of the data pipeline
 topics:

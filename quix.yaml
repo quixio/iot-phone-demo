@@ -214,6 +214,23 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: csv-data
+  - name: InfluxDb
+    application: influxDb
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: influxdb
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write into
+        required: true
+        value: csv-data
 
 # This section describes the Topics of the data pipeline
 topics:

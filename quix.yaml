@@ -248,11 +248,11 @@ deployments:
       enabled: true
       urlPrefix: telegraf
     variables:
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write into
-        required: true
-        value: test
+      - name: INFLUX_TOKEN
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: local_influx_token
 
 # This section describes the Topics of the data pipeline
 topics:

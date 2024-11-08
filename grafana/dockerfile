@@ -1,23 +1,25 @@
-FROM python:3.12.5-slim-bookworm
-
-# Set environment variables to non-interactive and unbuffered output
-ENV DEBIAN_FRONTEND=noninteractive \
-    PYTHONUNBUFFERED=1 \
-    PYTHONIOENCODING=UTF-8
+# Use the official Grafana image from the Docker Hub
+FROM grafana/grafana:latest
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy only the requirements file(s) to leverage Docker cache
-# Assuming all requirements files are in the root or subdirectories
-COPY ./requirements.txt ./
+# Copy custom configuration file
+COPY custom.ini /etc/grafana/grafana.ini
 
-# Install dependencies
-# Adding `--no-cache-dir` to avoid storing unnecessary files and potentially reduce image size
-RUN pip install --no-cache-dir -r requirements.txt
+RUN mkdir -p /app/state/
 
-# Copy the rest of the application
-COPY . .
+#Set environment variables to point to /state/ folder
+ENV GF_PATHS_DATA=/app/state/data \
+    GF_PATHS_LOGS=/app/state/logs \
+    GF_PATHS_PLUGINS=/app/state/plugins \
+    GF_PATHS_PROVISIONING=/app/state/provisioning
 
-# Set the command to run your application
-ENTRYPOINT ["python3", "main.py"]
+# Expose port 80
+EXPOSE 3000
+
+# Override Grafana's default port (3000) with port 80
+#ENV GF_SERVER_HTTP_PORT=80
+
+# Command to start Grafana
+CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini"]

@@ -1,6 +1,11 @@
 name: http-telegraf-source
 language: Python
-variables: []
+variables:
+  - name: INFLUX_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: local_influx_token
+    required: false
 dockerfile: dockerfile
 runEntryPoint: dockerfile
 defaultFile: dockerfile

@@ -15,8 +15,8 @@ ENV GF_PATHS_DATA=/app/state/data \
     GF_PATHS_PLUGINS=/app/state/plugins \
     GF_PATHS_PROVISIONING=/app/state/provisioning
 
-# Expose port 80
-EXPOSE 80
+# Expose port 3000
+EXPOSE 3000
 
 # Override Grafana's default port (3000) with port 80
 #ENV GF_SERVER_HTTP_PORT=80

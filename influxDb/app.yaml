@@ -6,6 +6,11 @@ variables:
     description: ''
     defaultValue: influx_token
     required: true
+  - name: ADMIN_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

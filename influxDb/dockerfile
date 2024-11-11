@@ -2,22 +2,22 @@
 FROM influxdb:latest
 
 # Set the environment variable for InfluxDB data directory
-ENV INFLUXDB_DATA_DIR /app/state/influxdb/data
-ENV INFLUXDB_META_DIR /app/state/influxdb/meta
-ENV INFLUXDB_WAL_DIR /app/state/influxdb/wal
+ENV DOCKER_INFLUXDB_DATA_DIR /app/state/influxdb/data
+ENV DOCKER_INFLUXDB_META_DIR /app/state/influxdb/meta
+ENV DOCKER_INFLUXDB_WAL_DIR /app/state/influxdb/wal
 
 RUN mkdir -p /app/state/
 
-ENV INFLUXDB_INIT_ADMIN_TOKEN mysecret_token  # Use a strong token here
-ENV INFLUXDB_ADMIN_USER myadmin
-ENV INFLUXDB_ADMIN_PASSWORD mypassword
-ENV INFLUXDB_ORG myorg
-ENV INFLUXDB_BUCKET mybucket
-ENV INFLUXDB_INIT_MODE setup
-ENV INFLUXDB_INIT_USERNAME admin
-ENV INFLUXDB_INIT_PASSWORD admin_password
-ENV INFLUXDB_INIT_ORG myorg
-ENV INFLUXDB_INIT_BUCKET mybucket
+ENV DOCKER_INFLUXDB_INIT_ADMIN_TOKEN mysecret_token  # Use a strong token here
+ENV DOCKER_INFLUXDB_ADMIN_USER myadmin
+ENV DOCKER_INFLUXDB_ADMIN_PASSWORD mypassword
+ENV DOCKER_INFLUXDB_ORG myorg
+ENV DOCKER_INFLUXDB_BUCKET mybucket
+ENV DOCKER_INFLUXDB_INIT_MODE setup
+ENV DOCKER_INFLUXDB_INIT_USERNAME admin
+ENV DOCKER_INFLUXDB_INIT_PASSWORD admin_password
+ENV DOCKER_INFLUXDB_INIT_ORG myorg
+ENV DOCKER_INFLUXDB_INIT_BUCKET mybucket
 
 # Create the required directories
 #RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal

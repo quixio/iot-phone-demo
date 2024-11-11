@@ -217,14 +217,14 @@ deployments:
       cpu: 1000
       memory: 2000
       replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: influxdb
     network:
       serviceName: influxdb
       ports:
         - port: 80
           targetPort: 8086
-    publicAccess:
-      enabled: true
-      urlPrefix: influxdb
     variables: []
 
 # This section describes the Topics of the data pipeline

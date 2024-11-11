@@ -25,6 +25,8 @@ RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influx
 # Copy the InfluxDB configuration file if needed
 # ADD influxdb.conf /etc/influxdb/influxdb.conf
 
+RUN chmod -R 777 /tmp
+
 # Expose the necessary ports (8086 is the default port for InfluxDB)
 EXPOSE 8086
 

@@ -187,6 +187,28 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: telegraf
+  - name: TelegrafNormalization
+    application: telegraf-normalization
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    state:
+      enabled: true
+      size: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: telegraf
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: sensor-data
 
 # This section describes the Topics of the data pipeline
 topics:

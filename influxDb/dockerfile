@@ -16,7 +16,6 @@ ENV DOCKER_INFLUXDB_WAL_DIR /app/state/influxdb/wal
 #RUN chmod -R 777 /tmp
 
 # Define initial setup environment variables
-ENV DOCKER_INFLUXDB_INIT_ADMIN_TOKEN ${INIT_ADMIN_TOKEN}   # Use a strong token here
 ENV DOCKER_INFLUXDB_ADMIN_USER admin
 ENV DOCKER_INFLUXDB_ADMIN_PASSWORD ${ADMIN_PASSWORD}
 ENV DOCKER_INFLUXDB_ORG quix

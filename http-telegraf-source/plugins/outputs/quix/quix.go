@@ -94,6 +94,8 @@ func (q *Quix) Connect() error {
 func (q *Quix) Write(metrics []telegraf.Metric) error {
 	q.Log.Debugf("Sending metrics to Quix.")
 	for _, metric := range metrics {
+	  q.Log.Info(metric)
+
 		serialized, err := q.serializer.Serialize(metric)
 		if err != nil {
 			q.Log.Errorf("Error serializing metric: %v", err)

@@ -1,6 +1,11 @@
 name: InfluxDb
 language: python
-variables: []
+variables:
+  - name: INIT_ADMIN_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_token
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

@@ -23,7 +23,7 @@ deployments:
         inputType: FreeText
         description: The topic to read telementry data from
         required: true
-        value: phone-data
+        value: sensor-data
       - name: eventTopic
         inputType: FreeText
         description: The topic to read events from

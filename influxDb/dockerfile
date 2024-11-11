@@ -20,7 +20,7 @@ ENV INFLUXDB_INIT_ORG myorg
 ENV INFLUXDB_INIT_BUCKET mybucket
 
 # Create the required directories
-RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal
+#RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal
 
 # Copy the InfluxDB configuration file if needed
 # ADD influxdb.conf /etc/influxdb/influxdb.conf

@@ -16,6 +16,11 @@ variables:
     description: ''
     defaultValue: iotdemo
     required: true
+  - name: DOCKER_INFLUXDB_INIT_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

@@ -215,3 +215,10 @@ topics:
       retentionInBytes: 52428800
     dataTier: Bronze
   - name: transform
+  - name: telegraf
+    configuration:
+      partitions: 1
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 52428800
+    dataTier: Bronze

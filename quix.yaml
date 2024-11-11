@@ -217,6 +217,11 @@ deployments:
       cpu: 1000
       memory: 2000
       replicas: 1
+    network:
+      serviceName: influxdb
+      ports:
+        - port: 80
+          targetPort: 8086
     publicAccess:
       enabled: true
       urlPrefix: influxdb

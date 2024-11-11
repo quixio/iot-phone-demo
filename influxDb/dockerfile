@@ -10,6 +10,7 @@ RUN mkdir -p /app/state/
 
 ENV INFLUXDB_INIT_ADMIN_TOKEN mysecret_token  # Use a strong token here
 
+
 # Create the required directories
 RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal
 

@@ -1,7 +1,7 @@
 name: InfluxDb
 language: python
 variables:
-  - name: INIT_ADMIN_TOKEN
+  - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
     inputType: Secret
     description: ''
     defaultValue: influx_token

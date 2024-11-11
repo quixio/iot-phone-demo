@@ -76,17 +76,17 @@ deployments:
         inputType: FreeText
         description: Organization name in InfluxDB.
         required: false
-        value: Quix
+        value: quix
       - name: INFLUXDB_MEASUREMENT_NAME
         inputType: FreeText
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
         required: false
-        value: Quix
+        value: sensordata
       - name: INFLUXDB_DATABASE
         inputType: FreeText
         description: Database name in InfluxDB where data should be stored.
         required: true
-        value: Quix
+        value: iotdemo
       - name: INFLUXDB_TAG_KEYS
         inputType: FreeText
         description: The tags to include when writing the measurement data

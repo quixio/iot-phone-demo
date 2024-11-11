@@ -225,7 +225,27 @@ deployments:
       ports:
         - port: 80
           targetPort: 8086
-    variables: []
+    variables:
+      - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
+      - name: ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+      - name: DOCKER_INFLUXDB_INIT_BUCKET
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iotdemo
+      - name: DOCKER_INFLUXDB_INIT_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
 
 # This section describes the Topics of the data pipeline
 topics:

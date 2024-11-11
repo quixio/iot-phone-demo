@@ -251,17 +251,17 @@ deployments:
     version: latest
     deploymentType: Service
     resources:
-      cpu: 200
+      cpu: 1000
       memory: 500
       replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: grafana
     network:
       serviceName: grafana
       ports:
         - port: 80
           targetPort: 3000
-    publicAccess:
-      enabled: true
-      urlPrefix: grafana
     variables:
       - name: output
         inputType: OutputTopic

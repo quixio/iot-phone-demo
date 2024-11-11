@@ -66,7 +66,7 @@ deployments:
         inputType: FreeText
         description: Host address for the InfluxDB instance.
         required: true
-        value: http://influxdb:8086
+        value: https://influxdb-tomas-crashdetection-telegfaf.deployments.quix.io
       - name: INFLUXDB_TOKEN
         inputType: Secret
         description: Authentication token to access InfluxDB.

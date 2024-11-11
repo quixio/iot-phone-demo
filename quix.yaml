@@ -66,7 +66,7 @@ deployments:
         inputType: FreeText
         description: Host address for the InfluxDB instance.
         required: true
-        value: us-east-1-1.aws.cloud2.influxdata.com
+        value: influxdb:8086
       - name: INFLUXDB_TOKEN
         inputType: Secret
         description: Authentication token to access InfluxDB.

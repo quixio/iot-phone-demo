@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy custom configuration file
 COPY custom.ini /etc/grafana/grafana.ini
 
+COPY dashboards/14845_rev5.json /app/state/dashboards
+
 # Create necessary directories in /app/state/
 RUN mkdir -p /app/state/data /app/state/logs /app/state/plugins /app/state/provisioning /app/state/dashboards
 

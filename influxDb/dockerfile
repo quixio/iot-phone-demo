@@ -6,8 +6,11 @@ ENV DOCKER_INFLUXDB_DATA_DIR /app/state/influxdb/data
 ENV DOCKER_INFLUXDB_META_DIR /app/state/influxdb/meta
 ENV DOCKER_INFLUXDB_WAL_DIR /app/state/influxdb/wal
 
-RUN mkdir -p /app/state/
+# Set a custom temporary directory and ensure permissions
+RUN mkdir -p /app/state/tmp && chmod -R 777 /app/state/tmp
+ENV TMPDIR /app/state/tmp
 
+# Define initial setup environment variables
 ENV DOCKER_INFLUXDB_INIT_ADMIN_TOKEN mysecret_token  # Use a strong token here
 ENV DOCKER_INFLUXDB_ADMIN_USER myadmin
 ENV DOCKER_INFLUXDB_ADMIN_PASSWORD mypassword
@@ -25,6 +28,7 @@ RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influx
 # Copy the InfluxDB configuration file if needed
 # ADD influxdb.conf /etc/influxdb/influxdb.conf
 
+# Ensure permissions for /tmp if needed
 RUN chmod -R 777 /tmp
 
 # Expose the necessary ports (8086 is the default port for InfluxDB)

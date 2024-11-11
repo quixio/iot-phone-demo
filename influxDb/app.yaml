@@ -11,7 +11,7 @@ variables:
     description: ''
     defaultValue: ADMIN_PASSWORD
     required: false
-  - name: INIT_BUCKET
+  - name: DOCKER_INFLUXDB_INIT_BUCKET
     inputType: FreeText
     description: ''
     defaultValue: iotdemo

@@ -9,7 +9,15 @@ ENV INFLUXDB_WAL_DIR /app/state/influxdb/wal
 RUN mkdir -p /app/state/
 
 ENV INFLUXDB_INIT_ADMIN_TOKEN mysecret_token  # Use a strong token here
-
+ENV INFLUXDB_ADMIN_USER myadmin
+ENV INFLUXDB_ADMIN_PASSWORD mypassword
+ENV INFLUXDB_ORG myorg
+ENV INFLUXDB_BUCKET mybucket
+ENV INFLUXDB_INIT_MODE setup
+ENV INFLUXDB_INIT_USERNAME admin
+ENV INFLUXDB_INIT_PASSWORD admin_password
+ENV INFLUXDB_INIT_ORG myorg
+ENV INFLUXDB_INIT_BUCKET mybucket
 
 # Create the required directories
 RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal

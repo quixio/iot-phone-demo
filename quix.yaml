@@ -254,6 +254,11 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
+    network:
+      serviceName: grafana
+      ports:
+        - port: 80
+          targetPort: 3000
     publicAccess:
       enabled: true
       urlPrefix: grafana

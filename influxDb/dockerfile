@@ -1,0 +1,21 @@
+# Use the official InfluxDB image from the Docker Hub
+FROM influxdb:latest
+
+# Set the environment variable for InfluxDB data directory
+ENV INFLUXDB_DATA_DIR /app/state/influxdb/data
+ENV INFLUXDB_META_DIR /app/state/influxdb/meta
+ENV INFLUXDB_WAL_DIR /app/state/influxdb/wal
+
+RUN mkdir -p /app/state/
+
+# Create the required directories
+RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal
+
+# Copy the InfluxDB configuration file if needed
+# ADD influxdb.conf /etc/influxdb/influxdb.conf
+
+# Expose the necessary ports (8086 is the default port for InfluxDB)
+EXPOSE 8086
+
+# Define the default command to run when starting the container
+CMD ["influxd", "--reporting-disabled", "--bolt-path", "/app/state/influxdb/influxd.bolt", "--engine-path", "/app/state/influxdb/engine", "--store", "bolt"]

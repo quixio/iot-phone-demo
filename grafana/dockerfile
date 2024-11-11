@@ -35,4 +35,4 @@ EXPOSE 3000
 # ENV GF_SERVER_HTTP_PORT=80
 
 # Command to start Grafana
-CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini"]
+CMD ["grafana-server", "--homepath=/usr/share/grafana"]

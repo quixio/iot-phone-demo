@@ -68,7 +68,7 @@ export class WebsocketService {
       // Build the WebSocket URL based on the current host
       // Assuming that the WebSocket server's subdomain and path are different
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const websocketHost = host.replace('fleetconsole', 'fleet-console-web-sockets');
+      const websocketHost = host.replace('fleetconsole', 'fleet-console-ws');
       return `${protocol}//${websocketHost}/`;
     }
   }

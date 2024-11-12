@@ -10,7 +10,7 @@ RUN mkdir -p /app/state
 RUN mkdir -p /app/state/data /app/state/logs /app/state/plugins /app/state/provisioning /app/state/dashboards
 
 # Copy custom configuration file
-COPY custom.ini /etc/grafana/grafana.ini
+#COPY custom.ini /etc/grafana/grafana.ini
 
 COPY dashboards/* /app/state/provisioning/dashboards/
 COPY datasources/* /app/state/provisioning/datasources/
@@ -26,7 +26,7 @@ ENV GF_PATHS_DATA=/app/state/data \
     GF_DASHBOARDS_PATH=/app/state/dashboards
 
 # Set environment variables for the admin user and password
-ENV GF_SECURITY_ADMIN_USER=admin_user \
+ENV GF_SECURITY_ADMIN_USER=admin \
     GF_SECURITY_ADMIN_PASSWORD=admin_password
 
 # Expose Grafana port (default is 3000)

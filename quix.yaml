@@ -263,11 +263,11 @@ deployments:
         - port: 80
           targetPort: 3000
     variables:
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write into
+      - name: GF_SECURITY_ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
         required: true
-        value: csv-data
+        secretKey: ADMIN_PASSWORD
 
 # This section describes the Topics of the data pipeline
 topics:

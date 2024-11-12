@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -284,13 +284,13 @@ topics:
       retentionInBytes: 1048576000
   - name: raw
     configuration:
-      partitions: 1
+      partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
-      retentionInBytes: 1048576000
+      retentionInBytes: 52428800
   - name: sensor-data
     configuration:
-      partitions: 1
+      partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000

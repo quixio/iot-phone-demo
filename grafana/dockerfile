@@ -15,7 +15,11 @@ RUN mkdir -p /app/state/data /app/state/logs /app/state/plugins /app/state/provi
 # Copy custom configuration file
 COPY custom.ini /etc/grafana/grafana.ini
 
-COPY dashboards/14845_rev5.json /app/state/dashboards
+COPY dashboards/* /app/state/provisioning/dashboards/
+COPY datasources/* /app/state/provisioning/datasources/
+
+# Copy provisioning configuration file
+COPY dashboard_provisioning.yaml /app/state/provisioning/dashboards/dashboard_provisioning.yaml
 
 # Set environment variables to point to /state/ folder
 ENV GF_PATHS_DATA=/app/state/data \

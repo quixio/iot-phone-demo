@@ -1,0 +1,21 @@
+apiVersion: 1
+
+datasources:
+  - name: "influxdb"
+    type: "influxdb"
+    uid: "de3ph94bwuxa8c"
+    access: "proxy"
+    url: "https://influxdb-tomas-crashdetection-telegfaf.deployments.quix.io"
+    isDefault: true
+    basicAuth: false
+    basicAuthUser: "admin"
+    withCredentials: false
+    jsonData:
+      dbName: "quix"
+      httpMode: "POST"
+      organization: "quix"
+      version: "Flux"
+    secureJsonData:
+      token: rwJpQuwqTmVfXoj-6bYv              
+    version: 8
+    readOnly: false

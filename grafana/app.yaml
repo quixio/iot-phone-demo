@@ -1,6 +1,11 @@
 name: Grafana
 language: python
-variables: []
+variables:
+  - name: GF_SECURITY_ADMIN_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: true
 dockerfile: dockerfile
 runEntryPoint: dockerfile
 defaultFile: dockerfile

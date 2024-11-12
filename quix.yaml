@@ -268,6 +268,11 @@ deployments:
         description: ''
         required: true
         secretKey: ADMIN_PASSWORD
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -284,13 +284,13 @@ topics:
       retentionInBytes: 1048576000
   - name: raw
     configuration:
-      partitions: 1
+      partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: sensor-data
     configuration:
-      partitions: 1
+      partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
@@ -303,7 +303,7 @@ topics:
   - name: transform
   - name: telegraf
     configuration:
-      partitions: 1
+      partitions: 2
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 52428800

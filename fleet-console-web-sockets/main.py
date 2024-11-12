@@ -22,28 +22,23 @@ class webSocketSource:
         
     async def consume_messages(self):
         while True:
-            try:
-                message = self._consumer.poll(1)
+            message = self._consumer.poll(1)
+            
+            if message is not None:
+                value = json.loads(bytes.decode(message.value()))
+                key = bytes.decode(message.key())
+                for key, client in list(self.websocket_connections.items()):
+                    try:
+                        value["streamId"] = key
+                        await client.send(json.dumps(value))
+                    except:
+                        print("Connection already closed.")
+                        del self.websocket_connections[key]
+                    print(f"Send {str(len(self.websocket_connections))} times.")
                 
-                if message is not None:
-                    value = json.loads(bytes.decode(message.value()))
-                    key = bytes.decode(message.key())
-                    for key, client in list(self.websocket_connections.items()):
-                        try:
-                            value["streamId"] = key
-                            await client.send(json.dumps(value))
-                        except:
-                            print("Connection already closed.")
-                            del self.websocket_connections[key]
-                        print(f"Send {str(len(self.websocket_connections))} times.")
-                    
-                    self._consumer.commit(message)
-
-                    await asyncio.sleep(0)
-                else:
-                    await asyncio.sleep(1)
-            except Exception as e:
-                print(f"Message processing failed error: {e}")
+                await asyncio.sleep(0)
+            else:
+                await asyncio.sleep(1)
                 
     async def handle_websocket(self, websocket, path):
         print(path + " user connected.")

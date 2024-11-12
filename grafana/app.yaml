@@ -1,0 +1,17 @@
+name: Grafana
+language: python
+variables:
+  - name: GF_SECURITY_ADMIN_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: true
+  - name: INFLUXDB_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_token
+    required: true
+dockerfile: dockerfile
+runEntryPoint: dockerfile
+defaultFile: dockerfile
+libraryItemId: starter-source

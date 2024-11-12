@@ -1,0 +1,26 @@
+name: InfluxDb
+language: python
+variables:
+  - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_token
+    required: true
+  - name: ADMIN_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: false
+  - name: DOCKER_INFLUXDB_INIT_BUCKET
+    inputType: FreeText
+    description: ''
+    defaultValue: iotdemo
+    required: true
+  - name: DOCKER_INFLUXDB_INIT_PASSWORD
+    inputType: Secret
+    description: ''
+    defaultValue: ADMIN_PASSWORD
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py

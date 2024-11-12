@@ -4,9 +4,6 @@ FROM grafana/grafana:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-
-
-
 RUN mkdir -p /app/state
 
 # Create necessary directories with appropriate permissions

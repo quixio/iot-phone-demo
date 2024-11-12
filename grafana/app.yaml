@@ -7,6 +7,6 @@ variables:
     defaultValue: csv-data
     required: true
 dockerfile: dockerfile
-runEntryPoint: main.py
-defaultFile: main.py
+runEntryPoint: dockerfile
+defaultFile: dockerfile
 libraryItemId: starter-source

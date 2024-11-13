@@ -259,12 +259,6 @@ deployments:
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: raw
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 1048576000
   - name: sensor-data
     configuration:
       partitions: 2

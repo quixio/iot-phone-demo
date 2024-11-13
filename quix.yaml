@@ -285,6 +285,11 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
+    network:
+      serviceName: prometheus
+      ports:
+        - port: 80
+          targetPort: 9090
     publicAccess:
       enabled: true
       urlPrefix: prometheus

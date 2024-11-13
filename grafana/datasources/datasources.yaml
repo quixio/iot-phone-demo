@@ -23,7 +23,7 @@ datasources:
     type: prometheus
     access: proxy
     url: https://prometheus-tomas-crashdetection-telegrafconfluent.deployments.quix.io
-    isDefault: true
+    isDefault: false
     editable: true
     jsonData:
       tlsSkipVerify: true

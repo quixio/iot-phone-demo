@@ -1,38 +1,11 @@
-# Use the official Grafana image from the Docker Hub
-FROM grafana/grafana:latest
+# Use the official Prometheus Docker image
+FROM prom/prometheus:latest
 
-# Set the working directory inside the container
-WORKDIR /app
+# Copy Prometheus configuration file into the container
+COPY prometheus.yml /etc/prometheus/prometheus.yml
 
-RUN mkdir -p /app/state
+# Set Prometheus as the entrypoint
+ENTRYPOINT [ "/bin/prometheus" ]
 
-# Create necessary directories with appropriate permissions
-RUN mkdir -p /app/state/data /app/state/logs /app/state/plugins /app/state/provisioning /app/state/dashboards
-
-# Copy custom configuration file
-#COPY custom.ini /etc/grafana/grafana.ini
-
-COPY dashboards/* /app/state/provisioning/dashboards/
-COPY datasources/* /app/state/provisioning/datasources/
-
-# Copy provisioning configuration file
-COPY dashboard_provisioning.yaml /app/state/provisioning/dashboards/dashboard_provisioning.yaml
-
-# Set environment variables to point to /state/ folder
-ENV GF_PATHS_DATA=/app/state/data \
-    GF_PATHS_LOGS=/app/state/logs \
-    GF_PATHS_PLUGINS=/app/state/plugins \
-    GF_PATHS_PROVISIONING=/app/state/provisioning \
-    GF_DASHBOARDS_PATH=/app/state/dashboards
-
-# Set environment variables for the admin user.
-ENV GF_SECURITY_ADMIN_USER=admin 
-
-# Expose Grafana port (default is 3000)
-EXPOSE 3000
-
-# Optionally, override Grafana's default port (uncomment to enable)
-# ENV GF_SERVER_HTTP_PORT=80
-
-# Command to start Grafana
-CMD ["grafana-server", "--homepath=/usr/share/grafana"]
+# Set command to specify the config file
+CMD [ "--config.file=/etc/prometheus/prometheus.yml" ]

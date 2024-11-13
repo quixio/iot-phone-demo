@@ -178,9 +178,11 @@ deployments:
       cpu: 1000
       memory: 500
       replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: counter
+    network:
+      serviceName: counter
+      ports:
+        - port: 80
+          targetPort: 80
     variables:
       - name: input
         inputType: InputTopic

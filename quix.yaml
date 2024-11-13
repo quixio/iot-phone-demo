@@ -258,10 +258,4 @@ deployments:
         secretKey: influx_token
 
 # This section describes the Topics of the data pipeline
-topics:
-  - name: telegraf_metrics
-    configuration:
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-    dataTier: Bronze
+topics: []

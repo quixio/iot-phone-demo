@@ -6,6 +6,11 @@ variables:
     description: ''
     defaultValue: influx_token
     required: true
+  - name: PROMETHEUS_URLS
+    inputType: FreeText
+    description: ''
+    defaultValue: ''
+    required: true
 dockerfile: dockerfile
 runEntryPoint: dockerfile
 defaultFile: dockerfile

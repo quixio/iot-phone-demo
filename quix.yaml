@@ -272,10 +272,10 @@ deployments:
         description: ''
         required: true
         secretKey: influx_token
-      - name: PROMETHEUS_URLS
+      - name: PROMETHEUS_URL_1
         inputType: FreeText
         description: ''
-        required: true
+        required: false
         value: http://counter:80
 
 # This section describes the Topics of the data pipeline

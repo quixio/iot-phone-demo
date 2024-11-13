@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -115,7 +115,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -135,7 +135,7 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -158,7 +158,7 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: fleet-console-ws
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -192,28 +192,6 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: count-1s
-  - name: TelegrafNormalization
-    application: telegraf-normalization
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 1000
-      memory: 500
-      replicas: 1
-    state:
-      enabled: true
-      size: 1
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Name of the input topic to listen to.
-        required: false
-        value: telegraf
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write to.
-        required: false
-        value: sensor-data
   - name: InfluxDb
     application: influxDb
     version: latest
@@ -290,13 +268,13 @@ topics:
   - name: raw
     configuration:
       partitions: 2
-      replicationFactor: 3
+      replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: sensor-data
     configuration:
       partitions: 2
-      replicationFactor: 3
+      replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: telegraf_metrics

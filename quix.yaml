@@ -258,6 +258,25 @@ deployments:
         description: ''
         required: true
         secretKey: influx_token
+  - name: http-telegraf-source
+    application: http-telegraf-source
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: INFLUX_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
+      - name: PROMETHEUS_URLS
+        inputType: FreeText
+        description: ''
+        required: true
+        value: http://counter:80
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -115,7 +115,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -158,7 +158,7 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: fleet-console-ws
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -271,3 +271,6 @@ topics:
       replicationFactor: 3
       retentionInMinutes: -1
       retentionInBytes: 52428800
+  - name: raw
+    configuration:
+      partitions: 1

@@ -265,10 +265,3 @@ topics:
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Bronze
-  - name: telegraf
-    configuration:
-      partitions: 2
-      replicationFactor: 2
-      retentionInMinutes: -1
-      retentionInBytes: 52428800
-    dataTier: Bronze

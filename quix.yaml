@@ -276,6 +276,6 @@ topics:
       retentionInBytes: 52428800
   - name: count-1s
     configuration:
-      replicationFactor: 3
+      replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800

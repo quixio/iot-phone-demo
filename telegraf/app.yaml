@@ -1,0 +1,16 @@
+name: Telegraf
+language: Python
+variables:
+  - name: INFLUX_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_token
+    required: true
+  - name: PROMETHEUS_URL_1
+    inputType: FreeText
+    description: ''
+    defaultValue: ''
+    required: false
+dockerfile: dockerfile
+runEntryPoint: dockerfile
+defaultFile: dockerfile

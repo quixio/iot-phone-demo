@@ -19,3 +19,11 @@ datasources:
       token: "${INFLUXDB_TOKEN}"            
     version: 8
     readOnly: false
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: https://prometheus-tomas-crashdetection-telegrafconfluent.deployments.quix.io
+    isDefault: true
+    editable: true
+    jsonData:
+      tlsSkipVerify: true

@@ -275,3 +275,4 @@ topics:
     configuration:
       partitions: 1
   - name: sensor-data
+  - name: events

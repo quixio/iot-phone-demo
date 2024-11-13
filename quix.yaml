@@ -71,7 +71,7 @@ deployments:
         inputType: Secret
         description: Authentication token to access InfluxDB.
         required: true
-        secretKey: local_influx_token
+        secretKey: influx_token
       - name: INFLUXDB_ORG
         inputType: FreeText
         description: Organization name in InfluxDB.
@@ -285,14 +285,14 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: prometheus
     network:
       serviceName: prometheus
       ports:
         - port: 80
           targetPort: 9090
-    publicAccess:
-      enabled: true
-      urlPrefix: prometheus
     variables:
       - name: GF_SECURITY_ADMIN_PASSWORD
         inputType: Secret

@@ -277,6 +277,28 @@ deployments:
         description: ''
         required: false
         value: http://counter:80
+  - name: Prometheus
+    application: prometheus
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: prometheus
+    variables:
+      - name: GF_SECURITY_ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: ADMIN_PASSWORD
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
 
 # This section describes the Topics of the data pipeline
 topics:

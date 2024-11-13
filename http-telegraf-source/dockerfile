@@ -5,4 +5,4 @@ FROM telegraf:latest
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 
 # Run the download script and start Telegraf
-CMD ["/bin/bash", "-c", "/usr/local/bin/download_cert.sh"]
+CMD ["telegraf", "--config", "/etc/telegraf/telegraf.conf"]

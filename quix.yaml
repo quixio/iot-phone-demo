@@ -283,7 +283,7 @@ deployments:
         required: true
         secretKey: influx_token
   - name: Telegraf
-    application: http-telegraf-source
+    application: telegraf
     version: latest
     deploymentType: Service
     resources:

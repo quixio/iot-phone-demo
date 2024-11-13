@@ -1,4 +1,4 @@
-name: http-telegraf-source
+name: Telegraf
 language: Python
 variables:
   - name: INFLUX_TOKEN

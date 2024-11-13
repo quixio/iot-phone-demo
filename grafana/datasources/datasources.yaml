@@ -22,7 +22,7 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: https://prometheus-tomas-crashdetection-telegrafconfluent.deployments.quix.io
+    url: http://prometheus:80
     isDefault: false
     editable: true
     jsonData:

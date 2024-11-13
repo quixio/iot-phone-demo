@@ -23,7 +23,7 @@ deployments:
         inputType: FreeText
         description: The topic to read telementry data from
         required: true
-        value: phone-data
+        value: sensor-data
       - name: eventTopic
         inputType: FreeText
         description: The topic to read events from
@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -66,7 +66,7 @@ deployments:
         inputType: FreeText
         description: Host address for the InfluxDB instance.
         required: true
-        value: https://influxdb-quixdev-iotphonedemo-kstream.deployments-dev.quix.io
+        value: http://influxdb:80
       - name: INFLUXDB_TOKEN
         inputType: Secret
         description: Authentication token to access InfluxDB.
@@ -81,12 +81,12 @@ deployments:
         inputType: FreeText
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
         required: false
-        value: sensors
+        value: sensordata
       - name: INFLUXDB_DATABASE
         inputType: FreeText
         description: Database name in InfluxDB where data should be stored.
         required: true
-        value: sensorlogger
+        value: iotdemo
       - name: INFLUXDB_TAG_KEYS
         inputType: FreeText
         description: The tags to include when writing the measurement data
@@ -213,7 +213,29 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write into
         required: true
-        value: csv-data
+        value: telegraf
+  - name: TelegrafNormalization
+    application: telegraf-normalization
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    state:
+      enabled: true
+      size: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: telegraf
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: sensor-data
   - name: InfluxDb
     application: influxDb
     version: latest
@@ -231,28 +253,53 @@ deployments:
         - port: 80
           targetPort: 8086
     variables:
-      - name: output
-        inputType: OutputTopic
-        description: Name of the output topic to write into
+      - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+        inputType: Secret
+        description: ''
         required: true
-        value: csv-data
-  - name: Telegraf
-    application: http-telegraf-source
+        secretKey: influx_token
+      - name: ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+      - name: DOCKER_INFLUXDB_INIT_BUCKET
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iotdemo
+      - name: DOCKER_INFLUXDB_INIT_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+  - name: Grafana
+    application: grafana
     version: latest
     deploymentType: Service
     resources:
-      cpu: 200
+      cpu: 1000
       memory: 500
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: telegraf
+      urlPrefix: grafana
+    network:
+      serviceName: grafana
+      ports:
+        - port: 80
+          targetPort: 3000
     variables:
-      - name: INFLUX_TOKEN
+      - name: GF_SECURITY_ADMIN_PASSWORD
         inputType: Secret
         description: ''
-        required: false
-        secretKey: local_influx_token
+        required: true
+        secretKey: ADMIN_PASSWORD
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -267,15 +314,24 @@ topics:
       partitions: 2
       replicationFactor: 3
       retentionInMinutes: -1
-      retentionInBytes: 52428800
+      retentionInBytes: 1048576000
   - name: sensor-data
     configuration:
       partitions: 2
       replicationFactor: 3
       retentionInMinutes: -1
-      retentionInBytes: 52428800
-  - name: count-1s
+      retentionInBytes: 1048576000
+  - name: telegraf_metrics
     configuration:
-      replicationFactor: 3
+      replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
+    dataTier: Bronze
+  - name: transform
+  - name: telegraf
+    configuration:
+      partitions: 2
+      replicationFactor: 2
+      retentionInMinutes: -1
+      retentionInBytes: 52428800
+    dataTier: Bronze

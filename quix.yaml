@@ -91,7 +91,7 @@ deployments:
         inputType: FreeText
         description: The tags to include when writing the measurement data
         required: false
-        value: "['TAG__rider', 'TAG__team', 'TAG__device_id', 'stream_id']"
+        value: "['sessionId', 'deviceId']"
       - name: INFLUXDB_FIELD_KEYS
         inputType: FreeText
         description: The fields to include when writing the measurement data

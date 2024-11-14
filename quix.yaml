@@ -278,32 +278,32 @@ deployments:
 topics:
   - name: events
     configuration:
-      partitions: 2
+      partitions: 1
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: raw
     configuration:
-      partitions: 2
+      partitions: 1
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: sensor-data
     configuration:
-      partitions: 2
+      partitions: 1
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: telegraf_metrics
     configuration:
+      partitions: 1
       replicationFactor: 2
       retentionInMinutes: 1440
       retentionInBytes: 52428800
     dataTier: Bronze
-  - name: transform
   - name: telegraf
     configuration:
-      partitions: 2
+      partitions: 1
       replicationFactor: 2
       retentionInMinutes: -1
       retentionInBytes: 52428800

@@ -1,4 +1,4 @@
-quixstreams==2.4.1
+quixstreams
 python-dotenv
 pandas==1.4.2
 numpy==1.22.3

@@ -318,3 +318,4 @@ topics:
       retentionInBytes: 52428800
     dataTier: Bronze
   - name: postgres-cdc
+  - name: sensor-data-table

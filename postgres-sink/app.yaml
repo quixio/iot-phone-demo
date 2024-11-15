@@ -68,4 +68,4 @@ variables:
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
-libraryItemId: big-query-sink
+#libraryItemId: big-query-sink

@@ -1,12 +1,12 @@
-# Starter transformation
+# Starter data source
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/transformations/starter_transformation) demonstrates how to consume data from a topic, apply a simple transformation to that data and publish the result to an output topic (while printing content to the console output).
-
-Modify the Python code to transform your data on the fly.
+[This code sample](https://github.com/quixio/quix-samples/tree/main/python/sources/starter_source) demonstrates how to publish hard-coded lines of JSON data to a Kafka topic in Quix.
 
 ## How to run
 
 Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log-in and visit the Samples to use this project.
+
+Clicking `Deploy` on the Sample, deploys a pre-built container in Quix. Complete the environment variables to configure the container.
 
 Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
 
@@ -14,8 +14,7 @@ Clicking `Edit code` on the Sample, forks the project to your own Git repo so yo
 
 The code sample uses the following environment variables:
 
-- **input**: Name of the input topic to listen to.
-- **output**: Name of the output topic to write to.
+- **Topic**: Name of the output topic to write into.
 
 ## Contribute
 

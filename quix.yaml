@@ -281,7 +281,7 @@ deployments:
       - name: POSTGRES_TABLE_NAME
         inputType: FreeText
         required: false
-        value: sensor-data
+        value: sensordata
 
 # This section describes the Topics of the data pipeline
 topics:

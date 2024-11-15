@@ -16,11 +16,6 @@ variables:
     description: Kafka consumer group.
     defaultValue: postgres-sink-v1
     required: true
-  - name: MAX_QUEUE_SIZE
-    inputType: FreeText
-    description: Max queue size for the sink ingestion
-    defaultValue: 50
-    required: true
   - name: POSTGRES_PASSWORD
     inputType: Secret
     defaultValue: POSTGRES_PASSWORD_key

@@ -16,11 +16,6 @@ variables:
     description: Kafka consumer group.
     defaultValue: postgres-sink-v1
     required: true
-  - name: SERVICE_ACCOUNT_JSON
-    inputType: Secret
-    description: JSON string of the service account file for the BigQuery GCP project
-    defaultValue: big_query_secret_json
-    required: true
   - name: MAX_QUEUE_SIZE
     inputType: FreeText
     description: Max queue size for the sink ingestion

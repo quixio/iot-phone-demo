@@ -1,4 +1,4 @@
-name: BigQuery Sink
+name: PostgreSQL Sink
 language: python
 variables:
   - name: input

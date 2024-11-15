@@ -1,6 +1,5 @@
 import os
 from quixstreams import Application
-import uuid
 import json
 
 # for local dev, load env vars from a .env file

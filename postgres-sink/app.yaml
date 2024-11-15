@@ -6,11 +6,6 @@ variables:
     description: This is the input topic
     defaultValue: sensor-data
     required: true
-  - name: DATASET_LOCATION
-    inputType: FreeText
-    description: Location of BigQuery dataset
-    defaultValue: ' europe-west3'
-    required: true
   - name: TABLE_NAME
     inputType: FreeText
     description: Name of the destination table.

@@ -12,18 +12,23 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf.apply(lambda row: row["payload"], expand=True)
+def expand_values_to_columns(message: dict):
 
-def expand_values_to_columns(row: dict):
-    new_row = {}
-    for key in row["values"]:
-        new_row[row["name"] + "-" + key] = row["values"][key]
+    for row in message["payload"]:
 
-    new_row["timestamp"] = row["time"]
-    
-    return new_row
 
-sdf = sdf.apply(expand_values_to_columns)
+        new_row = {
+            "timestamp": row["time"],
+            "sessionId": message["sessionId"],
+            "deviceId": message["deviceId"]
+        }
+
+        for key in row["values"]:
+            new_row[row["name"] + "-" + key] = row["values"][key]
+
+        yield new_row
+
+sdf = sdf.apply(expand_values_to_columns, expand=True)
 
 sdf = sdf.hopping_window(5000, 250).reduce(lambda state, row: { **state, **row}, lambda row: row).final()
 

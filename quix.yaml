@@ -317,3 +317,4 @@ topics:
       retentionInMinutes: -1
       retentionInBytes: 52428800
     dataTier: Bronze
+  - name: postgres-cdc

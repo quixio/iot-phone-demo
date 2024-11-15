@@ -1,8 +1,0 @@
-# Use the official Telegraf image as the base
-FROM telegraf:latest
-
-# Copy the Telegraf configuration and the download script into the container
-COPY telegraf.conf /etc/telegraf/telegraf.conf
-
-# Run the download script and start Telegraf
-CMD ["telegraf", "--config", "/etc/telegraf/telegraf.conf"]

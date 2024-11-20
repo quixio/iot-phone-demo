@@ -17,7 +17,7 @@ sdf = app.dataframe(input_topic)
 # https://quix.io/docs/get-started/quixtour/process-threshold.html
 
 sdf.print()
-sdf.to_topic(output_topic)
+#.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run()

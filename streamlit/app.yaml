@@ -1,6 +1,11 @@
 name: Streamlit Dashboard
 language: python
-variables: []
+variables:
+  - name: INFLUXDB_TOKEN
+    inputType: Secret
+    description: ''
+    defaultValue: influx_token
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

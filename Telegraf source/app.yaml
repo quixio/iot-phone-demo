@@ -1,6 +1,11 @@
 name: Telegraf source
 language: docker
-variables: []
+variables:
+  - name: output
+    inputType: OutputTopic
+    description: ''
+    defaultValue: telegraf
+    required: false
 dockerfile: dockerfile
 defaultFile: dockerfile
 libraryItemId: telegraf-source

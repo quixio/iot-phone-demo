@@ -1,0 +1,6 @@
+name: Telegraf source
+language: docker
+variables: []
+dockerfile: dockerfile
+defaultFile: dockerfile
+libraryItemId: telegraf-source

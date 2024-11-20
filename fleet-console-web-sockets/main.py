@@ -33,7 +33,10 @@ class webSocketSource:
                         await client.send(json.dumps(value))
                     except:
                         print("Connection already closed.")
-                        del self.websocket_connections[key]
+                        try:
+                            del self.websocket_connections[key]
+                        except:
+                            print("Failed to delete closed connection.")
                     print(f"Send {str(len(self.websocket_connections))} times.")
                 
                 await asyncio.sleep(0)

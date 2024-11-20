@@ -259,7 +259,12 @@ deployments:
       cpu: 200
       memory: 1000
       replicas: 1
-    variables: []
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: ''
+        required: false
+        value: telegraf
 
 # This section describes the Topics of the data pipeline
 topics:

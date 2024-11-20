@@ -251,6 +251,15 @@ deployments:
         description: ''
         required: false
         secretKey: influx_token
+  - name: Telegraf source
+    application: Telegraf source
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 1000
+      replicas: 1
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:

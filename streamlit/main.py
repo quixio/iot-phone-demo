@@ -30,6 +30,7 @@ from(bucket: "iotdemo")
   |> range(start: 0)  // Fetch data from the beginning of time
   |> filter(fn: (r) => r["_measurement"] == "sensordata")
   |> filter(fn: (r) => r["_field"] == "accelerometer-x" or r["_field"] == "accelerometer-y" or r["_field"] == "accelerometer-z")
+  |> limit(n: 100)  // Limit the result to 100 rows
   |> yield(name: "waveform")
   """
 

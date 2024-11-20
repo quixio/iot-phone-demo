@@ -7,10 +7,10 @@ import os
 
 
 # InfluxDB settings
-INFLUXDB_URL = os.environ["INFLUXDB_HOST"]
+INFLUXDB_URL = "https://influxdb-tomas-crashdetection-prod.deployments.quix.io"
 INFLUXDB_TOKEN = os.environ["INFLUXDB_TOKEN"]
-INFLUXDB_ORG =  os.environ["INFLUXDB_ORG"]
-INFLUXDB_BUCKET = os.environ["INFLUXDB_BUCKET_NAME"]
+INFLUXDB_ORG =  "quix"
+INFLUXDB_BUCKET = "iotdemo"
 
 # Streamlit title
 st.title("InfluxDB Data Visualization")
@@ -25,7 +25,13 @@ while True:
   client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
 
   # Define the query (modify it to match your data structure)
-  query = os.environ["INFLUXDB_QUERY"]
+  query = """
+  from(bucket: "iotdemo")
+    |> filter(fn: (r) => r["_measurement"] == "sensordata")
+    |> filter(fn: (r) => r["_field"] == "accelerometer-x" or r["_field"] == "accelerometer-y" or r["_field"] == "accelerometer-z")
+    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+    |> yield(name: "mean")
+  """
 
   # Execute the query
   tables = client.query_api().query(query)

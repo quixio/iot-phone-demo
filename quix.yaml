@@ -135,7 +135,7 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -319,3 +319,4 @@ topics:
     dataTier: Bronze
   - name: postgres-cdc
   - name: sensor-data-table
+  - name: transform

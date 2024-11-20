@@ -26,11 +26,11 @@ while True:
 
   # Define the query (modify it to match your data structure)
   query = """
-  from(bucket: "iotdemo")
-    |> filter(fn: (r) => r["_measurement"] == "sensordata")
-    |> filter(fn: (r) => r["_field"] == "accelerometer-x" or r["_field"] == "accelerometer-y" or r["_field"] == "accelerometer-z")
-    |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-    |> yield(name: "mean")
+from(bucket: "iotdemo")
+  |> range(start: 0)  // Fetch data from the beginning of time
+  |> filter(fn: (r) => r["_measurement"] == "sensordata")
+  |> filter(fn: (r) => r["_field"] == "accelerometer-x" or r["_field"] == "accelerometer-y" or r["_field"] == "accelerometer-z")
+  |> yield(name: "waveform")
   """
 
   # Execute the query

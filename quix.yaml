@@ -234,6 +234,23 @@ deployments:
         description: ''
         required: true
         secretKey: influx_token
+  - name: Streamlit Dashboard
+    application: streamlit
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: streamlitdashboard
+    variables:
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: influx_token
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -1,28 +1,37 @@
-from quixstreams import Application
 import os
+from setup_logger import logger
 
+from quixstreams import Application
+
+# for local dev, load env vars from a .env file
 from dotenv import load_dotenv
 load_dotenv()
 
-# you decide what happens here!
-def sink(message):
-    value = message['mykey']
-    # write_to_db(value) # implement your logic to write data or send alerts etc
+from sink import SnowflakeSink
 
-    # for more help using QuixStreams see the docs:
-    # https://quix.io/docs/quix-streams/introduction.html
+ACCOUNT = os.environ["ACCOUNT"]
+USER = os.environ["USER"]
+PASSWORD = os.environ["PASSWORD"]
+WAREHOUSE = os.environ["WAREHOUSE"]
+DB = os.environ["DB"]
+SCHEMA = os.environ["SCHEMA"]
+TABLE = os.environ["TABLE"]
+ROLE = os.environ["ROLE"]
 
-app = Application(consumer_group="destination-v1", auto_offset_reset = "latest")
+snowflake_sink = SnowflakeSink(ACCOUNT, USER, PASSWORD, WAREHOUSE, DB, SCHEMA, TABLE, ROLE)
+
+snowflake_sink.connect()
+
+app = Application(
+    consumer_group=os.environ["CONSUMER_GROUP"], 
+    auto_offset_reset = "earliest",
+    commit_interval=1,
+    commit_every=100)
 
 input_topic = app.topic(os.environ["input"])
 
 sdf = app.dataframe(input_topic)
-
-# call the sink function for every message received.
-sdf = sdf.update(sink)
-
-# you can print the data row if you want to see what's going on.
-sdf.print(metadata=True)
+sdf.sink(snowflake_sink)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(sdf)

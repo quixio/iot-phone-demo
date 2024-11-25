@@ -36,6 +36,11 @@ variables:
     description: ''
     defaultValue: default
     required: false
+  - name: TABLE
+    inputType: FreeText
+    description: ''
+    defaultValue: sensordata
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

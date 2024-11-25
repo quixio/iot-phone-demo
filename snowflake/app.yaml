@@ -26,6 +26,11 @@ variables:
     description: ''
     defaultValue: QUIX
     required: false
+  - name: DB
+    inputType: FreeText
+    description: ''
+    defaultValue: QUIX
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

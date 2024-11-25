@@ -21,6 +21,11 @@ variables:
     description: ''
     defaultValue: SNOWFLAKE_PASSWORD
     required: false
+  - name: WAREHOUSE
+    inputType: FreeText
+    description: ''
+    defaultValue: QUIX
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

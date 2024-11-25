@@ -46,7 +46,7 @@ variables:
     description: ''
     defaultValue: sink
     required: false
-  - name: role
+  - name: ROLE
     inputType: FreeText
     description: ''
     defaultValue: contributor

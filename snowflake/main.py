@@ -1,5 +1,4 @@
 import os
-from setup_logger import logger
 
 from quixstreams import Application
 

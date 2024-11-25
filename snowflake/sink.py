@@ -7,7 +7,7 @@ from quixstreams.models import HeaderValue
 
 class SnowflakeSink(BatchingSink):
 
-    def __init__(self, account, user, password, warehouse, database, schema, table,role=None):
+    def __init__(self, account, user, password, warehouse, database, schema, table, role=None):
         self.table = table
         self.schema = schema
         self.database = database
@@ -19,7 +19,7 @@ class SnowflakeSink(BatchingSink):
             warehouse=warehouse,
             database=database,
             schema=schema,
-            role=role,
+            role=role
         )
 
     def close(self):
@@ -31,9 +31,9 @@ class SnowflakeSink(BatchingSink):
         for item in batch:
 
             cols = ",".join(item.value.keys())
-            vals = [json.dumps(v) if isinstance(v,dict) else v for v in item.value.values()]
-            vals = list(map(lambda x: str(x) if x is not None else 'NULL',vals))
-            sql = "INSERT INTO {} ({}) VALUES ({})".format(self.table,cols,",".join(['%s'] * len(vals)))
+            vals = [json.dumps(v) if isinstance(v, dict) else v for v in item.value.values()]
+            vals = list(map(lambda x: str(x) if x is not None else 'NULL', vals))
+            sql = "INSERT INTO {} ({}) VALUES ({})".format(self.table, cols, ",".join(['%s'] * len(vals)))
             cursor.execute(sql, tuple(vals))
 
         self.conn.commit()
@@ -41,14 +41,14 @@ class SnowflakeSink(BatchingSink):
 
     def add(
         self,
-        value: Any,
-        key: Any,
-        timestamp: int,
-        headers: list[tuple[str, HeaderValue]],
-        topic: str,
-        partition: int,
-        offset: int,
-    )  :
+        value,
+        key,
+        timestamp,
+        headers,
+        topic,
+        partition,
+        offset
+    ):
         return super().add(
             value=value,
             key=key,
@@ -56,5 +56,5 @@ class SnowflakeSink(BatchingSink):
             headers=headers,
             topic=topic,
             partition=partition,
-            offset=offset,
+            offset=offset
         )

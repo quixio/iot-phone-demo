@@ -46,6 +46,11 @@ variables:
     description: ''
     defaultValue: sink
     required: false
+  - name: role
+    inputType: FreeText
+    description: ''
+    defaultValue: contributor
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

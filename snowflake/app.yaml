@@ -24,7 +24,7 @@ variables:
   - name: WAREHOUSE
     inputType: FreeText
     description: ''
-    defaultValue: QUIX
+    defaultValue: COMPUTE_WH
     required: false
   - name: DB
     inputType: FreeText

@@ -49,7 +49,7 @@ variables:
   - name: ROLE
     inputType: FreeText
     description: ''
-    defaultValue: SECURITYADMIN
+    defaultValue: ACCOUNTADMIN
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py

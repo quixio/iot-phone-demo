@@ -34,7 +34,7 @@ variables:
   - name: SCHEMA
     inputType: FreeText
     description: ''
-    defaultValue: default
+    defaultValue: DEFAULT
     required: false
   - name: TABLE
     inputType: FreeText

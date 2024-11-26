@@ -1,6 +1,5 @@
 import os
 from quixstreams import Application
-import uuid
 import json
 
 # for local dev, load env vars from a .env file
@@ -8,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-app = Application(consumer_group=str(uuid.uuid4()), auto_offset_reset="earliest", use_changelog_topics=False)
+app = Application(consumer_group="crash-detection-v1", auto_offset_reset="earliest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"], timestamp_extractor=lambda row, *_: int(row["timestamp"] / 1000000))
 output_topic = app.topic(os.environ["output"])

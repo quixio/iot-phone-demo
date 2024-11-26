@@ -138,3 +138,7 @@ venv/
 **/state/
 
 .venv/
+compose.local.yaml
+.secrets
+certificates/
+.quix.yaml.variables

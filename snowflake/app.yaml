@@ -39,7 +39,7 @@ variables:
   - name: TABLE
     inputType: FreeText
     description: ''
-    defaultValue: sensordata
+    defaultValue: SENSORDATA
     required: false
   - name: CONSUMER_GROUP
     inputType: FreeText

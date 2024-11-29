@@ -1,5 +1,5 @@
 import os
-from quixstreams import Application, message_key
+from quixstreams import Application
 import json
 import pandas as pd
 import pickle

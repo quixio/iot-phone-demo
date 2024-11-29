@@ -291,8 +291,5 @@ topics:
   - name: telegraf_metrics
     dataTier: Bronze
   - name: telegraf
-  - name: telegraf_metrics
-    dataTier: Bronze
   - name: postgres-cdc
   - name: sensor-data-table
-  - name: transform

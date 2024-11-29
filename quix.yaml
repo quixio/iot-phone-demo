@@ -288,8 +288,6 @@ topics:
   - name: events
   - name: raw
   - name: sensor-data
-  - name: telegraf_metrics
-    dataTier: Bronze
   - name: telegraf
   - name: postgres-cdc
   - name: sensor-data-table

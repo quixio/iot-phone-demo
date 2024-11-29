@@ -288,6 +288,5 @@ topics:
   - name: events
   - name: raw
   - name: sensor-data
-  - name: telegraf
   - name: postgres-cdc
   - name: sensor-data-table

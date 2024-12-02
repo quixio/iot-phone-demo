@@ -1,0 +1,6 @@
+name: Redis Cache
+language: csharp
+variables: []
+dockerfile: dockerfile
+defaultFile: dockerfile
+libraryItemId: redis-cache

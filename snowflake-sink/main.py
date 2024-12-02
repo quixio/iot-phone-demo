@@ -24,5 +24,6 @@ sdf = sdf.update(sink)
 # you can print the data row if you want to see what's going on.
 sdf.print(metadata=True)
 
+
 if __name__ == "__main__":
     app.run()

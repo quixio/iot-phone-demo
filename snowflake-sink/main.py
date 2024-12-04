@@ -1,16 +1,44 @@
 import os
+from setup_logger import logger
+
+from quixstreams import Application
+
+# for local dev, load env vars from a .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 from sink import SnowflakeSink
 
-# Load environment variables
-SNOWFLAKE_ACCOUNT = os.getenv('SNOWFLAKE_ACCOUNT')
-SNOWFLAKE_USER = os.getenv('SNOWFLAKE_USER')
-SNOWFLAKE_PASSWORD = os.getenv('SNOWFLAKE_PASSWORD')
-SNOWFLAKE_WAREHOUSE = os.getenv('SNOWFLAKE_WAREHOUSE')
-SNOWFLAKE_DATABASE = os.getenv('SNOWFLAKE_DATABASE')
-SNOWFLAKE_SCHEMA = os.getenv('SNOWFLAKE_SCHEMA')
+SNOWFLAKE_ACCOUNT = os.environ["SNOWFLAKE_ACCOUNT"]
+SNOWFLAKE_USER = os.environ["SNOWFLAKE_USER"]
+SNOWFLAKE_PASSWORD = os.environ["SNOWFLAKE_PASSWORD"]
+SNOWFLAKE_WAREHOUSE = os.environ["SNOWFLAKE_WAREHOUSE"]
+SNOWFLAKE_DATABASE = os.environ["SNOWFLAKE_DATABASE"]
+SNOWFLAKE_SCHEMA = os.environ["SNOWFLAKE_SCHEMA"]
+SNOWFLAKE_TABLE = os.environ["SNOWFLAKE_TABLE"]
 
-# Initialize Snowflake sink
-sink = SnowflakeSink(SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD, SNOWFLAKE_WAREHOUSE, SNOWFLAKE_DATABASE, SNOWFLAKE_SCHEMA)
+snowflake_sink = SnowflakeSink(
+    SNOWFLAKE_ACCOUNT, 
+    SNOWFLAKE_USER, 
+    SNOWFLAKE_PASSWORD,
+    SNOWFLAKE_WAREHOUSE, 
+    SNOWFLAKE_DATABASE,
+    SNOWFLAKE_SCHEMA,
+    SNOWFLAKE_TABLE, 
+    logger)
 
-# Use the sink
-# ...
+snowflake_sink.connect()
+
+app = Application(
+    consumer_group=os.environ["CONSUMER_GROUP"], 
+    auto_offset_reset = "earliest",
+    commit_interval=1,
+    commit_every=100)
+
+input_topic = app.topic(os.environ["input"])
+
+sdf = app.dataframe(input_topic)
+sdf.sink(snowflake_sink)
+
+if __name__ == "__main__":
+    app.run(sdf)

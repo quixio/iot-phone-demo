@@ -3,43 +3,39 @@ language: python
 variables:
   - name: ACCOUNT
     inputType: FreeText
-    defaultValue: Your Snowflake account name
-    required: true
-  - name: USER
-    inputType: FreeText
-    defaultValue: Your Snowflake username
-    required: true
-  - name: PASSWORD
-    inputType: FreeText
-    defaultValue: Your Snowflake password
-    required: true
-  - name: WAREHOUSE
-    inputType: FreeText
-    defaultValue: Your Snowflake warehouse
-    required: true
-  - name: DB
-    inputType: FreeText
-    defaultValue: Your Snowflake database
-    required: true
-  - name: SCHEMA
-    inputType: FreeText
-    defaultValue: Your Snowflake schema
-    required: true
-  - name: TABLE
-    inputType: FreeText
-    defaultValue: Your Snowflake table
-    required: true
-  - name: ROLE
-    inputType: FreeText
-    defaultValue: Your Snowflake role
+    defaultValue: Obtain from Snowflake
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: Your Kafka consumer group
+    defaultValue: Obtain from Kafka
+    required: true
+  - name: DATABASE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
+    required: true
+  - name: PASSWORD
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
+    required: true
+  - name: SCHEMA
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
+    required: true
+  - name: TABLE_NAME
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
+    required: true
+  - name: USER
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
+    required: true
+  - name: WAREHOUSE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Your Kafka input topic
+    defaultValue: Obtain from Kafka
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

@@ -1,45 +1,41 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: ACCOUNT
+  - name: TABLE_NAME
     inputType: FreeText
-    defaultValue: Your Snowflake account name
-    required: true
-  - name: CONSUMER_GROUP
-    inputType: FreeText
-    defaultValue: Your Kafka consumer group
-    required: true
-  - name: DB
-    inputType: FreeText
-    defaultValue: Your Snowflake database
-    required: true
-  - name: PASSWORD
-    inputType: FreeText
-    defaultValue: Your Snowflake password
-    required: true
-  - name: ROLE
-    inputType: FreeText
-    defaultValue: Your Snowflake role
-    required: true
-  - name: SCHEMA
-    inputType: FreeText
-    defaultValue: Your Snowflake schema
-    required: true
-  - name: TABLE
-    inputType: FreeText
-    defaultValue: Your Snowflake table
-    required: true
-  - name: USER
-    inputType: FreeText
-    defaultValue: Your Snowflake username
+    defaultValue: Obtain this from your Snowflake table
     required: true
   - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: Your Snowflake warehouse
+    defaultValue: Obtain this from your Snowflake warehouse
+    required: true
+  - name: DATABASE
+    inputType: FreeText
+    defaultValue: Obtain this from your Snowflake database
+    required: true
+  - name: SCHEMA
+    inputType: FreeText
+    defaultValue: Obtain this from your Snowflake schema
+    required: true
+  - name: ACCOUNT
+    inputType: FreeText
+    defaultValue: Obtain this from your Snowflake account
+    required: true
+  - name: USER
+    inputType: FreeText
+    defaultValue: Obtain this from your Snowflake user
+    required: true
+  - name: PASSWORD
+    inputType: FreeText
+    defaultValue: Obtain this from your Snowflake password
+    required: true
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    defaultValue: Obtain this from your Kafka consumer group
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Your Kafka input topic
+    defaultValue: Obtain this from your Kafka input topic
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

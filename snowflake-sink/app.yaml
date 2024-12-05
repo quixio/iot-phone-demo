@@ -1,11 +1,45 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: string
+  - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    multiline: true
-    description: string
-    defaultValue: string
+    defaultValue: Your Snowflake account name
+    required: true
+  - name: SNOWFLAKE_USER
+    inputType: FreeText
+    defaultValue: Your Snowflake username
+    required: true
+  - name: SNOWFLAKE_PASSWORD
+    inputType: FreeText
+    defaultValue: Your Snowflake password
+    required: true
+  - name: SNOWFLAKE_ROLE
+    inputType: FreeText
+    defaultValue: Your Snowflake role
+    required: true
+  - name: SNOWFLAKE_WAREHOUSE
+    inputType: FreeText
+    defaultValue: Your Snowflake warehouse
+    required: true
+  - name: SNOWFLAKE_DATABASE
+    inputType: FreeText
+    defaultValue: Your Snowflake database
+    required: true
+  - name: SNOWFLAKE_SCHEMA
+    inputType: FreeText
+    defaultValue: Your Snowflake schema
+    required: true
+  - name: SNOWFLAKE_TABLE
+    inputType: FreeText
+    defaultValue: Your Snowflake table
+    required: true
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    defaultValue: Your consumer group
+    required: true
+  - name: input
+    inputType: FreeText
+    defaultValue: Your input topic
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

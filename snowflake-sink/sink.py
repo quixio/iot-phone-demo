@@ -1,20 +1,19 @@
-import logging
 import snowflake.connector
+import logging
 
-from quixstreams.sinks import Sink
+from quixstreams import Sink
 
 logger = logging.getLogger(__name__)
 
 class SnowflakeSink(Sink):
-    def __init__(self, account, user, password, role, warehouse, database, schema, table, logger):
-        self.account = account
-        self.user = user
-        self.password = password
-        self.role = role
+    def __init__(self, warehouse, database, schema, table_name, account, user, password, logger):
         self.warehouse = warehouse
         self.database = database
         self.schema = schema
-        self.table = table
+        self.table_name = table_name
+        self.account = account
+        self.user = user
+        self.password = password
         self.logger = logger
 
     def connect(self):
@@ -24,15 +23,14 @@ class SnowflakeSink(Sink):
             account=self.account,
             warehouse=self.warehouse,
             database=self.database,
-            schema=self.schema,
-            role=self.role,
+            schema=self.schema
         )
         self.cursor = self.conn.cursor()
 
     def write(self, batch):
         for item in batch:
-            self.cursor.execute(
-                f"INSERT INTO {self.table} VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                (item.key, item.value, item.timestamp, item.headers, item.topic, item.partition, item.offset, item.timestamp_type, item.headers)
-            )
-        self.conn.commit()
+            insert_query = f"INSERT INTO {self.table_name} VALUES ({', '.join(['%s'] * len(item.value))})"
+            self.cursor.execute(insert_query, tuple(item.value.values()))
+
+    def close(self):
+        self.conn.close()

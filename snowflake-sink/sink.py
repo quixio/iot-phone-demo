@@ -1,42 +1,21 @@
 import snowflake.connector
-from quixstreams.sinks import BatchingSink, SinkBatch
 
-
-class SnowflakeSink(BatchingSink):
-    def __init__(
-        self,
-        account,
-        warehouse,
-        database,
-        schema,
-        table_name,
-        user,
-        password
-    ):
-        super().__init__()
+class SnowflakeSink:
+    def __init__(self, user, password, account, warehouse, database, schema, table):
+        self.user = user
+        self.password = password
         self.account = account
         self.warehouse = warehouse
         self.database = database
         self.schema = schema
-        self.table_name = table_name
-        self.user = user
-        self.password = password
+        self.table = table
 
     def connect(self):
-        self.conn = snowflake.connector.connect(
-            user=self.user,
-            password=self.password,
-            account=self.account,
-            warehouse=self.warehouse,
-            database=self.database,
-            schema=self.schema
-        )
-        self.cursor = self.conn.cursor()
+        self.conn = snowflake.connector.connect(user=self.user, password=self.password, account=self.account)
+        self.conn.cursor().execute(f'USE WAREHOUSE {self.warehouse}')
+        self.conn.cursor().execute(f'USE DATABASE {self.database}')
+        self.conn.cursor().execute(f'USE SCHEMA {self.schema}')
 
-    def write(self, batch: SinkBatch):
-        for item in batch:
-            self.cursor.execute(
-                "INSERT INTO {} (KEY, VALUE, TIMESTAMP) VALUES (%s, %s, %s)".format(self.table_name),
-                (item.key, item.value, item.timestamp)
-            )
-        self.conn.commit()
+    def write(self, data):
+        cursor = self.conn.cursor()
+        cursor.execute(f'INSERT INTO {self.table} VALUES (%s)', (data,))

@@ -1,11 +1,12 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: input
-    inputType: InputTopic
-    description: Name of the input topic to listen to.
-    defaultValue: raw
-    required: false
+  - name: string
+    inputType: FreeText
+    multiline: true
+    description: string
+    defaultValue: string
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

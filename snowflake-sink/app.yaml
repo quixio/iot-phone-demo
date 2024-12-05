@@ -1,45 +1,41 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: SNOWFLAKE_ACCOUNT
+  - name: TABLE_NAME
     inputType: FreeText
-    defaultValue: Your Snowflake account name
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_USER
+  - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: Your Snowflake username
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_PASSWORD
+  - name: DATABASE
     inputType: FreeText
-    defaultValue: Your Snowflake password
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_ROLE
+  - name: SCHEMA
     inputType: FreeText
-    defaultValue: Your Snowflake role
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_WAREHOUSE
+  - name: ACCOUNT
     inputType: FreeText
-    defaultValue: Your Snowflake warehouse
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_DATABASE
+  - name: USER
     inputType: FreeText
-    defaultValue: Your Snowflake database
+    defaultValue: Obtain from Snowflake
     required: true
-  - name: SNOWFLAKE_SCHEMA
+  - name: PASSWORD
     inputType: FreeText
-    defaultValue: Your Snowflake schema
-    required: true
-  - name: SNOWFLAKE_TABLE
-    inputType: FreeText
-    defaultValue: Your Snowflake table
+    defaultValue: Obtain from Snowflake
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: Your consumer group
+    defaultValue: Obtain from Kafka
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Your input topic
+    defaultValue: Obtain from Kafka
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

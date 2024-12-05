@@ -1,37 +1,37 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: ACCOUNT
+  - name: TABLE_NAME
     inputType: FreeText
-    defaultValue: Obtain this from your Snowflake account
+    defaultValue: Obtain this from your Snowflake table
     required: true
-  - name: CONSUMER_GROUP
+  - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: Obtain this from your Kafka consumer group
+    defaultValue: Obtain this from your Snowflake warehouse
     required: true
   - name: DATABASE
     inputType: FreeText
     defaultValue: Obtain this from your Snowflake database
     required: true
-  - name: PASSWORD
-    inputType: FreeText
-    defaultValue: Obtain this from your Snowflake password
-    required: true
   - name: SCHEMA
     inputType: FreeText
     defaultValue: Obtain this from your Snowflake schema
     required: true
-  - name: TABLE_NAME
+  - name: ACCOUNT
     inputType: FreeText
-    defaultValue: Obtain this from your Snowflake table
+    defaultValue: Obtain this from your Snowflake account
     required: true
   - name: USER
     inputType: FreeText
     defaultValue: Obtain this from your Snowflake user
     required: true
-  - name: WAREHOUSE
+  - name: PASSWORD
     inputType: FreeText
-    defaultValue: Obtain this from your Snowflake warehouse
+    defaultValue: Obtain this from your Snowflake password
+    required: true
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    defaultValue: Obtain this from your Kafka consumer group
     required: true
   - name: input
     inputType: FreeText

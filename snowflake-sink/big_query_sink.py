@@ -14,7 +14,6 @@ from quixstreams.sinks import BatchingSink
 from utils import format_nanoseconds, flatten_json
 
 
-
 class BigQuerySink(BatchingSink):
     def __init__(
         self,
@@ -36,18 +35,13 @@ class BigQuerySink(BatchingSink):
         
         self.logger = logger if logger is not None else logging.getLogger("BigQuery Sink") 
 
-        # Define the format for the logs, including the timestamp
         log_format = '%(asctime)s-%(levelname)s-%(message)s'
 
-        # Configure the basicConfig with the new format and, optionally, the date format
         logging.basicConfig(format=log_format, datefmt='%Y-%m-%d %H:%M:%S')
 
         super().__init__()
         
-
-        
     def connect(self):
-        
         try:
             service_account_info = json.loads(self.service_account_json, strict = False)
             credentials = service_account.Credentials.from_service_account_info(
@@ -64,9 +58,6 @@ class BigQuerySink(BatchingSink):
         self._create_dataset()
         self._create_table()
         
-    
-        
-
     def write(self, batch: SinkBatch):
         
         all_cols = list(set().union(*map(lambda b: b.value, batch)))
@@ -99,7 +90,6 @@ class BigQuerySink(BatchingSink):
         start_time = time.time()
         self.logger.debug(f"Data ({batch.size}) from {str(datetime.fromtimestamp(last_timestamp / 1000))} sent in {time.time() - start_time}.")
         
-            
     def _create_dataset(self):
         dataset_id = f"{self.project_id}.{self.dataset_id}"
         if not self._dataset_exists(dataset_id):
@@ -120,8 +110,6 @@ class BigQuerySink(BatchingSink):
     def _insert_row(self, cols: list, vals: list):
         table_id = f"{self.project_id}.{self.dataset_id}.{self.table_name}"
 
-        
-
         rows_to_insert = []
         for val in vals:
             for index, col in enumerate(cols):
@@ -131,7 +119,7 @@ class BigQuerySink(BatchingSink):
                     self.columns.append(col)
                     print(f"Column {col} added.")
             for i in range(len(val)):
-                if type(val[i]) == Null:
+                if type(val[i]) == "NULL":
                     val[i] = None
             row = dict(zip(cols, val))
             rows_to_insert.append(row)

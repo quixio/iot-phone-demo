@@ -15,7 +15,7 @@ variables:
     required: true
   - name: ACCOUNT
     inputType: FreeText
-    defaultValue: zd58662.uk-south.azure
+    defaultValue: snowflakeaccountidentifier
     required: true
   - name: PASSWORD
     inputType: FreeText

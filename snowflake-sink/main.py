@@ -9,13 +9,13 @@ load_dotenv()
 
 from sink import SnowflakeSink
 
-TABLE_NAME = os.environ["TABLE_NAME"]
-DATABASE = os.environ["DATABASE"]
-SCHEMA = os.environ["SCHEMA"]
-USER = os.environ["USER"]
-PASSWORD = os.environ["PASSWORD"]
-ACCOUNT = os.environ["ACCOUNT"]
-WAREHOUSE = os.environ["WAREHOUSE"]
+TABLE_NAME = os.environ["TABLE_NAME"].strip()
+DATABASE = os.environ["DATABASE"].strip()
+SCHEMA = os.environ["SCHEMA"].strip()
+USER = os.environ["USER"].strip()
+PASSWORD = os.environ["PASSWORD"].strip()
+ACCOUNT = os.environ["ACCOUNT"].strip()
+WAREHOUSE = os.environ["WAREHOUSE"].strip()
 
 snowflake_sink = SnowflakeSink(
     ACCOUNT,

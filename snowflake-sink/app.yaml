@@ -8,7 +8,7 @@ variables:
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
     description: ''
-    defaultValue: LTGGOEA.XY66326
+    defaultValue: zd58662.uk-south.azure
     required: true
   - name: SNOWFLAKE_DATABASE
     inputType: FreeText

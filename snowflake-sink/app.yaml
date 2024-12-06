@@ -1,41 +1,33 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: SNOWFLAKE_TABLE
-    inputType: FreeText
-    defaultValue: <your_snowflake_table>
-    required: true
-  - name: SNOWFLAKE_WAREHOUSE
-    inputType: FreeText
-    defaultValue: <your_snowflake_warehouse>
-    required: true
-  - name: SNOWFLAKE_DATABASE
-    inputType: FreeText
-    defaultValue: <your_snowflake_database>
-    required: true
-  - name: SNOWFLAKE_SCHEMA
-    inputType: FreeText
-    defaultValue: <your_snowflake_schema>
-    required: true
-  - name: SNOWFLAKE_ROLE
-    inputType: FreeText
-    defaultValue: <your_snowflake_role>
-    required: true
   - name: SNOWFLAKE_USER
     inputType: FreeText
-    defaultValue: <your_snowflake_user>
+    defaultValue: Please refer to your Snowflake Account page for username
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText
-    defaultValue: <your_snowflake_password>
+    defaultValue: Please refer to your Snowflake Account page for password
+    required: true
+  - name: SNOWFLAKE_WAREHOUSE
+    inputType: FreeText
+    defaultValue: Please refer to your Snowflake Account page for warehouse ID
+    required: true
+  - name: SNOWFLAKE_DATABASE
+    inputType: FreeText
+    defaultValue: Please refer to your Snowflake Account page for database name
+    required: true
+  - name: SNOWFLAKE_SCHEMA
+    inputType: FreeText
+    defaultValue: Please refer to your Snowflake Account page for schema name
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: <your_consumer_group>
+    defaultValue: Please refer to the consumer group of your Kafka streaming source
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: <your_input_topic>
+    defaultValue: Please refer to the topic of your Kafka streaming source
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

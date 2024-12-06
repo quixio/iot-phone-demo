@@ -32,9 +32,13 @@ class SnowflakeSink(BatchingSink):
 
     def connect(self):
         self.conn = snowflake.connector.connect(
-            user=self.user,
-            password=self.password,
-            account=self.account)
+        user=self.user,
+        password=self.password,
+        account=self.account,  # Replace with your correct account and region
+        database=self.database
+        schema=self.schema,
+        warehouse=self.warehouse
+    )
 
     #def __del__(self):
         #if self.conn:

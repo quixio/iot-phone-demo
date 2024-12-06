@@ -1,5 +1,6 @@
 import logging
 import snowflake.connector
+import json
 
 from quixstreams import Application
 
@@ -48,9 +49,11 @@ class SnowflakeSink(BatchingSink):
         cursor = self.conn.cursor()
         try:
             for item in batch:
+                # Update point: Converting dictionary to a JSON formatted string
+                json_value = json.dumps(item.value)
                 cursor.execute(
                     f'INSERT INTO {self.database}.{self.schema}.{self.table} VALUES (%s)',
-                    (item.value,)
+                    (json_value,)
                 )
         finally:
             cursor.close()

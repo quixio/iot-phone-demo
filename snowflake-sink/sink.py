@@ -1,21 +1,18 @@
+import snowflake.connector
 import logging
-import time
-from typing import Any, Mapping
+from datetime import datetime
+from decimal import Decimal
+from typing_extensions import Optional
 
 from quixstreams.exceptions import QuixException
 from quixstreams.models import HeadersTuples
 from quixstreams.sinks import BatchingSink, SinkBatch
 
-import snowflake.connector
-
 __all__ = ("SnowflakeSink", "SnowflakeSinkException")
 
 logger = logging.getLogger(__name__)
 
-_KEY_COLUMN_NAME = "__key"
-_TIMESTAMP_COLUMN_NAME = "timestamp"
-
-class SnowflakeSinkException(QuixException): pass
+class SnowflakeSinkException(QuixException): ...
 
 class SnowflakeSink(BatchingSink):
     def __init__(
@@ -29,90 +26,58 @@ class SnowflakeSink(BatchingSink):
         table_name: str,
         **kwargs,
     ):
-        """
-        A connector to sink processed data to Snowflake.
-
-        It batches the processed records in memory per topic partition, and flushes them to Snowflake at the checkpoint.
-
-        >***NOTE***: SnowflakeSink can accept only dictionaries.
-        > If the record values are not dicts, you need to convert them to dicts before
-        > sinking.
-
-        :param account: Snowflake account identifier.
-        :param user: Snowflake user.
-        :param password: Snowflake user password.
-        :param database: Snowflake database name.
-        :param schema: Snowflake schema name.
-        :param warehouse: Snowflake warehouse name.
-        :param table_name: Snowflake table name.
-        :param kwargs: Additional keyword arguments for the Snowflake connector.
-        """
-
         super().__init__()
-        self.connection = snowflake.connector.connect(
+        self.database = database
+        self.schema = schema
+        self.table_name = table_name
+
+        self.conn = snowflake.connector.connect(
             account=account,
             user=user,
             password=password,
-            database=database,
-            schema=schema,
             warehouse=warehouse,
-            **kwargs
+            database=database,
+            schema=schema
         )
-        self.table_name = table_name
-        self._ensure_table_exists()
 
-    def _ensure_table_exists(self):
-        """Checks if table exists in Snowflake, creates it if not."""
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "{_KEY_COLUMN_NAME}" STRING,
-                    "{_TIMESTAMP_COLUMN_NAME}" TIMESTAMP,
-                    data VARIANT
-                )
-            """)
-        finally:
-            cursor.close()
+        self._init_table()
+
+    def connect(self):
+        logger.info(f"Connected to Snowflake DB: {self.database}.{self.schema}.{self.table_name}")
 
     def write(self, batch: SinkBatch):
         rows = []
+
         for item in batch:
-            row = {"data": item.value}  # Storing complete JSON as VARIANT
-            # Add key and timestamp values
-            if item.key is not None:
-                row[_KEY_COLUMN_NAME] = item.key
-            row[_TIMESTAMP_COLUMN_NAME] = item.timestamp  # Snowflake can accept epoch time directly
+            row = {k: v for k, v in item.value.items() if v is not None}
+            row['timestamp'] = datetime.fromtimestamp(item.timestamp / 1000)
             rows.append(row)
 
-        cursor = self.connection.cursor()
-        try:
-            insert_cmd = f"INSERT INTO {self.table_name} ({_KEY_COLUMN_NAME}, {_TIMESTAMP_COLUMN_NAME}, data) VALUES (%(__key)s, %(timestamp)s, parse_json(%(data)s))"
-            cursor.executemany(insert_cmd, rows)
-        finally:
-            cursor.close()
+        self._insert_rows(rows)
 
-    def add(
-        self,
-        value: Any,
-        key: Any,
-        timestamp: int,
-        headers: HeadersTuples,
-        topic: str,
-        partition: int,
-        offset: int,
-    ):
-        if not isinstance(value, Mapping):
-            raise TypeError(
-                f'Sink "{self.__class__.__name__}" supports only dictionaries,'
-                f" got {type(value)}"
+    def _init_table(self):
+        cur = self.conn.cursor()
+        cur.execute(f"""
+            CREATE TABLE IF NOT EXISTS {self.table_name} (
+                "timestamp" TIMESTAMP,
+                data VARIANT
             )
-        return super().add(
-            value=value,
-            key=key,
-            timestamp=timestamp,
-            headers=headers,
-            topic=topic,
-            partition=partition,
-            offset=offset,
-        )
+        """)
+        cur.close()
+
+    def _insert_rows(self, rows):
+        cur = self.conn.cursor()
+        try:
+            for row in rows:
+                insert_query = f"INSERT INTO {self.table_name} (timestamp, data) VALUES (%(timestamp)s, PARSE_JSON(%(data)s))"
+                cur.execute(insert_query, {
+                    'timestamp': row['timestamp'],
+                    'data': json.dumps(row)
+                })
+            self.conn.commit()
+            logger.debug(f"Inserted {len(rows)} rows into {self.table_name}")
+        except snowflake.connector.errors.ProgrammingError as e:
+            logger.error(f"Failed to insert rows: {e}")
+            raise SnowflakeSinkException(f"Failed to insert rows: {e}")
+        finally:
+            cur.close()

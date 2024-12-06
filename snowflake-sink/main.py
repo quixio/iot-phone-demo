@@ -14,7 +14,7 @@ DATABASE = os.environ["DATABASE"]
 SCHEMA = os.environ["SCHEMA"]
 USER = os.environ["USER"]
 PASSWORD = os.environ["PASSWORD"]
-ACCOUNT = os.environ["ACCOUNT"].replace('%20', ' ').replace('+', ' ')
+ACCOUNT = os.environ["ACCOUNT"].replace('%20', ' ').replace('+', ' ').replace(' ', '')
 WAREHOUSE = os.environ["WAREHOUSE"]
 
 snowflake_sink = SnowflakeSink(

@@ -4,14 +4,15 @@ from quixstreams.sinks import Sink
 
 
 class SnowflakeSink(Sink):
-    def __init__(self, warehouse, database, schema, table_name, account, user, password, logger):
-        self.warehouse = warehouse
-        self.database = database
-        self.schema = schema
-        self.table_name = table_name
+    def __init__(self, account, user, password, role, warehouse, database, schema, table, logger):
         self.account = account
         self.user = user
         self.password = password
+        self.role = role
+        self.warehouse = warehouse
+        self.database = database
+        self.schema = schema
+        self.table = table
         self.logger = logger
 
     def connect(self):
@@ -21,10 +22,14 @@ class SnowflakeSink(Sink):
             account=self.account,
             warehouse=self.warehouse,
             database=self.database,
-            schema=self.schema
+            schema=self.schema,
+            role=self.role,
         )
-        self.cursor = self.conn.cursor()
 
     def write(self, batch):
-        for item in batch:
-            self.cursor.execute(f"INSERT INTO {self.table_name} VALUES (%s)", (item.value,))
+        with self.conn.cursor() as cur:
+            for item in batch:
+                cur.execute(
+                    f"INSERT INTO {self.table} VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (item.key, item.value, item.timestamp, item.headers, item.topic, item.partition, item.offset)
+                )

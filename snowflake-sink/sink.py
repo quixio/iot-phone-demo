@@ -35,7 +35,7 @@ class SnowflakeSink(BatchingSink):
         user=self.user,
         password=self.password,
         account=self.account,  # Replace with your correct account and region
-        database=self.database
+        database=self.database,
         schema=self.schema,
         warehouse=self.warehouse
     )

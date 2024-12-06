@@ -1,41 +1,37 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: SNOWFLAKE_ACCOUNT
+  - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: <your-account-name>.snowflakecomputing.com
-    required: true
-  - name: SNOWFLAKE_USER
-    inputType: FreeText
-    defaultValue: Your Snowflake username.
-    required: true
-  - name: SNOWFLAKE_PASSWORD
-    inputType: FreeText
-    defaultValue: Your Snowflake password.
+    defaultValue: snowflakesink
     required: true
   - name: DATABASE
     inputType: FreeText
-    defaultValue: The Snowflake database to use.
+    defaultValue: QUIX
     required: true
   - name: SCHEMA
     inputType: FreeText
-    defaultValue: The Snowflake schema to use.
+    defaultValue: DEFAULT
+    required: true
+  - name: SNOWFLAKE_ACCOUNT
+    inputType: FreeText
+    defaultValue: zd58662.uk-south.azure
+    required: true
+  - name: SNOWFLAKE_PASSWORD
+    inputType: FreeText
+    defaultValue: BLdJC4n.LQpQ7svFkujD
+    required: true
+  - name: SNOWFLAKE_USER
+    inputType: FreeText
+    defaultValue: tomasneubauer
     required: true
   - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: The Snowflake warehouse to use.
-    required: true
-  - name: TABLE_NAME
-    inputType: FreeText
-    defaultValue: The name of the destination table in Snowflake.
-    required: true
-  - name: CONSUMER_GROUP
-    inputType: FreeText
-    defaultValue: The consumer group for your Quix streams application.
+    defaultValue: COMPUTE_WH
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: The input topic name for your Quix streams application.
+    defaultValue: sensor-data
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

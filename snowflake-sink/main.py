@@ -15,7 +15,7 @@ SCHEMA = os.environ["SCHEMA"]
 WAREHOUSE = os.environ["WAREHOUSE"]
 
 snowflake_sink = SnowflakeSink(
-    account=os.environ["SNOWFLAKE_ACCOUNT"],
+    account=os.environ.get("SNOWFLAKE_ACCOUNT"),
     user=os.environ["SNOWFLAKE_USER"],
     password=os.environ["SNOWFLAKE_PASSWORD"],
     database=DATABASE,

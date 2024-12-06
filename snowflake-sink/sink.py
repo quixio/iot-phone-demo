@@ -37,8 +37,8 @@ class SnowflakeSink(BatchingSink):
             account=self.account)
 
     def __del__(self):
-        if self.conn:
-            self.conn.close()
+        #if self.conn:
+            #self.conn.close()
 
     def write(self, batch: SinkBatch):
         cursor = self.conn.cursor()

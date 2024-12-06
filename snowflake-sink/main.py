@@ -9,7 +9,7 @@ load_dotenv()
 
 from sink import SnowflakeSink
 
-TABLE_NAME = os.environ["TABLE_NAME"]
+TABLE_NAME = os.getenv("TABLE_NAME", "default_table")
 DATABASE = os.environ["DATABASE"]
 SCHEMA = os.environ["SCHEMA"]
 WAREHOUSE = os.environ["WAREHOUSE"]

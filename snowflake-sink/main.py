@@ -9,22 +9,20 @@ load_dotenv()
 
 from sink import SnowflakeSink
 
-TABLE_NAME = os.environ["TABLE_NAME"].strip()
-DATABASE = os.environ["DATABASE"].strip()
-SCHEMA = os.environ["SCHEMA"].strip()
-USER = os.environ["USER"].strip()
-PASSWORD = os.environ["PASSWORD"].strip()
-ACCOUNT = os.environ["ACCOUNT"].strip().replace(' ', '').replace('+', '%2B').replace('@', '%40')  # Fixes URL encoding issue
-WAREHOUSE = os.environ["WAREHOUSE"].strip()
+TABLE_NAME = os.environ["TABLE_NAME"]
+DATABASE = os.environ["DATABASE"]
+SCHEMA = os.environ["SCHEMA"]
+WAREHOUSE = os.environ["WAREHOUSE"]
 
 snowflake_sink = SnowflakeSink(
-    ACCOUNT,
-    USER,
-    PASSWORD,
-    DATABASE,
-    SCHEMA,
-    WAREHOUSE,
-    TABLE_NAME)
+    account=os.environ["SNOWFLAKE_ACCOUNT"],
+    user=os.environ["SNOWFLAKE_USER"],
+    password=os.environ["SNOWFLAKE_PASSWORD"],
+    database=DATABASE,
+    schema=SCHEMA,
+    warehouse=WAREHOUSE,
+    table_name=TABLE_NAME,
+    logger=logger)
 
 snowflake_sink.connect()
 

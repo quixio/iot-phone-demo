@@ -1,88 +1,41 @@
 import snowflake.connector
-import logging
-from datetime import datetime
-import json
-from typing_extensions import Optional
-
-from quixstreams.exceptions import QuixException
-from quixstreams.sinks import BatchingSink, SinkBatch
-
-__all__ = ("SnowflakeSink", "SnowflakeSinkException")
-
-logger = logging.getLogger(__name__)
-
-class SnowflakeSinkException(QuixException): ...
+from quixstreams.sinks import BatchingSink
 
 class SnowflakeSink(BatchingSink):
-    def __init__(
-        self,
-        account: str,
-        user: str,
-        password: str,
-        database: str,
-        schema: str,
-        warehouse: str,
-        table_name: str,
-        **kwargs,
-    ):
+    def __init__(self, account, user, password, database, schema, warehouse, table_name, **kwargs):
         super().__init__()
-        self.database = database
-        self.schema = schema
+        self.conn_params = {
+            'account': account,
+            'user': user,
+            'password': password,
+            'database': database,
+            'schema': schema,
+            'warehouse': warehouse
+        }
         self.table_name = table_name
-
-        self.conn = snowflake.connector.connect(
-            account=account.strip(),
-            user=user.strip(),
-            password=password.strip(),
-            warehouse=warehouse.strip(),
-            database=database.strip(),
-            schema=schema.strip(),
-            timeout=60
-        )
-
-        self._init_table()
+        self.logger = kwargs.get('logger')
 
     def connect(self):
-        logger.info(f"Connected to Snowflake DB: {self.database}.{self.schema}.{self.table_name}")
+        self.connection = snowflake.connector.connect(**self.conn_params)
+        self.logger.info(f"Connected to Snowflake with table {self.table_name}")
 
-    def _serialize(self, obj):
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        raise TypeError(f"Type {type(obj)} not serializable")
-
-    def write(self, batch: SinkBatch):
-        rows = []
-
+    def write(self, batch):
+        cursor = self.connection.cursor()
         for item in batch:
-            row = {k: v for k, v in item.value.items() if v is not None}
-            row['TIMESTAMP'] = datetime.fromtimestamp(item.timestamp / 1000)
-            rows.append(row)
+            columns = ', '.join(item.value.keys())
+            values = ', '.join([f'\'{v}\'' if isinstance(v, str) else str(v) for v in item.value.values()])
+            sql = f"INSERT INTO {self.table_name} ({columns}) VALUES ({values})"
+            try:
+                self.logger.debug(sql)
+                cursor.execute(sql)
+            except Exception as e:
+                self.logger.error(f"Failed to insert row: {e}")
+        cursor.close()
 
-        self._insert_rows(rows)
-
-    def _init_table(self):
-        cur = self.conn.cursor()
-        cur.execute(f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "TIMESTAMP" TIMESTAMP,
-                data VARIANT
+    def add(self, value, key, timestamp, headers, topic, partition, offset):
+        if not isinstance(value, dict):
+            raise TypeError(
+                f'Sink "{self.__class__.__name__}" supports only dictionaries, got {type(value)}'
             )
-        """)
-        cur.close()
-
-    def _insert_rows(self, rows):
-        cur = self.conn.cursor()
-        try:
-            for row in rows:
-                insert_query = f"INSERT INTO {self.table_name} (TIMESTAMP, data) VALUES (%(TIMESTAMP)s, PARSE_JSON(%(data)s))"
-                cur.execute(insert_query, {
-                    'TIMESTAMP': row['TIMESTAMP'],
-                    'data': json.dumps(row, default=self._serialize)
-                })
-            self.conn.commit()
-            logger.debug(f"Inserted {len(rows)} rows into {self.table_name}")
-        except snowflake.connector.errors.ProgrammingError as e:
-            logger.error(f"Failed to insert rows: {e}")
-            raise SnowflakeSinkException(f"Failed to insert rows: {e}")
-        finally:
-            cur.close()
+        return super().add(
+            value=value, key=key, timestamp=timestamp, headers=headers, topic=topic, partition=partition, offset=offset)

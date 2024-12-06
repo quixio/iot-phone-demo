@@ -51,8 +51,10 @@ class SnowflakeSink(BatchingSink):
         cursor = self.conn.cursor()
         try:
             for item in batch:
+                # Convert all numbers in dict to strings for compatibility with Snowflake.
+                converted = {k: str(v) if isinstance(v, (int, float)) else v for k, v in item.value.items()}
                 # Update point: Converting dictionary to a JSON formatted string
-                json_value = json.dumps(item.value, default=str)
+                json_value = json.dumps(converted, default=str)
                 cursor.execute(
                     f'INSERT INTO {self.database}.{self.schema}.{self.table} VALUES (%s)',
                     (json_value,)

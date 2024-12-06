@@ -45,6 +45,11 @@ class SnowflakeSink(BatchingSink):
     def connect(self):
         logger.info(f"Connected to Snowflake DB: {self.database}.{self.schema}.{self.table_name}")
 
+    def _serialize(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        raise TypeError(f"Type {type(obj)} not serializable")
+
     def write(self, batch: SinkBatch):
         rows = []
 
@@ -72,7 +77,7 @@ class SnowflakeSink(BatchingSink):
                 insert_query = f"INSERT INTO {self.table_name} (timestamp, data) VALUES (%(timestamp)s, PARSE_JSON(%(data)s))"
                 cur.execute(insert_query, {
                     'timestamp': row['timestamp'],
-                    'data': json.dumps(row)
+                    'data': json.dumps(row, default=self._serialize)
                 })
             self.conn.commit()
             logger.debug(f"Inserted {len(rows)} rows into {self.table_name}")

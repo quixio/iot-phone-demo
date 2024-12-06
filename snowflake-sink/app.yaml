@@ -3,7 +3,7 @@ language: python
 variables:
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: Retrieve this from your Snowflake account identifier.
+    defaultValue: <your-account-name>.snowflakecomputing.com
     required: true
   - name: SNOWFLAKE_USER
     inputType: FreeText

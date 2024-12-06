@@ -17,17 +17,21 @@ SNOWFLAKE_SCHEMA = os.environ["SNOWFLAKE_SCHEMA"]
 SNOWFLAKE_WAREHOUSE = os.environ["SNOWFLAKE_WAREHOUSE"]
 SNOWFLAKE_TABLE = os.environ["SNOWFLAKE_TABLE"]
 
-snowflake_sink = SnowflakeSink(
-    SNOWFLAKE_ACCOUNT, 
-    SNOWFLAKE_USER, 
-    SNOWFLAKE_PASSWORD,
-    SNOWFLAKE_DATABASE, 
-    SNOWFLAKE_SCHEMA,
-    SNOWFLAKE_WAREHOUSE,
-    SNOWFLAKE_TABLE, 
-    logger)
+try:
+    snowflake_sink = SnowflakeSink(
+        SNOWFLAKE_ACCOUNT, 
+        SNOWFLAKE_USER, 
+        SNOWFLAKE_PASSWORD,
+        SNOWFLAKE_DATABASE, 
+        SNOWFLAKE_SCHEMA,
+        SNOWFLAKE_WAREHOUSE,
+        SNOWFLAKE_TABLE, 
+        logger)
 
-snowflake_sink.connect()
+    snowflake_sink.connect()
+except Exception as e:
+    logger.error(f'Failed to connect to Snowflake: {e}')
+    raise
 
 app = Application(
     consumer_group=os.environ["CONSUMER_GROUP"], 
@@ -41,4 +45,9 @@ sdf = app.dataframe(input_topic)
 sdf.sink(snowflake_sink)
 
 if __name__ == "__main__":
-    app.run(sdf)
+    try:
+        app.run(sdf)
+    except Exception as e:
+        logger.error(f'Application failed: {e}')
+    finally:
+        snowflake_sink.disconnect()

@@ -52,7 +52,7 @@ class SnowflakeSink(BatchingSink):
         try:
             for item in batch:
                 # Update point: Converting dictionary to a JSON formatted string
-                json_value = json.dumps(item.value)
+                json_value = json.dumps(item.value, default=str)
                 cursor.execute(
                     f'INSERT INTO {self.database}.{self.schema}.{self.table} VALUES (%s)',
                     (json_value,)

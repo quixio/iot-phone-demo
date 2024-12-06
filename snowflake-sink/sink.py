@@ -5,7 +5,6 @@ from decimal import Decimal
 from typing_extensions import Optional
 
 from quixstreams.exceptions import QuixException
-from quixstreams.models import HeaderTuple  # Corrected import
 from quixstreams.sinks import BatchingSink, SinkBatch
 
 __all__ = ("SnowflakeSink", "SnowflakeSinkException")

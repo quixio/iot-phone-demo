@@ -1,41 +1,45 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: TABLE_NAME
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: WAREHOUSE
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: DATABASE
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: SCHEMA
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: ACCOUNT
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: USER
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
-  - name: PASSWORD
-    inputType: FreeText
-    defaultValue: Obtain from your Snowflake instance
-    required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: Obtain from your Kafka instance
+    defaultValue: Obtain from Kafka details
+    required: true
+  - name: SNOWFLAKE_ACCOUNT
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_DATABASE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_PASSWORD
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_ROLE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_SCHEMA
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_TABLE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_USER
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
+    required: true
+  - name: SNOWFLAKE_WAREHOUSE
+    inputType: FreeText
+    defaultValue: Obtain from Snowflake account details
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Obtain from your Kafka instance
+    defaultValue: Obtain from Kafka details
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

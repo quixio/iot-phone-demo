@@ -4,7 +4,6 @@ import snowflake.connector
 from quixstreams import Application
 
 from quixstreams.exceptions import QuixException
-from quixstreams.models import HeadersTuples
 from quixstreams.sinks import BatchingSink, SinkBatch
 
 class SnowflakeSinkException(QuixException): ...

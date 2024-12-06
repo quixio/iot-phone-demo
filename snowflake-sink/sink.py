@@ -1,9 +1,7 @@
-import logging
 import snowflake.connector
 
-from quixstreams import Sink
+from quixstreams.sinks import Sink
 
-logger = logging.getLogger(__name__)
 
 class SnowflakeSink(Sink):
     def __init__(self, account, user, password, role, warehouse, database, schema, table, logger):
@@ -27,12 +25,11 @@ class SnowflakeSink(Sink):
             schema=self.schema,
             role=self.role,
         )
-        self.cursor = self.conn.cursor()
 
     def write(self, batch):
-        for item in batch:
-            self.cursor.execute(
-                f"INSERT INTO {self.table} VALUES (%s, %s, %s)",
-                (item.key, item.value, item.timestamp)
-            )
-        self.conn.commit()
+        with self.conn.cursor() as cur:
+            for item in batch:
+                cur.execute(
+                    f"INSERT INTO {self.table} VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (item.key, item.value, item.timestamp, item.headers, item.topic, item.partition, item.offset)
+                )

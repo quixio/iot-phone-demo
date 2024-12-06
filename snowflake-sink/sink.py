@@ -36,7 +36,7 @@ class SnowflakeSink(BatchingSink):
             password=self.password,
             account=self.account)
 
-    def __del__(self):
+    #def __del__(self):
         #if self.conn:
             #self.conn.close()
 

@@ -14,7 +14,7 @@ DATABASE = os.environ["DATABASE"].strip()
 SCHEMA = os.environ["SCHEMA"].strip()
 USER = os.environ["USER"].strip()
 PASSWORD = os.environ["PASSWORD"].strip()
-ACCOUNT = os.environ["ACCOUNT"].strip().replace(' ', '').replace('+', '%2B')  # Fixes URL encoding issue
+ACCOUNT = os.environ["ACCOUNT"].strip().replace(' ', '').replace('+', '%2B').replace('@', '%40')  # Fixes URL encoding issue
 WAREHOUSE = os.environ["WAREHOUSE"].strip()
 
 snowflake_sink = SnowflakeSink(

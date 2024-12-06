@@ -7,23 +7,23 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-from big_query_sink import BigQuerySink
+from sink import SnowflakeSink
 
-TABLE_NAME = os.environ["TABLE_NAME"]
-PROJECT_ID = os.environ["PROJECT_ID"]
-DATASET_ID = os.environ["DATASET_ID"]
-DATASET_LOCATION = os.environ["DATASET_LOCATION"]
-SERVICE_ACCOUNT_JSON = os.environ["SERVICE_ACCOUNT_JSON"]
+SNOWFLAKE_USER = os.environ["SNOWFLAKE_USER"]
+SNOWFLAKE_PASSWORD = os.environ["SNOWFLAKE_PASSWORD"]
+SNOWFLAKE_WAREHOUSE = os.environ["SNOWFLAKE_WAREHOUSE"]
+SNOWFLAKE_DATABASE = os.environ["SNOWFLAKE_DATABASE"]
+SNOWFLAKE_SCHEMA = os.environ["SNOWFLAKE_SCHEMA"]
 
-big_query_sink = BigQuerySink(
-    PROJECT_ID, 
-    DATASET_ID, 
-    DATASET_LOCATION,
-    TABLE_NAME, 
-    SERVICE_ACCOUNT_JSON,
+snowflake_sink = SnowflakeSink(
+    SNOWFLAKE_USER, 
+    SNOWFLAKE_PASSWORD, 
+    SNOWFLAKE_WAREHOUSE,
+    SNOWFLAKE_DATABASE, 
+    SNOWFLAKE_SCHEMA,
     logger)
 
-big_query_sink.connect()
+snowflake_sink.connect()
 
 app = Application(
     consumer_group=os.environ["CONSUMER_GROUP"], 
@@ -34,7 +34,7 @@ app = Application(
 input_topic = app.topic(os.environ["input"])
 
 sdf = app.dataframe(input_topic)
-sdf.sink(big_query_sink)
+sdf.sink(snowflake_sink)
 
 if __name__ == "__main__":
     app.run(sdf)

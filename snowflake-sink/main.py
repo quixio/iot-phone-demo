@@ -7,23 +7,27 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-from big_query_sink import BigQuerySink
+from sink import SnowflakeSink
 
 TABLE_NAME = os.environ["TABLE_NAME"]
-PROJECT_ID = os.environ["PROJECT_ID"]
-DATASET_ID = os.environ["DATASET_ID"]
-DATASET_LOCATION = os.environ["DATASET_LOCATION"]
-SERVICE_ACCOUNT_JSON = os.environ["SERVICE_ACCOUNT_JSON"]
+WAREHOUSE = os.environ["WAREHOUSE"]
+DATABASE = os.environ["DATABASE"]
+SCHEMA = os.environ["SCHEMA"]
+ACCOUNT = os.environ["ACCOUNT"]
+USER = os.environ["USER"]
+PASSWORD = os.environ["PASSWORD"]
 
-big_query_sink = BigQuerySink(
-    PROJECT_ID, 
-    DATASET_ID, 
-    DATASET_LOCATION,
+snowflake_sink = SnowflakeSink(
+    WAREHOUSE, 
+    DATABASE, 
+    SCHEMA,
     TABLE_NAME, 
-    SERVICE_ACCOUNT_JSON,
+    ACCOUNT,
+    USER,
+    PASSWORD,
     logger)
 
-big_query_sink.connect()
+snowflake_sink.connect()
 
 app = Application(
     consumer_group=os.environ["CONSUMER_GROUP"], 
@@ -34,7 +38,7 @@ app = Application(
 input_topic = app.topic(os.environ["input"])
 
 sdf = app.dataframe(input_topic)
-sdf.sink(big_query_sink)
+sdf.sink(snowflake_sink)
 
 if __name__ == "__main__":
     app.run(sdf)

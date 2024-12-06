@@ -30,6 +30,7 @@ class SnowflakeSink(BatchingSink):
         self.warehouse = warehouse
         self.table = table
         self.logger = logger
+        self.conn = None
 
     def connect(self):
         self.conn = snowflake.connector.connect(
@@ -41,9 +42,10 @@ class SnowflakeSink(BatchingSink):
         warehouse=self.warehouse
     )
 
-    #def __del__(self):
-        #if self.conn:
-            #self.conn.close()
+    def disconnect(self):
+        if self.conn:
+            self.conn.close()
+            self.conn = None
 
     def write(self, batch: SinkBatch):
         cursor = self.conn.cursor()

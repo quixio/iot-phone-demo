@@ -21,10 +21,10 @@ snowflake_sink = SnowflakeSink(
     WAREHOUSE, 
     DATABASE, 
     SCHEMA,
-    TABLE_NAME, 
-    ACCOUNT,
+    ACCOUNT, 
     USER,
     PASSWORD,
+    TABLE_NAME, 
     logger)
 
 snowflake_sink.connect()

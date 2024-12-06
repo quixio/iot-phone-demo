@@ -2,7 +2,7 @@ import os
 from setup_logger import logger
 from dotenv import load_dotenv
 from quixstreams import Application
-from snowflake_sink import SnowflakeSink
+from sink import SnowflakeSink
 
 load_dotenv()
 

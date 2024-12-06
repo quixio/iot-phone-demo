@@ -1,17 +1,33 @@
+import logging
 import snowflake.connector
 
-from quixstreams.sinks import Sink
+from quixstreams import Application
 
+from quixstreams.exceptions import QuixException
+from quixstreams.models import HeadersTuples
+from quixstreams.sinks import BatchingSink, SinkBatch
 
-class SnowflakeSink(Sink):
-    def __init__(self, account, user, password, role, warehouse, database, schema, table, logger):
+class SnowflakeSinkException(QuixException): ...
+
+class SnowflakeSink(BatchingSink):
+    def __init__(
+        self,
+        account: str,
+        user: str,
+        password: str,
+        database: str,
+        schema: str,
+        warehouse: str,
+        table: str,
+        logger: logging.Logger
+    ):
+        super().__init__()
         self.account = account
         self.user = user
         self.password = password
-        self.role = role
-        self.warehouse = warehouse
         self.database = database
         self.schema = schema
+        self.warehouse = warehouse
         self.table = table
         self.logger = logger
 
@@ -19,17 +35,19 @@ class SnowflakeSink(Sink):
         self.conn = snowflake.connector.connect(
             user=self.user,
             password=self.password,
-            account=self.account,
-            warehouse=self.warehouse,
-            database=self.database,
-            schema=self.schema,
-            role=self.role,
-        )
+            account=self.account)
 
-    def write(self, batch):
-        with self.conn.cursor() as cur:
+    def __del__(self):
+        if self.conn:
+            self.conn.close()
+
+    def write(self, batch: SinkBatch):
+        cursor = self.conn.cursor()
+        try:
             for item in batch:
-                cur.execute(
-                    f"INSERT INTO {self.table} VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                    (item.key, item.value, item.timestamp, item.headers, item.topic, item.partition, item.offset)
+                cursor.execute(
+                    f'INSERT INTO {self.database}.{self.schema}.{self.table} VALUES (%s)',
+                    (item.value,)
                 )
+        finally:
+            cursor.close()

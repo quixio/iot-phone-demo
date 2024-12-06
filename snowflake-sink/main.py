@@ -7,15 +7,15 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-from sink import SnowflakeSink  # Replaced BigQuerySink with SnowflakeSink
+from sink import SnowflakeSink
 
 TABLE_NAME = os.environ["TABLE_NAME"]
 DATABASE = os.environ["DATABASE"]
 SCHEMA = os.environ["SCHEMA"]
-WAREHOUSE = os.environ["WAREHOUSE"]
 USER = os.environ["USER"]
 PASSWORD = os.environ["PASSWORD"]
 ACCOUNT = os.environ["ACCOUNT"]
+WAREHOUSE = os.environ["WAREHOUSE"]
 
 snowflake_sink = SnowflakeSink(
     ACCOUNT,

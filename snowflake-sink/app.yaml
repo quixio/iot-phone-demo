@@ -1,45 +1,41 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: input
-    inputType: InputTopic
-    description: This is the input topic
-    defaultValue: raw
-    required: true
-  - name: PROJECT_ID
+  - name: SNOWFLAKE_TABLE
     inputType: FreeText
-    description: The BigQuery GCP Project ID
-    defaultValue: ''
+    defaultValue: <your_snowflake_table>
     required: true
-  - name: DATASET_ID
+  - name: SNOWFLAKE_WAREHOUSE
     inputType: FreeText
-    description: The target BigQuery dataset ID
-    defaultValue: ''
+    defaultValue: <your_snowflake_warehouse>
     required: true
-  - name: DATASET_LOCATION
+  - name: SNOWFLAKE_DATABASE
     inputType: FreeText
-    description: Location of BigQuery dataset
-    defaultValue: US
+    defaultValue: <your_snowflake_database>
     required: true
-  - name: TABLE_NAME
+  - name: SNOWFLAKE_SCHEMA
     inputType: FreeText
-    description: Name of the destination table.
-    defaultValue: ''
+    defaultValue: <your_snowflake_schema>
+    required: true
+  - name: SNOWFLAKE_ROLE
+    inputType: FreeText
+    defaultValue: <your_snowflake_role>
+    required: true
+  - name: SNOWFLAKE_USER
+    inputType: FreeText
+    defaultValue: <your_snowflake_user>
+    required: true
+  - name: SNOWFLAKE_PASSWORD
+    inputType: FreeText
+    defaultValue: <your_snowflake_password>
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    description: Kafka consumer group.
-    defaultValue: big-query-sink-v1
+    defaultValue: <your_consumer_group>
     required: true
-  - name: SERVICE_ACCOUNT_JSON
-    inputType: Secret
-    description: JSON string of the service account file for the BigQuery GCP project
-    defaultValue: ''
-    required: true
-  - name: MAX_QUEUE_SIZE
+  - name: input
     inputType: FreeText
-    description: Max queue size for the sink ingestion
-    defaultValue: 50
+    defaultValue: <your_input_topic>
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

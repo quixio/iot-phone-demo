@@ -15,15 +15,15 @@ variables:
     required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: correct_account_identifier
+    defaultValue: <correct_snowflake_account>
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText
-    defaultValue: BLdJC4n.LQpQ7svFkujD
+    defaultValue: <correct_password>
     required: true
   - name: SNOWFLAKE_USER
     inputType: FreeText
-    defaultValue: tomasneubauer
+    defaultValue: <correct_username>
     required: true
   - name: WAREHOUSE
     inputType: FreeText

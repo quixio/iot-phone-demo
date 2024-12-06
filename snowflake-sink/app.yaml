@@ -1,0 +1,47 @@
+name: snowflake-sink
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: This is the input topic
+    defaultValue: raw
+    required: true
+  - name: PROJECT_ID
+    inputType: FreeText
+    description: The BigQuery GCP Project ID
+    defaultValue: ''
+    required: true
+  - name: DATASET_ID
+    inputType: FreeText
+    description: The target BigQuery dataset ID
+    defaultValue: ''
+    required: true
+  - name: DATASET_LOCATION
+    inputType: FreeText
+    description: Location of BigQuery dataset
+    defaultValue: US
+    required: true
+  - name: TABLE_NAME
+    inputType: FreeText
+    description: Name of the destination table.
+    defaultValue: ''
+    required: true
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    description: Kafka consumer group.
+    defaultValue: big-query-sink-v1
+    required: true
+  - name: SERVICE_ACCOUNT_JSON
+    inputType: Secret
+    description: JSON string of the service account file for the BigQuery GCP project
+    defaultValue: ''
+    required: true
+  - name: MAX_QUEUE_SIZE
+    inputType: FreeText
+    description: Max queue size for the sink ingestion
+    defaultValue: 50
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: big-query-sink

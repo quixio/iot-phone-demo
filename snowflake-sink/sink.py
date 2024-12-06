@@ -31,12 +31,12 @@ class SnowflakeSink(BatchingSink):
         self.table_name = table_name
 
         self.conn = snowflake.connector.connect(
-            account=account.replace(' ', ''),
-            user=user,
-            password=password,
-            warehouse=warehouse,
-            database=database,
-            schema=schema,
+            account=account.strip(),
+            user=user.strip(),
+            password=password.strip(),
+            warehouse=warehouse.strip(),
+            database=database.strip(),
+            schema=schema.strip(),
             timeout=60
         )
 

@@ -2,7 +2,7 @@ import logging
 
 # Set up logger
 PROD_ENV = False
-logger = logging.getLogger("BigQuery Sink")
+logger = logging.getLogger("Snowflake Sink")
 logging.basicConfig()
 
 if PROD_ENV:

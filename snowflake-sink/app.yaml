@@ -7,7 +7,8 @@ variables:
     required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: XY66326
+    description: ''
+    defaultValue: https://zd58662.uk-south.azure.snowflakecomputing.com
     required: true
   - name: SNOWFLAKE_DATABASE
     inputType: FreeText

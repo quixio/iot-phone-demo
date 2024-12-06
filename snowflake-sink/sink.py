@@ -1,48 +1,34 @@
 import os
 import snowflake.connector
-import logging
-
-from quixstreams.exceptions import QuixException
+from quixstreaming import *
 
 
-class SnowflakeSinkException(QuixException): ...
+# Gets the info to connect to snowflake
+SNOWFLAKE_ACCOUNT = os.environ["SNOWFLAKE_ACCOUNT"]
+SNOWFLAKE_USER = os.environ["SNOWFLAKE_USER"]
+SNOWFLAKE_PASSWORD = os.environ["SNOWFLAKE_PASSWORD"]
+DATABASE = os.environ["DATABASE"]
+SCHEMA = os.environ["SCHEMA"]
+WAREHOUSE = os.environ["WAREHOUSE"]
 
 
 class SnowflakeSink:
-    def __init__(self, user, password, warehouse, database, schema, logger):
-        self.user = user
-        self.password = password
-        self.warehouse = warehouse
-        self.database = database
-        self.schema = schema
-        self.logger = logger
 
-        self.conn = None
-        self.cursor = None
-
-    def connect(self):
+    def __init__(self):
+        # Establish a connection to snowflake
         self.conn = snowflake.connector.connect(
-            user=self.user,
-            password=self.password,
-            warehouse=self.warehouse,
-            database=self.database,
-            schema=self.schema
+            user=SNOWFLAKE_USER,
+            password=SNOWFLAKE_PASSWORD,
+            account=SNOWFLAKE_ACCOUNT,
+            warehouse=WAREHOUSE,
+            database=DATABASE,
+            schema=SCHEMA
         )
-        self.cursor = self.conn.cursor()
 
-        self.logger.info('Connected to Snowflake.')
-
-    def write(self, data):
-        for item in data:
-            # Assuming data is a list of dictionaries
-            keys = list(item.keys())
-            values = list(item.values())
-
-            query = f"INSERT INTO streaming_table ({', '.join(keys)}) VALUES ({', '.join('%s' for _ in values)})"
-            self.cursor.execute(query, values)
-
-        self.conn.commit()
+    def write(self, dataframe):
+        # write the dataframe to snowflake
+        dataframe.write.jdbc(url=self.conn, name='my_table', mode='overwrite')
 
     def close(self):
+        # Close the connection to snowflake
         self.conn.close()
-        self.logger.info('Connection to Snowflake has been closed.')

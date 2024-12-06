@@ -3,11 +3,10 @@ language: python
 variables:
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: SnowflakeSinkException(QuixException)
+    defaultValue: snowflakesink
     required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    description: ''
     defaultValue: zd58662.uk-south.azure
     required: true
   - name: SNOWFLAKE_DATABASE

@@ -15,7 +15,7 @@ variables:
     required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: '<correct_account_identifier>'
+    defaultValue: 'correct_account_identifier'
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText

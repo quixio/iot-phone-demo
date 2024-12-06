@@ -15,7 +15,7 @@ variables:
     required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: 'correct_account_identifier'
+    defaultValue: zd58662.uk-south.azure
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText

@@ -1,20 +1,17 @@
 import snowflake.connector
 import logging
 
-from quixstreams.sinks import BatchingSink, SinkBatch
-
 logger = logging.getLogger(__name__)
 
-class SnowflakeSink(BatchingSink):
-    def __init__(self, warehouse, database, schema, table_name, account, user, password, logger):
-        super().__init__()
+class SnowflakeSink:
+    def __init__(self, warehouse, database, schema, account, user, password, table_name, logger):
         self.warehouse = warehouse
         self.database = database
         self.schema = schema
-        self.table_name = table_name
         self.account = account
         self.user = user
         self.password = password
+        self.table_name = table_name
         self.logger = logger
 
     def connect(self):
@@ -28,8 +25,10 @@ class SnowflakeSink(BatchingSink):
         )
         self.cursor = self.conn.cursor()
 
-    def write(self, batch: SinkBatch):
-        for item in batch:
-            query = f"INSERT INTO {self.table_name} VALUES {item.value}"
-            self.cursor.execute(query)
-        self.conn.commit()
+    def write(self, data):
+        try:
+            self.cursor.executemany(f'INSERT INTO {self.table_name} VALUES(%s, %s)', data)
+            self.conn.commit()
+        except Exception as e:
+            self.logger.error(f'Failed to insert data into snowflake: {e}')
+            self.conn.rollback()

@@ -44,10 +44,9 @@ input_topic = app.topic(os.environ["input"])
 sdf = app.dataframe(input_topic)
 sdf.sink(snowflake_sink)
 
-if __name__ == "__main__":
-    try:
-        app.run(sdf)
-    except Exception as e:
-        logger.error(f'Application failed: {e}')
-    finally:
-        snowflake_sink.disconnect()
+try:
+    app.run(sdf)
+except Exception as e:
+    logger.error(f'Application failed: {e}')
+finally:
+    snowflake_sink.disconnect()

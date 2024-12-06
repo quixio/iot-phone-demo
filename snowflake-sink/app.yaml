@@ -3,35 +3,39 @@ language: python
 variables:
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: snowflakesink
+    defaultValue: Necessary for Kafka consumer group.
+    required: true
+  - name: TABLE_NAME
+    inputType: FreeText
+    defaultValue: The name of the table in Snowflake.
     required: true
   - name: DATABASE
     inputType: FreeText
-    defaultValue: QUIX
+    defaultValue: Snowflake database name.
     required: true
   - name: SCHEMA
     inputType: FreeText
-    defaultValue: DEFAULT
-    required: true
-  - name: SNOWFLAKE_ACCOUNT
-    inputType: FreeText
-    defaultValue: zd58662.uk-south.azure
-    required: true
-  - name: SNOWFLAKE_PASSWORD
-    inputType: FreeText
-    defaultValue: BLdJC4n.LQpQ7svFkujD
-    required: true
-  - name: SNOWFLAKE_USER
-    inputType: FreeText
-    defaultValue: tomasneubauer
+    defaultValue: Snowflake schema name.
     required: true
   - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: COMPUTE_WH
+    defaultValue: Snowflake warehouse name.
+    required: true
+  - name: USER
+    inputType: FreeText
+    defaultValue: Snowflake user name.
+    required: true
+  - name: PASSWORD
+    inputType: FreeText
+    defaultValue: Snowflake password.
+    required: true
+  - name: ACCOUNT
+    inputType: FreeText
+    defaultValue: Snowflake account identifier (e.g., 'xy12345.east-us-2').
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: sensor-data
+    defaultValue: Identifier for the input topic.
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

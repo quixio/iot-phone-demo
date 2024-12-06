@@ -1,7 +1,7 @@
 import snowflake.connector
 import logging
 from datetime import datetime
-from decimal import Decimal
+import json
 from typing_extensions import Optional
 
 from quixstreams.exceptions import QuixException
@@ -36,7 +36,8 @@ class SnowflakeSink(BatchingSink):
             password=password,
             warehouse=warehouse,
             database=database,
-            schema=schema
+            schema=schema,
+            timeout=60
         )
 
         self._init_table()

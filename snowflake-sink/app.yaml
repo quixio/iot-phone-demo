@@ -24,7 +24,7 @@ variables:
     required: true
   - name: ACCOUNT
     inputType: FreeText
-    defaultValue: Snowflake account identifier
+    defaultValue: Snowflake account identifier without special characters
     required: true
   - name: WAREHOUSE
     inputType: FreeText

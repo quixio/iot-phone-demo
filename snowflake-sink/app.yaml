@@ -1,33 +1,37 @@
 name: snowflake-sink
 language: python
 variables:
+  - name: SNOWFLAKE_ACCOUNT
+    inputType: FreeText
+    defaultValue: Your Snowflake account here
+    required: true
   - name: SNOWFLAKE_USER
     inputType: FreeText
-    defaultValue: Please refer to your Snowflake Account page for username
+    defaultValue: Your Snowflake username here
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText
-    defaultValue: Please refer to your Snowflake Account page for password
+    defaultValue: Your Snowflake password here
     required: true
-  - name: SNOWFLAKE_WAREHOUSE
+  - name: DATABASE
     inputType: FreeText
-    defaultValue: Please refer to your Snowflake Account page for warehouse ID
+    defaultValue: Your Snowflake database name here
     required: true
-  - name: SNOWFLAKE_DATABASE
+  - name: SCHEMA
     inputType: FreeText
-    defaultValue: Please refer to your Snowflake Account page for database name
+    defaultValue: Your Snowflake schema here
     required: true
-  - name: SNOWFLAKE_SCHEMA
+  - name: WAREHOUSE
     inputType: FreeText
-    defaultValue: Please refer to your Snowflake Account page for schema name
+    defaultValue: Your Snowflake warehouse here
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: Please refer to the consumer group of your Kafka streaming source
+    defaultValue: Your QuixStreams consumer group here
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Please refer to the topic of your Kafka streaming source
+    defaultValue: Your QuixStreams input topic here
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

@@ -1,37 +1,37 @@
 name: snowflake-sink
 language: python
 variables:
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    defaultValue: Your consumer group here
+    required: true
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
     defaultValue: Your Snowflake account here
-    required: true
-  - name: SNOWFLAKE_USER
-    inputType: FreeText
-    defaultValue: Your Snowflake username here
-    required: true
-  - name: SNOWFLAKE_PASSWORD
-    inputType: FreeText
-    defaultValue: Your Snowflake password here
     required: true
   - name: SNOWFLAKE_DATABASE
     inputType: FreeText
     defaultValue: Name of your Snowflake database
     required: true
+  - name: SNOWFLAKE_PASSWORD
+    inputType: FreeText
+    defaultValue: Your Snowflake password here
+    required: true
   - name: SNOWFLAKE_SCHEMA
     inputType: FreeText
     defaultValue: Name of your Snowflake schema
-    required: true
-  - name: SNOWFLAKE_WAREHOUSE
-    inputType: FreeText
-    defaultValue: Name of your Snowflake warehouse
     required: true
   - name: SNOWFLAKE_TABLE
     inputType: FreeText
     defaultValue: Name of your Snowflake table
     required: true
-  - name: CONSUMER_GROUP
+  - name: SNOWFLAKE_USER
     inputType: FreeText
-    defaultValue: Your consumer group here
+    defaultValue: Your Snowflake username here
+    required: true
+  - name: SNOWFLAKE_WAREHOUSE
+    inputType: FreeText
+    defaultValue: Name of your Snowflake warehouse
     required: true
   - name: input
     inputType: FreeText

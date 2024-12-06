@@ -1,45 +1,41 @@
 name: snowflake-sink
 language: python
 variables:
-  - name: input
-    inputType: InputTopic
-    description: This is the input topic
-    defaultValue: raw
-    required: true
-  - name: PROJECT_ID
-    inputType: FreeText
-    description: The BigQuery GCP Project ID
-    defaultValue: ''
-    required: true
-  - name: DATASET_ID
-    inputType: FreeText
-    description: The target BigQuery dataset ID
-    defaultValue: ''
-    required: true
-  - name: DATASET_LOCATION
-    inputType: FreeText
-    description: Location of BigQuery dataset
-    defaultValue: US
-    required: true
   - name: TABLE_NAME
     inputType: FreeText
-    description: Name of the destination table.
-    defaultValue: ''
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: WAREHOUSE
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: DATABASE
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: SCHEMA
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: ACCOUNT
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: USER
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
+    required: true
+  - name: PASSWORD
+    inputType: FreeText
+    defaultValue: Obtain from your Snowflake instance
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    description: Kafka consumer group.
-    defaultValue: big-query-sink-v1
+    defaultValue: Obtain from your Kafka instance
     required: true
-  - name: SERVICE_ACCOUNT_JSON
-    inputType: Secret
-    description: JSON string of the service account file for the BigQuery GCP project
-    defaultValue: ''
-    required: true
-  - name: MAX_QUEUE_SIZE
+  - name: input
     inputType: FreeText
-    description: Max queue size for the sink ingestion
-    defaultValue: 50
+    defaultValue: Obtain from your Kafka instance
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

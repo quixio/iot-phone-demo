@@ -3,43 +3,39 @@ language: python
 variables:
   - name: SNOWFLAKE_ACCOUNT
     inputType: FreeText
-    defaultValue: Your Snowflake account name
+    defaultValue: Your Snowflake account here
     required: true
   - name: SNOWFLAKE_USER
     inputType: FreeText
-    defaultValue: Your Snowflake user name
+    defaultValue: Your Snowflake username here
     required: true
   - name: SNOWFLAKE_PASSWORD
     inputType: FreeText
-    defaultValue: Your Snowflake password
-    required: true
-  - name: SNOWFLAKE_ROLE
-    inputType: FreeText
-    defaultValue: Your Snowflake role
-    required: true
-  - name: SNOWFLAKE_WAREHOUSE
-    inputType: FreeText
-    defaultValue: Your Snowflake warehouse
+    defaultValue: Your Snowflake password here
     required: true
   - name: SNOWFLAKE_DATABASE
     inputType: FreeText
-    defaultValue: Your Snowflake database
+    defaultValue: Name of your Snowflake database
     required: true
   - name: SNOWFLAKE_SCHEMA
     inputType: FreeText
-    defaultValue: Your Snowflake schema
+    defaultValue: Name of your Snowflake schema
+    required: true
+  - name: SNOWFLAKE_WAREHOUSE
+    inputType: FreeText
+    defaultValue: Name of your Snowflake warehouse
     required: true
   - name: SNOWFLAKE_TABLE
     inputType: FreeText
-    defaultValue: Your Snowflake table
+    defaultValue: Name of your Snowflake table
     required: true
   - name: CONSUMER_GROUP
     inputType: FreeText
-    defaultValue: Your consumer group
+    defaultValue: Your consumer group here
     required: true
   - name: input
     inputType: FreeText
-    defaultValue: Your input topic
+    defaultValue: Your input topic here
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py

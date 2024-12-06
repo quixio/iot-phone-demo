@@ -24,8 +24,7 @@ snowflake_sink = SnowflakeSink(
     DATABASE,
     SCHEMA,
     WAREHOUSE,
-    TABLE_NAME,
-    logger)
+    TABLE_NAME)
 
 snowflake_sink.connect()
 

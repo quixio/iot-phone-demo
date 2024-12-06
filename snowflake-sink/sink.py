@@ -55,7 +55,7 @@ class SnowflakeSink(BatchingSink):
 
         for item in batch:
             row = {k: v for k, v in item.value.items() if v is not None}
-            row['timestamp'] = datetime.fromtimestamp(item.timestamp / 1000)
+            row['TIMESTAMP'] = datetime.fromtimestamp(item.timestamp / 1000)
             rows.append(row)
 
         self._insert_rows(rows)
@@ -64,7 +64,7 @@ class SnowflakeSink(BatchingSink):
         cur = self.conn.cursor()
         cur.execute(f"""
             CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "timestamp" TIMESTAMP,
+                "TIMESTAMP" TIMESTAMP,
                 data VARIANT
             )
         """)
@@ -74,9 +74,9 @@ class SnowflakeSink(BatchingSink):
         cur = self.conn.cursor()
         try:
             for row in rows:
-                insert_query = f"INSERT INTO {self.table_name} (timestamp, data) VALUES (%(timestamp)s, PARSE_JSON(%(data)s))"
+                insert_query = f"INSERT INTO {self.table_name} (TIMESTAMP, data) VALUES (%(TIMESTAMP)s, PARSE_JSON(%(data)s))"
                 cur.execute(insert_query, {
-                    'timestamp': row['timestamp'],
+                    'TIMESTAMP': row['TIMESTAMP'],
                     'data': json.dumps(row, default=self._serialize)
                 })
             self.conn.commit()

@@ -289,3 +289,9 @@ topics:
   - name: raw
   - name: sensor-data
   - name: postgres-cdc
+  - name: mqtt
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+    dataTier: Bronze

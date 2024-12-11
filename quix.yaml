@@ -300,7 +300,7 @@ deployments:
         inputType: FreeText
         description: The root for messages in MQTT, this can be anything
         required: true
-        value: MSU/#
+        value: '#'
       - name: mqtt_server
         inputType: FreeText
         description: The address of your MQTT server

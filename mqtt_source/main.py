@@ -93,7 +93,7 @@ def on_subscribe_cb(client: paho.Client, userdata: any, mid: int,
 def on_disconnect_cb(client: paho.Client, userdata: any, disconnect_flags: paho.DisconnectFlags,
                      reason_code: paho.ReasonCode, properties: paho.Properties):
     print(f"DISCONNECTED! Reason code ({reason_code.value}) {reason_code.getName()}!")
-    print(reason_code)
+    print(properties)
     
 mqtt_client.on_connect = on_connect_cb
 mqtt_client.on_message = on_message_cb

@@ -282,7 +282,7 @@ deployments:
         inputType: FreeText
         required: false
         value: sensordata
-  - name: MQTT Source
+  - name: MQTT Source 2
     application: mqtt_source
     version: latest
     deploymentType: Service

@@ -14,7 +14,7 @@ def last_row(row: dict, state: State):
         row["last_row"] = last_row_value
     return row
 
-app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
+app = Application(consumer_group="transformation-v1.1", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
@@ -32,7 +32,7 @@ sdf = sdf.apply(last_row, stateful=True)
 sdf = sdf[sdf.contains("last_row")]
 sdf["diff"] = sdf["Accelerometer-Disp-total"] - sdf["last_row"]["Accelerometer-Disp-total"]
 
-sdf = sdf.apply(lambda row: row["diff"]).sliding_window(5000).reduce(lambda window, row: window + abs(row), lambda row: row).final()
+sdf = sdf.apply(lambda row: row["diff"]).hopping_window(9000, 3000).reduce(lambda window, row: window + abs(row), lambda row: row).final()
 
 sdf = sdf[sdf["value"] > 1]
 

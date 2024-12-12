@@ -32,7 +32,9 @@ sdf = sdf.apply(last_row, stateful=True)
 sdf = sdf[sdf.contains("last_row")]
 sdf["diff"] = sdf["Accelerometer-Disp-total"] - sdf["last_row"]["Accelerometer-Disp-total"]
 
-sdf = sdf[["diff"]]
+sdf = sdf.apply(lambda row: row["diff"]).sliding_window(5000).reduce(lambda window, row: window + abs(row), lambda row: row).final()
+
+sdf = sdf[sdf["value"] > 0.2]
 
 sdf.print()
 #sdf.to_topic(output_topic)

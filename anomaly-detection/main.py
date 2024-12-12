@@ -46,7 +46,7 @@ sdf = sdf[sdf["value"]["sum"] > 10]
 
 sdf = sdf.apply(lambda row: {
     "title": "Anomaly detected",
-    "message": f"Accelerometer {row['device_id']} value changed by {row['value']} in last 5 seconds"
+    "message": f"Accelerometer {row['value']['device_id']} value changed by {row['value']['sum']} in last 5 seconds"
 })
 
 sdf.print()

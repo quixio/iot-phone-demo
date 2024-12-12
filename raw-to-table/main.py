@@ -50,6 +50,7 @@ sdf = sdf.apply(expand_key, metadata=True)
 sdf = sdf.group_by("device_id")
 sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
 
+sdf = sdf.apply(lambda row: row["value"])
 
 sdf.print()
 #sdf.to_topic(output_topic)

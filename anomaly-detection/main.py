@@ -33,7 +33,7 @@ sdf = sdf[sdf.contains("last_row")]
 sdf["diff"] = sdf["Accelerometer-Disp-total"] - sdf["last_row"]["Accelerometer-Disp-total"]
 
 sdf = sdf.hopping_window(9000, 3000).reduce(lambda window, row: {
-        "sum": window["sum"] + abs(row),
+        "sum": window["sum"] + abs(row["diff"]),
         "device_id": row["device_id"],
         "location": row["location"]
     },lambda row: {

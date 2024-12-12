@@ -6,29 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Fleet console
-    application: fleet-console
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 200
-      memory: 200
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: fleetconsole
-    desiredStatus: Running
-    variables:
-      - name: topic
-        inputType: FreeText
-        description: The topic to read telementry data from
-        required: true
-        value: sensor-data
-      - name: eventTopic
-        inputType: FreeText
-        description: The topic to read events from
-        required: true
-        value: events
   - name: Raw to table
     application: raw-to-table
     version: latest

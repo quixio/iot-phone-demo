@@ -34,7 +34,12 @@ sdf["diff"] = sdf["Accelerometer-Disp-total"] - sdf["last_row"]["Accelerometer-D
 
 sdf = sdf.apply(lambda row: row["diff"]).hopping_window(9000, 3000).reduce(lambda window, row: window + abs(row), lambda row: row).final()
 
-sdf = sdf[sdf["value"] > 2]
+sdf = sdf[sdf["value"] > 10]
+
+sdf = sdf.apply(lambda row: {
+    "title": "Anomaly detected",
+    "message": f"Accelerometer value changed by {row['value']} in last 5 seconds"
+})
 
 sdf.print()
 #sdf.to_topic(output_topic)

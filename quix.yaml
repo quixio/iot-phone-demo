@@ -106,7 +106,7 @@ deployments:
         inputType: FreeText
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
-        value: timestamp
+        value: ''
   - name: Raw to table
     application: raw-to-table
     version: latest

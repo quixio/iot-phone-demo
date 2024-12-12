@@ -14,7 +14,7 @@ def last_row(row: dict, state: State):
         row["last_row"] = last_row_value
     return row
 
-app = Application(consumer_group="anomalies-v1.0", auto_offset_reset="earliest")
+app = Application(consumer_group="anomalies-v1.1", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])

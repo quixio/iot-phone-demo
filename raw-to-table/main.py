@@ -49,14 +49,11 @@ def expand_key(row, key, timestamp, headers):
 
 sdf = sdf.apply(expand_key, metadata=True)
 
-sdf = sdf.
+sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
 
-sdf = sdf.set_timestamp(lambda row, *_: row["timestamp"])
-
-sdf = sdf.drop("timestamp")
 
 sdf.print()
-sdf.to_topic(output_topic)
+#sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run()

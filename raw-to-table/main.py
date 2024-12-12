@@ -48,8 +48,8 @@ def expand_key(row, key, timestamp, headers):
 
 sdf = sdf.apply(expand_key, metadata=True)
 
-#sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
-sdf = sdf.sliding_window(60000, 5000).count().final()
+sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
+#sdf = sdf.sliding_window(60000, 5000).count().final()
 
 
 sdf.print()

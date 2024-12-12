@@ -1,6 +1,5 @@
 # import Utility modules
 import os
-import ast
 import logging
 
 # import vendor-specific modules

@@ -319,6 +319,7 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: sensor-data
+    dataTier: Silver
   - name: mqtt
     configuration:
       replicationFactor: 2

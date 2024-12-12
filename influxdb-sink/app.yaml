@@ -34,7 +34,7 @@ variables:
   - name: INFLUXDB_TAG_KEYS
     inputType: FreeText
     description: 'The tags to include when writing the measurement data. Example: Tag1,Tag2'
-    defaultValue: "['device_id', 'location']"
+    defaultValue: device_id,location
     required: false
   - name: INFLUXDB_FIELD_KEYS
     inputType: FreeText

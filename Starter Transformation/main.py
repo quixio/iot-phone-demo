@@ -12,9 +12,7 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-# put transformation logic here
-# see docs for what you can do
-# https://quix.io/docs/get-started/quixtour/process-threshold.html
+sdf = sdf[["device_id","Accelerometer-RMS-X"]]
 
 sdf.print()
 #sdf.to_topic(output_topic)

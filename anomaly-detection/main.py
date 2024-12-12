@@ -19,9 +19,11 @@ app = Application(consumer_group="transformation-v1", auto_offset_reset="earlies
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
 
+columns = ["Accelerometer-Disp-X", "Accelerometer-Disp-Y","Accelerometer-Disp-Z"]
+
 sdf = app.dataframe(input_topic)
 
-sdf = sdf[sdf.contains("Accelerometer-Disp-X")]
+sdf = sdf.filter(lambda row: all(map(lambda c: c in row, columns)))
 
 sdf["Accelerometer-Disp-total"] = sdf["Accelerometer-Disp-X"] + sdf["Accelerometer-Disp-Y"] + sdf["Accelerometer-Disp-Z"]
 

@@ -318,7 +318,6 @@ deployments:
 
 # This section describes the Topics of the data pipeline
 topics:
-  - name: events
   - name: raw
   - name: sensor-data
   - name: postgres-cdc

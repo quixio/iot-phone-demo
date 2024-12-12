@@ -36,7 +36,11 @@ sdf = sdf.hopping_window(9000, 3000).reduce(lambda window, row: {
         "sum": window["sum"] + abs(row),
         "device_id": row["device_id"],
         "location": row["location"]
-    },lambda row: row).final()
+    },lambda row: {
+        "sun": row["diff"],
+        "device_id": row["device_id"],
+        "location": row["location"]
+    }).final()
 
 sdf = sdf[sdf["value"] > 10]
 

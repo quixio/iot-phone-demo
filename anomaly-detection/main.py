@@ -37,7 +37,7 @@ sdf = sdf.hopping_window(9000, 3000).reduce(lambda window, row: {
         "device_id": row["device_id"],
         "location": row["location"]
     },lambda row: {
-        "sun": row["diff"],
+        "sum": row["diff"],
         "device_id": row["device_id"],
         "location": row["location"]
     }).final()

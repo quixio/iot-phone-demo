@@ -21,7 +21,7 @@ sdf = sdf.filter(lambda row, key, *_: key.startswith("MSU") and len(key.split("-
 def expand_key(row, key, timestamp, headers):
     
     expanded_key = key.split("-")
-    sensor_id = f"{expanded_key[0]}-{expanded_key[1]}-{expanded_key[2]}-{expanded_key[3]}"
+    sensor_id = f"{expanded_key[1]}-{expanded_key[2]}-{expanded_key[3]}"
     
     
 

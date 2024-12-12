@@ -14,7 +14,7 @@ def last_row(row: dict, state: State):
         row["last_row"] = last_row_value
     return row
 
-app = Application(consumer_group="transformation-v1.3", auto_offset_reset="earliest")
+app = Application(consumer_group="transformation-v1.4", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
@@ -32,13 +32,17 @@ sdf = sdf.apply(last_row, stateful=True)
 sdf = sdf[sdf.contains("last_row")]
 sdf["diff"] = sdf["Accelerometer-Disp-total"] - sdf["last_row"]["Accelerometer-Disp-total"]
 
-sdf = sdf.apply(lambda row: row["diff"]).hopping_window(9000, 3000).reduce(lambda window, row: window + abs(row), lambda row: row).final()
+sdf = sdf.hopping_window(9000, 3000).reduce(lambda window, row: {
+        "sum": window["sum"] + abs(row),
+        "device_id": row["device_id"],
+        "location": row["location"]
+    },lambda row: row).final()
 
 sdf = sdf[sdf["value"] > 10]
 
 sdf = sdf.apply(lambda row: {
     "title": "Anomaly detected",
-    "message": f"Accelerometer value changed by {row['value']} in last 5 seconds"
+    "message": f"Accelerometer {row['device_id']} value changed by {row['value']} in last 5 seconds"
 })
 
 sdf.print()

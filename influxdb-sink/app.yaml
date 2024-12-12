@@ -1,0 +1,67 @@
+name: InfluxDB Sink
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: This is the input topic
+    defaultValue: sensor-data
+    required: true
+  - name: INFLUXDB_HOST
+    inputType: FreeText
+    description: Host address for the InfluxDB instance.
+    defaultValue: http://influxdb:80
+    required: true
+  - name: INFLUXDB_TOKEN
+    inputType: Secret
+    description: Authentication token to access InfluxDB.
+    defaultValue: influx_token
+    required: true
+  - name: INFLUXDB_ORG
+    inputType: FreeText
+    description: Organization name in InfluxDB.
+    defaultValue: quix
+    required: false
+  - name: INFLUXDB_MEASUREMENT_NAME
+    inputType: FreeText
+    description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
+    defaultValue: msu
+    required: false
+  - name: INFLUXDB_DATABASE
+    inputType: FreeText
+    description: Database name in InfluxDB where data should be stored.
+    defaultValue: iotdemo
+    required: true
+  - name: INFLUXDB_TAG_KEYS
+    inputType: FreeText
+    description: 'The tags to include when writing the measurement data. Example: Tag1,Tag2'
+    defaultValue: "['device_id', 'location']"
+    required: false
+  - name: INFLUXDB_FIELD_KEYS
+    inputType: FreeText
+    description: 'The fields to include when writing the measurement data. Example: Field1,Field2'
+    defaultValue: '[]'
+    required: true
+  - name: CONSUMER_GROUP_NAME
+    inputType: FreeText
+    description: The name of the consumer group to use when consuming from Kafka
+    defaultValue: influxdb-sink
+    required: true
+  - name: TIMESTAMP_COLUMN
+    inputType: FreeText
+    description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
+    defaultValue: ''
+    required: false
+  - name: BUFFER_SIZE
+    inputType: FreeText
+    description: The number of records that sink holds before flush data to the InfluxDb
+    defaultValue: 1000
+    required: false
+  - name: BUFFER_TIMEOUT
+    inputType: FreeText
+    description: The number of seconds that sink holds before flush data to the InfluxDb
+    defaultValue: 1
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: influxdb-3-destination

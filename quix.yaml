@@ -330,3 +330,4 @@ topics:
     dataTier: Bronze
   - name: transform
   - name: anomalies
+    dataTier: Gold

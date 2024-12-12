@@ -39,7 +39,7 @@ variables:
     inputType: FreeText
     description: The fields to include when writing the measurement data
     defaultValue: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
-    required: true
+    required: false
   - name: CONSUMER_GROUP_NAME
     inputType: FreeText
     description: The name of the consumer group to use when consuming from Kafka

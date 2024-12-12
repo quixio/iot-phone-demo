@@ -42,7 +42,7 @@ sdf = sdf.hopping_window(9000, 3000).reduce(lambda window, row: {
         "location": row["location"]
     }).final()
 
-sdf = sdf[sdf["value"] > 10]
+sdf = sdf[sdf["value"]["sum"] > 10]
 
 sdf = sdf.apply(lambda row: {
     "title": "Anomaly detected",

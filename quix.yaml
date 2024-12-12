@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -95,8 +95,8 @@ deployments:
       - name: INFLUXDB_FIELD_KEYS
         inputType: FreeText
         description: The fields to include when writing the measurement data
-        required: true
-        value: s
+        required: false
+        value: ''
       - name: CONSUMER_GROUP_NAME
         inputType: FreeText
         description: The name of the consumer group to use when consuming from Kafka

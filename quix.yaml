@@ -329,3 +329,4 @@ topics:
       retentionInBytes: 52428800
     dataTier: Bronze
   - name: transform
+  - name: anomalies

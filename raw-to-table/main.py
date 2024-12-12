@@ -47,7 +47,7 @@ def expand_key(row, key, timestamp, headers):
     return result
 
 sdf = sdf.apply(expand_key, metadata=True)
-sdf = sdf.groupby("device_id")
+sdf = sdf.group_by("device_id")
 sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
 
 

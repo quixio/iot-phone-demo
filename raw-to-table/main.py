@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Application(
-    consumer_group="mqtt-norm-v1.1", 
+    consumer_group="mqtt-norm-v1.2", 
     auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"], value_deserializer="bytes", key_deserializer="str")
@@ -51,9 +51,10 @@ sdf = sdf.group_by("device_id")
 sdf = sdf.sliding_window(60000, 5000).reduce(lambda window, row: {**window, **row}, lambda row: row).final()
 
 sdf = sdf.apply(lambda row: row["value"])
+sdf = sdf.drop("timestamp")
 
 sdf.print()
-#sdf.to_topic(output_topic)
+sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run()

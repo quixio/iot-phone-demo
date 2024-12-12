@@ -7,8 +7,7 @@ load_dotenv()
 
 app = Application(
     consumer_group="mqtt-norm-v1", 
-    auto_offset_reset="earliest",
-    processing_guarantee="exactly-once")
+    auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"], value_deserializer="bytes", key_deserializer="str")
 output_topic = app.topic(os.environ["output"])

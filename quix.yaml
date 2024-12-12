@@ -91,12 +91,12 @@ deployments:
         inputType: FreeText
         description: The tags to include when writing the measurement data
         required: false
-        value: "['sessionId', 'deviceId']"
+        value: "['device_id', 'location']"
       - name: INFLUXDB_FIELD_KEYS
         inputType: FreeText
         description: The fields to include when writing the measurement data
         required: true
-        value: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
+        value: s
       - name: CONSUMER_GROUP_NAME
         inputType: FreeText
         description: The name of the consumer group to use when consuming from Kafka

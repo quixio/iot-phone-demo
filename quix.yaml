@@ -241,3 +241,4 @@ topics:
   - name: raw
   - name: sensor-data
   - name: postgres-cdc
+  - name: transform

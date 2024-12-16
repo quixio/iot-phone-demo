@@ -55,8 +55,8 @@ sdf = sdf[sdf["crash"] == 1]
 # We generate alert for the crash. 
 sdf = sdf.apply(lambda row: {
     "alert": {
-        "title": "Crash detected",
-        "id": "crash",
+        "title": "Drop detected",
+        "id": "drop",
       
         "timestamp": row["timestamp"],
         "location": {

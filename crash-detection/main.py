@@ -48,7 +48,7 @@ sdf = sdf[sdf["value"]["sum_forces"] / sdf["value"]["count"] > 25]
 
 sdf = sdf.apply(lambda row: {
     "alert": {
-        "title": "Crash detected",
+        "title": "Drop detected",
         "timestamp": row["end"],
         "location": {
             "latitude": row["value"]["location-latitude"],

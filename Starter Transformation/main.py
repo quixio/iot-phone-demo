@@ -12,7 +12,7 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf["timestamp", "accelerometer-x"]
+sdf = sdf[["timestamp", "accelerometer-x"]]
 # put transformation logic here
 # see docs for what you can do
 # https://quix.io/docs/get-started/quixtour/process-threshold.html

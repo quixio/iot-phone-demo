@@ -12,12 +12,14 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
+sdf = sdf[sdf.compose("accelerometer-x")]
+
 # put transformation logic here
 # see docs for what you can do
 # https://quix.io/docs/get-started/quixtour/process-threshold.html
 
 sdf.print()
-sdf.to_topic(output_topic)
+#sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run()

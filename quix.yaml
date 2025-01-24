@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Stopped
+    desiredStatus: Running
     variables:
       - name: input
         inputType: InputTopic
@@ -207,6 +207,7 @@ deployments:
         description: ''
         required: false
         secretKey: ADMIN_PASSWORD
+    disabled: true
   - name: Grafana
     application: grafana
     version: latest

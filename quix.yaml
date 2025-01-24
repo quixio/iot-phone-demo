@@ -235,6 +235,7 @@ deployments:
         description: ''
         required: true
         secretKey: influx_token
+    disabled: true
   - name: Streamlit Dashboard
     application: streamlit
     version: latest

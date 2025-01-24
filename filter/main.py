@@ -12,7 +12,7 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf[sdf.compose("accelerometer-x")]
+sdf = sdf[sdf.contains("accelerometer-x")]
 
 # put transformation logic here
 # see docs for what you can do

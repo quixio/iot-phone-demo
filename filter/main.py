@@ -14,6 +14,8 @@ sdf = app.dataframe(input_topic)
 
 sdf = sdf[sdf.contains("accelerometer-x")]
 
+sdf = sdf[["accelerometer-x", "accelerometer-y"]]
+
 # put transformation logic here
 # see docs for what you can do
 # https://quix.io/docs/get-started/quixtour/process-threshold.html

@@ -55,7 +55,7 @@ deployments:
       cpu: 200
       memory: 500
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -107,6 +107,7 @@ deployments:
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
         value: timestamp
+    disabled: true
   - name: Raw to table
     application: raw-to-table
     version: latest

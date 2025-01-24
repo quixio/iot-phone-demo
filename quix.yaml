@@ -207,7 +207,7 @@ deployments:
         description: ''
         required: false
         secretKey: ADMIN_PASSWORD
-    disabled: true
+    disabled: false
   - name: Grafana
     application: grafana
     version: latest

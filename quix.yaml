@@ -251,7 +251,7 @@ deployments:
         description: ''
         required: false
         secretKey: influx_token
-    disabled: true
+    disabled: false
 
 # This section describes the Topics of the data pipeline
 topics:

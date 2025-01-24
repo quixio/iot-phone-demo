@@ -251,6 +251,20 @@ deployments:
         description: ''
         required: false
         secretKey: influx_token
+  - name: Starter Source
+    application: Starter Source
+    version: latest
+    deploymentType: Job
+    resources:
+      cpu: 100
+      memory: 100
+      replicas: 1
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write into
+        required: true
+        value: csv-data
 
 # This section describes the Topics of the data pipeline
 topics:

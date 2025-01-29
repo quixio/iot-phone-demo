@@ -109,7 +109,7 @@ deployments:
         value: timestamp
   - name: influx-sink-1s
     application: influx-sink
-    version: earliest
+    version: latest
     deploymentType: Service
     resources:
       cpu: 200

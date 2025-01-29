@@ -222,7 +222,7 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
-    desiredStatus: Running
+    desiredStatus: Stopped
     variables:
       - name: input
         inputType: InputTopic
@@ -242,3 +242,9 @@ topics:
   - name: sensor-data
   - name: postgres-cdc
   - name: transform
+  - name: sensor-data-1s
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
+    dataTier: Silver

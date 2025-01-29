@@ -1,5 +1,6 @@
 import os
 from quixstreams import Application
+from downsampling import reduce_window, init_window, aggregate_window
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -12,10 +13,7 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf.tumbling_window(5000, 5000).reduce(reduce_window, init_window).final()
-
-
-
+sdf = sdf.tumbling_window(int(os.environ[""]), 5000).reduce(reduce_window, init_window).final()
 
 sdf = sdf.apply(aggregate_window)
 

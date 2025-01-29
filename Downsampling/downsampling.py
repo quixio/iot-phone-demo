@@ -38,3 +38,18 @@ def init_window(row: dict):
             window[key] = value
 
     return window
+
+
+def aggregate_window(window: dict):
+    result = {
+        "timestamp": window["end"] * 1E6
+    }
+
+    for key, value in window["value"].items():
+
+        if "sum" in value:
+            result[key] = value["sum"] / value["count"]
+        else:
+            result[key] = value
+
+    return result

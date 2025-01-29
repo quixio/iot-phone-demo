@@ -13,7 +13,8 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-sdf = sdf.tumbling_window(int(os.environ[""]), 5000).reduce(reduce_window, init_window).final()
+sdf = sdf.tumbling_window(int(os.environ["window_size_s"] / 1000), 5000) \
+    .reduce(reduce_window, init_window).final()
 
 sdf = sdf.apply(aggregate_window)
 

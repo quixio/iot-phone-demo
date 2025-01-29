@@ -11,6 +11,11 @@ variables:
     description: Name of the output topic to write to.
     defaultValue: transform
     required: false
+  - name: window_size_s
+    inputType: FreeText
+    description: ''
+    defaultValue: 1
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

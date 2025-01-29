@@ -51,6 +51,23 @@ def init_window(row: dict):
 
 sdf = sdf.tumbling_window(5000, 5000).reduce(reduce_window, init_window).final()
 
+def aggregate_window(window: dict):
+    result = {
+        "timestamp": window["end"] * 1E6
+    }
+
+    for key, value in window["value"]:
+
+        if "sum" in value:
+            result[key] = value["sum"] / value["count"]
+        else:
+            result[key] = value
+
+    return result
+
+
+sdf = sdf.apply(aggregate_window)
+
 sdf.print()
 #sdf.to_topic(output_topic)
 

@@ -329,9 +329,3 @@ topics:
   - name: sensor-data
   - name: postgres-cdc
   - name: transform
-  - name: sensor-data-1s
-    configuration:
-      replicationFactor: 2
-      retentionInMinutes: 1440
-      retentionInBytes: 52428800
-    dataTier: Silver

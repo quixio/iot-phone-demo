@@ -5,7 +5,7 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
+app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
@@ -29,9 +29,12 @@ def reduce_window(window:dict, row: dict):
                 window[key]["count"] += 1
         else:
             window[key] = value
+    
+    return window
 
-def init_window(window:dict, row: dict):
+def init_window(row: dict):
 
+    window = {}
     for key, value in row.items():
 
         if key == "timestamp":
@@ -43,10 +46,13 @@ def init_window(window:dict, row: dict):
             }
         else:
             window[key] = value
-    
+
+    return window
+
+sdf = sdf.tumbling_window(5000, 5000).reduce(reduce_window, init_window).final()
 
 sdf.print()
-sdf.to_topic(output_topic)
+#sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run()

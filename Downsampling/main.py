@@ -56,7 +56,7 @@ def aggregate_window(window: dict):
         "timestamp": window["end"] * 1E6
     }
 
-    for key, value in window["value"]:
+    for key, value in window["value"].items():
 
         if "sum" in value:
             result[key] = value["sum"] / value["count"]

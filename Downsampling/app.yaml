@@ -9,7 +9,7 @@ variables:
   - name: output
     inputType: OutputTopic
     description: Name of the output topic to write to.
-    defaultValue: transform
+    defaultValue: sensor-data-1s
     required: false
   - name: window_size_s
     inputType: FreeText

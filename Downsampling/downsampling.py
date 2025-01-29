@@ -42,7 +42,7 @@ def init_window(row: dict):
 
 def aggregate_window(window: dict):
     result = {
-        "timestamp": window["end"] * 1E6
+        "timestamp": int(window["end"] * 1E6)
     }
 
     for key, value in window["value"].items():

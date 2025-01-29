@@ -329,3 +329,4 @@ topics:
   - name: sensor-data
   - name: postgres-cdc
   - name: transform
+  - name: sensor-data-1s

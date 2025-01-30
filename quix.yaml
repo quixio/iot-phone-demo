@@ -288,7 +288,7 @@ deployments:
         inputType: InputTopic
         description: Name of the input topic to listen to.
         required: false
-        value: sensor-data
+        value: sensor-data-1s
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.

@@ -8,15 +8,11 @@ def reduce_window(window:dict, row: dict):
             if key not in window:
                 window[key] = {
                     "sum": value,
-                    "count": 1,
-                    "max": value,
-                    "min": value
+                    "count": 1
                 }
             else:
                 window[key]["sum"] += value
                 window[key]["count"] += 1
-                window[key]["max"] = max(window[key]["max"], value)
-                window[key]["min"] = min(window[key]["min"], value)
         else:
             window[key] = value
     
@@ -29,8 +25,6 @@ def init_window(row: dict):
         if isinstance(value, (int, float)):
             window[key] = {
                 "sum": value,
-                "max": value,
-                "min": value,
                 "count": 1
             }
         else:
@@ -48,8 +42,6 @@ def aggregate_window(window: dict):
 
         if "sum" in value:
             result[key] = value["sum"] / value["count"]
-            result[key + "_max"] = value["max"]
-            result[key + "_min"] = value["min"]
         else:
             result[key] = value
 

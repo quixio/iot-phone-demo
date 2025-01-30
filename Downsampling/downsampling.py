@@ -9,8 +9,8 @@ def reduce_window(window:dict, row: dict):
                 window[key] = {
                     "sum": value,
                     "count": 1,
-                    "max": max(window[key]["max"], value),
-                    "min": min(window[key]["min"], value)
+                    "max": value,
+                    "min": value
                 }
             else:
                 window[key]["sum"] += value

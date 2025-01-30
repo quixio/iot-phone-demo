@@ -8,7 +8,7 @@ load_dotenv()
 
 window_size_s = os.environ["window_size_s"]
 
-app = Application(consumer_group=f"downsampling-{window_size_s}-v1", auto_offset_reset="earliest", use_changelog_topics=False)
+app = Application(consumer_group=f"downsampling-{window_size_s}-v1.1", auto_offset_reset="earliest", use_changelog_topics=False)
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])

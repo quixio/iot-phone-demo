@@ -17,7 +17,7 @@ sdf = app.dataframe(input_topic)
 
 sdf = sdf.drop("timestamp")
 
-sdf = sdf.tumbling_window(int(window_size_s) * 1000, 5000) \
+sdf = sdf.tumbling_window(int(window_size_s) * 1000, 250) \
     .reduce(reduce_window, init_window).final()
 
 sdf = sdf.apply(aggregate_window)

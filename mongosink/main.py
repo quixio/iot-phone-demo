@@ -17,7 +17,7 @@ def match_id(batch_item: SinkItem):
 mongodb_sink = MongoDBSink(
     url="mongodb://mongodb:27017",
     db="sensordata",
-    collection="sensordata",
+    collection="sensor_data",
     document_matcher=match_id
 )
 

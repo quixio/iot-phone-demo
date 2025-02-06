@@ -23,7 +23,7 @@ def get_documents():
         description: A list of documents
     """
 
-    documents = list(collection.find({}))  # Get all documents
+    documents = list(collection.find({}, {"_id": 0}))  # Get all documents
     for doc in documents:
         print(doc)
 

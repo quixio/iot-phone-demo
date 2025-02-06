@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 
 from flasgger import Swagger
+import json
 
 app = Flask(__name__)
 
@@ -26,7 +27,7 @@ def get_documents():
     for doc in documents:
         print(doc)
 
-    return jsonify(documents)
+    return json.dumps(documents)
 
 @app.route("/documents", methods=["POST"])
 def add_document():

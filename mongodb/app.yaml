@@ -22,5 +22,5 @@ variables:
     defaultValue: ADMIN_PASSWORD
     required: false
 dockerfile: dockerfile
-runEntryPoint: main.py
-defaultFile: main.py
+runEntryPoint: dockerfile
+defaultFile: dockerfile

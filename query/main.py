@@ -27,7 +27,7 @@ def get_documents():
     for doc in documents:
         print(doc)
 
-    return json.dumps(documents)
+    return documents
 
 @app.route("/documents", methods=["POST"])
 def add_document():

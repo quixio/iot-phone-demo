@@ -17,7 +17,7 @@ def get_documents():
       200:
         description: A list of documents
     """
-    documents = list(mongo.db.sensordata.find({}, {"_id": 0}))
+    documents = list(mongo.db.sensordata.find({}))
     return jsonify(documents)
 
 @app.route("/documents", methods=["POST"])

@@ -1,0 +1,41 @@
+# Use the official InfluxDB image from the Docker Hub
+FROM influxdb:latest
+
+USER root
+
+# Set the environment variable for InfluxDB data directory
+ENV DOCKER_INFLUXDB_DATA_DIR /app/state/influxdb/data
+ENV DOCKER_INFLUXDB_META_DIR /app/state/influxdb/meta
+ENV DOCKER_INFLUXDB_WAL_DIR /app/state/influxdb/wal
+
+# Set a custom temporary directory and ensure permissions
+#ENV TMPDIR /app/tmp
+#RUN mkdir -p /app/tmp && chmod -R 777 /app/tmp
+#RUN chown -R influxdb:influxdb /tmp && chmod -R 777 /tmp
+
+#RUN chmod -R 777 /tmp
+
+# Define initial setup environment variables
+ENV DOCKER_INFLUXDB_ADMIN_USER admin
+ENV DOCKER_INFLUXDB_ORG quix
+ENV DOCKER_INFLUXDB_INIT_MODE setup
+ENV DOCKER_INFLUXDB_INIT_USERNAME admin
+ENV DOCKER_INFLUXDB_INIT_ORG quix
+
+# Create the required directories
+RUN mkdir -p /app/state/influxdb/data /app/state/influxdb/meta /app/state/influxdb/wal
+
+# Copy the InfluxDB configuration file if needed
+# ADD influxdb.conf /etc/influxdb/influxdb.conf
+
+# Ensure permissions for /tmp if needed
+RUN chmod -R 777 /tmp
+
+# Expose the necessary ports (8086 is the default port for InfluxDB)
+EXPOSE 8086
+
+RUN ls /tmp
+
+# Define the default command to run when starting the container
+CMD ["influxd", "--store", "bolt"]
+#CMD ["influxd"]

@@ -1,28 +1,26 @@
-from quixstreams import Application
 import os
+from quixstreams import Application
+from quixstreams.sinks.community.mongodb import MongoDBSink
 
-from dotenv import load_dotenv
-load_dotenv()
+app = Application(broker_address="localhost:9092")
+topic = app.topic("topic-name")
 
-# you decide what happens here!
-def sink(message):
-    value = message['mykey']
-    # write_to_db(value) # implement your logic to write data or send alerts etc
+# Message structured as:
+# key: "CID_12345"
+# value: {"name": {"first": "John", "last": "Doe"}, "age": 28, "city": "Los Angeles"}
 
-    # for more help using QuixStreams see the docs:
-    # https://quix.io/docs/quix-streams/introduction.html
+# Configure the sink
+mongodb_sink = MongoDBSink(
+    url="mongodb://mongodb:27017",
+    db="sensor-data",
+    collection="sensor-data",
+)
 
-app = Application(consumer_group="destination-v1", auto_offset_reset = "latest")
+sdf = app.dataframe(topic=topic)
+sdf.sink(mongodb_sink)
 
-input_topic = app.topic(os.environ["input"])
-
-sdf = app.dataframe(input_topic)
-
-# call the sink function for every message received.
-sdf = sdf.update(sink)
-
-# you can print the data row if you want to see what's going on.
-sdf.print(metadata=True)
+# MongoDB Document: 
+# {"_id": "CID_12345", "name": {"first": "John", "last": "Doe"}, "age": 28, "city": "Los Angeles"}
 
 if __name__ == "__main__":
     app.run()

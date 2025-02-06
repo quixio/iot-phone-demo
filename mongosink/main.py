@@ -18,7 +18,7 @@ mongodb_sink = MongoDBSink(
     url="mongodb://mongodb:27017",
     db="sensordata",
     collection="sensordata",
-    document_matcher=match_on_last_name
+    document_matcher=match_id
 )
 
 sdf = app.dataframe(topic=topic)

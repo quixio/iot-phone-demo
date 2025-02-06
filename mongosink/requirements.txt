@@ -1,2 +1,2 @@
-git+https://github.com/quixio/quix-streams.git@sink/mongodb
+git+https://github.com/quixio/quix-streams.git@sink/mongodb[mongodb]
 python-dotenv

@@ -1,5 +1,5 @@
 quixstreams==3.7.0
 flask
-flask-pymongo
+pymongo
 flasgger
 python-dotenv

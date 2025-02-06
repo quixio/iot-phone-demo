@@ -1,2 +1,2 @@
-quixstreams==3.2.1
+git+https://github.com/quixio/quix-streams.git@sink/mongodb
 python-dotenv

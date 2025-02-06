@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 
 from flasgger import Swagger
-import json
 
 app = Flask(__name__)
 

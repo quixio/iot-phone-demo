@@ -1,2 +1,3 @@
-quixstreams==3.2.1
+quixstreams==3.7.0
+pymongo
 python-dotenv

@@ -5,7 +5,8 @@ from flasgger import Swagger
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://mongodb:27017/sensor-data"
 mongo = PyMongo(app)
-Swagger(app)
+Swagger(app, config={'url_prefix': '/'})
+
 
 @app.route("/documents", methods=["GET"])
 def get_documents():

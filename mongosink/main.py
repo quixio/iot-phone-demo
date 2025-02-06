@@ -3,7 +3,7 @@ from quixstreams import Application
 from quixstreams.sinks.community.mongodb import MongoDBSink
 
 app = Application(broker_address="localhost:9092")
-topic = app.topic("topic-name")
+topic = app.topic(os.environ["input"])
 
 # Message structured as:
 # key: "CID_12345"

@@ -3,7 +3,7 @@ from flask_pymongo import PyMongo
 from flasgger import Swagger
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/mydatabase"
+app.config["MONGO_URI"] = "mongodb://mongodb:27017/mydatabase"
 mongo = PyMongo(app)
 Swagger(app)
 

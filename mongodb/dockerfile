@@ -1,10 +1,10 @@
 FROM mongo:latest
 
 # Create the /state directory
-RUN mkdir -p /app/state && chown -R mongodb:mongodb /state
+RUN mkdir -p /app/state && chown -R mongodb:mongodb /app/state
 
 # Set MongoDB to use /state as the data directory
-CMD ["mongod", "--dbpath", "/state", "--bind_ip_all"]
+CMD ["mongod", "--dbpath", "/app/state", "--bind_ip_all"]
 
 # Expose MongoDB default port
 EXPOSE 27017

@@ -2,7 +2,7 @@ import os
 from quixstreams import Application
 from quixstreams.sinks.community.mongodb import MongoDBSink
 
-app = Application(broker_address="localhost:9092")
+app = Application(consumer_group="mongodb-sink")
 topic = app.topic(os.environ["input"])
 
 # Message structured as:

@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
+
 from flasgger import Swagger
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://mongodb:27017/sensor-data"
-mongo = PyMongo(app)
+
+client = MongoClient("mongodb://mongodb:27017/")
+db = client["sensordata"]
+collection = db["sensordata"]
+
 Swagger(app)
 
 
@@ -17,7 +21,11 @@ def get_documents():
       200:
         description: A list of documents
     """
-    documents = list(mongo.db.sensordata.find({}))
+
+    documents = list(collection.find({}))  # Get all documents
+    for doc in documents:
+        print(doc)
+
     return jsonify(documents)
 
 @app.route("/documents", methods=["POST"])

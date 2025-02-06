@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 client = MongoClient("mongodb://mongodb:27017/")
 db = client["sensordata"]
-collection = db["sensordata"]
+collection = db["sensor_data"]
 
 Swagger(app)
 

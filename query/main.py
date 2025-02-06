@@ -27,7 +27,7 @@ def get_documents():
     for doc in documents:
         print(doc)
 
-    return documents
+    return jsonify(documents), 200
 
 @app.route("/documents", methods=["POST"])
 def add_document():

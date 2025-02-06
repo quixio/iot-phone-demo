@@ -12,8 +12,8 @@ topic = app.topic(os.environ["input"])
 # Configure the sink
 mongodb_sink = MongoDBSink(
     url="mongodb://mongodb:27017",
-    db="sensor-data",
-    collection="sensor-data",
+    db="sensordata",
+    collection="sensordata",
 )
 
 sdf = app.dataframe(topic=topic)

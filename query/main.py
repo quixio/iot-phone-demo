@@ -17,7 +17,7 @@ def get_documents():
       200:
         description: A list of documents
     """
-    documents = list(mongo.db.sensor_data.find({}, {"_id": 0}))
+    documents = list(mongo.db.sensordata.find({}, {"_id": 0}))
     return jsonify(documents)
 
 @app.route("/documents", methods=["POST"])
@@ -36,7 +36,7 @@ def add_document():
         description: Document added successfully
     """
     data = request.json
-    mongo.db.collection.insert_one(data)
+    mongo.db.sensordata.insert_one(data)
     return jsonify({"message": "Document added"}), 201
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ from flask_pymongo import PyMongo
 from flasgger import Swagger
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://mongodb:27017/mydatabase"
+app.config["MONGO_URI"] = "mongodb://mongodb:27017/sensor-data"
 mongo = PyMongo(app)
 Swagger(app)
 
@@ -39,4 +39,4 @@ def add_document():
     return jsonify({"message": "Document added"}), 201
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=80)

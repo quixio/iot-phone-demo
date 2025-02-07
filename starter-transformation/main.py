@@ -15,7 +15,7 @@ sdf = app.dataframe(input_topic)
 # put transformation logic here
 # see docs for what you can do
 # https://quix.io/docs/get-started/quixtour/process-threshold.html
-
+sdf.print()
 sdf.print_table()
 #sdf.to_topic(output_topic)
 

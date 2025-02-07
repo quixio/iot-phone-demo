@@ -1,0 +1,16 @@
+FROM neo4j:latest
+
+# Set environment variables for Neo4j
+ENV NEO4J_AUTH=neo4j/password
+ENV NEO4J_dbms_memory_pagecache_size=512M
+ENV NEO4J_dbms_memory_heap_initial__size=512M
+ENV NEO4J_dbms_memory_heap_max__size=1024M
+
+# Create a directory for Neo4j data
+RUN mkdir -p /app/state && chown -R neo4j:neo4j /app/state
+
+# Set Neo4j to use /data as the data directory
+CMD ["neo4j"]
+
+# Expose Neo4j ports
+EXPOSE 7474 7687

@@ -1,0 +1,5 @@
+quixstreams==3.7.0
+flask
+pymongo
+flasgger
+python-dotenv

@@ -234,6 +234,105 @@ deployments:
         description: Name of the output topic to write to.
         required: false
         value: events
+  - name: MongoDb
+    application: mongodb
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    network:
+      serviceName: mongodb
+      ports:
+        - port: 27017
+          targetPort: 27017
+    variables:
+      - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
+      - name: ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+      - name: DOCKER_INFLUXDB_INIT_BUCKET
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iotdemo
+      - name: DOCKER_INFLUXDB_INIT_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+  - name: MongoSink
+    application: mongosink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: sensor-data
+  - name: Query
+    application: query
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: query
+    variables: []
+  - name: Neo4J
+    application: neo4j
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: neo4j-web
+    network:
+      serviceName: neo4j
+      ports:
+        - port: 7474
+          targetPort: 80
+        - port: 7687
+          targetPort: 7687
+    variables:
+      - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: influx_token
+      - name: ADMIN_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
+      - name: DOCKER_INFLUXDB_INIT_BUCKET
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iotdemo
+      - name: DOCKER_INFLUXDB_INIT_PASSWORD
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: ADMIN_PASSWORD
 
 # This section describes the Topics of the data pipeline
 topics:

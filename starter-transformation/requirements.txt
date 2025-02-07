@@ -1,2 +1,3 @@
 quixstreams==3.8.1.dev1
 python-dotenv
+rich

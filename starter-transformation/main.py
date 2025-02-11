@@ -17,7 +17,7 @@ sdf = app.dataframe(input_topic)
 # https://quix.io/docs/get-started/quixtour/process-threshold.html
 
 sdf = sdf[sdf.contains("accelerometer-x")]
-sdf = sdf[["time", "accelerometer-x", "accelerometer-y"]]
+sdf = sdf[["timestamp", "accelerometer-x", "accelerometer-y"]]
 
 sdf.print()
 #sdf.to_topic(output_topic)

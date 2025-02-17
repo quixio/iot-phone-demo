@@ -1,5 +1,6 @@
 import os
 from quixstreams import Application
+import pandas as pd
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv

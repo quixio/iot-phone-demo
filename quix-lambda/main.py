@@ -18,7 +18,7 @@ sdf = sdf.tumbling_window(10000, 5000).collect().final()
 def process_microbatch(row: dict):
 
     # Convert to DataFrame
-    df = pd.DataFrame(data)
+    df = pd.DataFrame(row["value"])
 
     # Display the DataFrame
     print(df)

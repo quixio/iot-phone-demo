@@ -14,6 +14,18 @@ sdf = app.dataframe(input_topic)
 
 sdf = sdf.tumbling_window(10000, 5000).collect().final()
 
+def process_microbatch(row: dict):
+
+    # Convert to DataFrame
+    df = pd.DataFrame(data)
+
+    # Display the DataFrame
+    print(df)
+
+    return df
+
+sdf = sdf.apply(process_microbatch)
+
 sdf.print()
 #sdf.to_topic(output_topic)
 

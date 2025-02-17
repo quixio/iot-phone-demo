@@ -11,5 +11,5 @@ variables:
     defaultValue: transform
 dockerfile: dockerfile
 runEntryPoint: main.py
-defaultFile: main.py
+defaultFile: function.py
 libraryItemId: starter-transformation

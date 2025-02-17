@@ -17,6 +17,11 @@ sdf = app.dataframe(input_topic)
 sdf = sdf.tumbling_window(10000, 5000).collect().final()
 
 sdf = sdf.apply(lambda row: process_microbatch(pd.DataFrame(row["value"])))
+sdf = sdf.apply(lambda row: row.to_dict(orient='records'), expand=True)
+
+
+sdf = sdf[sdf.contains("accelerometer-x")]
+sdf = sdf[["time", "accelerometer-total", "accelerometer-x","accelerometer-y","accelerometer-z"]]
 
 sdf.print()
 #sdf.to_topic(output_topic)

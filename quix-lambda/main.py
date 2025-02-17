@@ -23,7 +23,7 @@ sdf = sdf.apply(lambda row: row.to_dict(orient='records'), expand=True)
 sdf = sdf[sdf.contains("accelerometer-x")]
 sdf = sdf[["timestamp", "accelerometer-total", "accelerometer-x","accelerometer-y","accelerometer-z"]]
 
-sdf.print()
+#sdf.print()
 #sdf.to_topic(output_topic)
 
 if __name__ == "__main__":

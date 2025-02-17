@@ -1,5 +1,6 @@
 import os
 from quixstreams import Application
+from function import process_microbatch
 import pandas as pd
 
 # for local dev, load env vars from a .env file
@@ -15,17 +16,7 @@ sdf = app.dataframe(input_topic)
 
 sdf = sdf.tumbling_window(10000, 5000).collect().final()
 
-def process_microbatch(row: dict):
-
-    # Convert to DataFrame
-    df = pd.DataFrame(row["value"])
-
-    # Display the DataFrame
-    print(df)
-
-    return df
-
-sdf = sdf.apply(process_microbatch)
+sdf = sdf.apply(lambda row: process_microbatch(pd.DataFrame(row["value"])))
 
 sdf.print()
 #sdf.to_topic(output_topic)

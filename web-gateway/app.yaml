@@ -9,3 +9,4 @@ variables:
 dockerfile: build/dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
+libraryItemId: web-api-gateway

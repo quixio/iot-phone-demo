@@ -1,0 +1,12 @@
+name: HTTP API Source
+language: python
+variables:
+  - name: output
+    inputType: OutputTopic
+    description: This is the output topic for hello world data
+    defaultValue: http-source
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: web-api-gateway

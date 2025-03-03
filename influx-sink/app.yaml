@@ -53,3 +53,4 @@ variables:
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
+libraryItemId: influxdb-3-destination

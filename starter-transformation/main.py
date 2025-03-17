@@ -16,7 +16,7 @@ sdf = sdf[sdf.contains("accelerometer-x")]
 
 sdf = sdf[["timestamp", "accelerometer-x", "accelerometer-y"]]
 
-sdf.print()
+sdf.print_table(metadata=False)
 #sdf.to_topic(output_topic)
 
 if __name__ == "__main__":

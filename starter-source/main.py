@@ -35,6 +35,9 @@ class MemoryUsageGenerator(Source):
         {"m": "mem", "host": "host1", "used_percent": "65.21", "time": "1577836810000000000"},
     ]
 
+    def setup(self):
+        return
+
     def run(self):
         """
         Each Source must have a `run` method.

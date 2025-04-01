@@ -34,7 +34,7 @@ def main():
     sdf = app.dataframe(topic=input_topic)
 
     # Do StreamingDataFrame operations/transformations here
-    sdf = sdf.apply(lambda row: row).filter(lambda row: True)
+    sdf = sdf.apply(lambda row: row).filter(lambda row: row["used_percent"] > 70.0)
     sdf = sdf.print(metadata=True)
 
     # Finish off by writing to the final result to the output topic

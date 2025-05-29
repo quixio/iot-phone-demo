@@ -1,0 +1,27 @@
+name: opc-ua-source
+language: python
+variables:
+  - name: output
+    inputType: OutputTopic
+    description: This is the Quix Topic that will receive the stream
+    defaultValue: opc_ua_data
+    required: true
+  - name: OPC_SERVER_URL
+    inputType: FreeText
+    description: The URL to your OPC UA server
+    defaultValue: https://intopcserver:4840/freeopcua/server/
+    required: true
+  - name: OPC_NAMESPACE
+    inputType: FreeText
+    description: The namespace of the data coming from your OPC UA server
+    defaultValue: http://quix.freeopcua.io
+    required: true
+  - name: PARAMETER_NAMES_TO_PROCESS
+    inputType: FreeText
+    description: List of parameters from your OPC UA server that you want to process. e.g. ['a', 'b', 'c']. NB:Use single quotes.
+    defaultValue: "['THERMO_PROBE_1', 'THERMO_PROBE_2']"
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: opc-ua-client

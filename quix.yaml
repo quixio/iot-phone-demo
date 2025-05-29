@@ -251,6 +251,35 @@ deployments:
       ports:
         - port: 4840
           targetPort: 4840
+  - name: OPC UA Source
+    application: opc-ua-source
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 200
+      replicas: 1
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: This is the Quix Topic that will receive the stream
+        required: true
+        value: opc_ua_data
+      - name: OPC_SERVER_URL
+        inputType: FreeText
+        description: The URL to your OPC UA server
+        required: true
+        value: https://intopcserver:4840/freeopcua/server/
+      - name: OPC_NAMESPACE
+        inputType: FreeText
+        description: The namespace of the data coming from your OPC UA server
+        required: true
+        value: http://quix.freeopcua.io
+      - name: PARAMETER_NAMES_TO_PROCESS
+        inputType: FreeText
+        description: List of parameters from your OPC UA server that you want to process. e.g. ['a', 'b', 'c']. NB:Use single quotes.
+        required: true
+        value: "['THERMO_PROBE_1', 'THERMO_PROBE_2']"
 
 # This section describes the Topics of the data pipeline
 topics:

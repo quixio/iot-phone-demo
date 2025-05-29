@@ -238,6 +238,19 @@ deployments:
         description: Name of the output topic to write into
         required: true
         value: csv-data
+  - name: OPC UA Server
+    application: opc-ua-server
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    network:
+      serviceName: intopcserver
+      ports:
+        - port: 4840
+          targetPort: 4840
 
 # This section describes the Topics of the data pipeline
 topics:

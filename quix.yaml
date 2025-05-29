@@ -289,3 +289,4 @@ topics:
   - name: postgres-cdc
   - name: transform
   - name: csv-data
+  - name: opc_ua_data

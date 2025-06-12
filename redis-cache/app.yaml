@@ -1,0 +1,5 @@
+name: redis-cache
+language: docker
+dockerfile: dockerfile
+defaultFile: dockerfile
+libraryItemId: redis-cache

@@ -1,0 +1,15 @@
+# Use the official Redis image from the Docker Hub
+FROM redis:7.4.2
+
+
+# To enable function without State enabled, however will only be temporary
+RUN mkdir -p /app/state/
+
+# Copy the custom redis.conf file
+COPY redis.conf /usr/local/etc/redis/redis.conf
+
+# Expose the default Redis port
+EXPOSE 6379
+
+# Set the entrypoint to use the custom configuration file
+ENTRYPOINT ["redis-server", "/usr/local/etc/redis/redis.conf"]

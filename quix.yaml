@@ -280,6 +280,19 @@ deployments:
         description: List of parameters from your OPC UA server that you want to process. e.g. ['a', 'b', 'c']. NB:Use single quotes.
         required: true
         value: "['THERMO_PROBE_1', 'THERMO_PROBE_2']"
+  - name: Redis Cache
+    application: redis-cache
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 500
+      memory: 1000
+      replicas: 1
+    network:
+      serviceName: redis
+      ports:
+        - port: 6379
+          targetPort: 6379
 
 # This section describes the Topics of the data pipeline
 topics:

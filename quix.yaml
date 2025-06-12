@@ -288,6 +288,9 @@ deployments:
       cpu: 500
       memory: 1000
       replicas: 1
+    state:
+      enabled: true
+      size: 1
     network:
       serviceName: redis
       ports:

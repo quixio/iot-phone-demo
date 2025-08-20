@@ -106,6 +106,85 @@ deployments:
         inputType: OutputTopic
         description: Name of the output topic to write to.
         value: events
+  - name: QuixLake S3 Sink
+    application: quixlake-s3-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the Kafka input topic to consume from
+        required: true
+        value: sensor-data
+      - name: S3_BUCKET
+        inputType: FreeText
+        description: S3 bucket name for storing Parquet files
+        required: true
+        value: quix-test-bucket
+      - name: S3_PREFIX
+        inputType: FreeText
+        description: S3 prefix/path for data files
+        value: iceberg
+      - name: TABLE_NAME
+        inputType: FreeText
+        description: Table name for data organization and registration
+        value: iotphonedemo
+      - name: HIVE_COLUMNS
+        inputType: FreeText
+        description: Comma-separated list of columns for Hive partitioning (e.g., location,sensor_type)
+        value: deviceId,sessionId
+      - name: TIMESTAMP_COLUMN
+        inputType: FreeText
+        description: Column containing timestamp values for time-based partitioning
+        value: ts_ms
+      - name: TIMESTAMP_FORMAT
+        inputType: FreeText
+        description: Time partition granularity
+        value: hour
+      - name: CATALOG_URL
+        inputType: FreeText
+        description: REST Catalog URL for optional table registration (leave empty to skip)
+        value: https://iceberg-catalog-peter-quixlake-prod.app-staging.quix.io
+      - name: AUTO_DISCOVER
+        inputType: FreeText
+        description: Automatically register table in REST Catalog on first write
+        value: true
+      - name: BATCH_SIZE
+        inputType: FreeText
+        description: Number of messages to batch before writing to S3
+        value: 100000
+      - name: COMMIT_INTERVAL
+        inputType: FreeText
+        description: Kafka commit interval in seconds
+        value: 30
+      - name: CONSUMER_GROUP
+        inputType: FreeText
+        description: Kafka consumer group name
+        value: s3_direct_sink_v1.0
+      - name: AUTO_OFFSET_RESET
+        inputType: FreeText
+        description: Where to start consuming if no offset exists
+        value: latest
+      - name: AWS_ACCESS_KEY_ID
+        inputType: Secret
+        description: AWS Access Key ID for S3 access
+        secretKey: AWS_ACCESS_KEY_ID
+      - name: AWS_SECRET_ACCESS_KEY
+        inputType: Secret
+        description: AWS Secret Access Key for S3 access
+        secretKey: AWS_SECRET_ACCESS_KEY
+      - name: AWS_REGION
+        inputType: FreeText
+        description: AWS region for S3 bucket
+        value: us-east-1
+      - name: CATALOG_NAMESPACE
+        inputType: FreeText
+        description: Catalog namespace for table registration
+        value: default
 
 # This section describes the Topics of the data pipeline
 topics:

@@ -1,0 +1,77 @@
+name: quixlake-s3-sink
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: Name of the Kafka input topic to consume from
+    defaultValue: sensor-data
+    required: true
+  - name: S3_BUCKET
+    inputType: FreeText
+    description: S3 bucket name for storing Parquet files
+    defaultValue: quix-test-bucket
+    required: true
+  - name: S3_PREFIX
+    inputType: FreeText
+    description: S3 prefix/path for data files
+    defaultValue: iceberg
+  - name: TABLE_NAME
+    inputType: FreeText
+    description: Table name for data organization and registration
+    defaultValue: iotphonedemo
+  - name: HIVE_COLUMNS
+    inputType: FreeText
+    description: Comma-separated list of columns for Hive partitioning (e.g., location,sensor_type)
+    defaultValue: deviceId,sessionId
+  - name: TIMESTAMP_COLUMN
+    inputType: FreeText
+    description: Column containing timestamp values for time-based partitioning
+    defaultValue: ts_ms
+  - name: TIMESTAMP_FORMAT
+    inputType: FreeText
+    description: Time partition granularity
+    defaultValue: hour
+  - name: CATALOG_URL
+    inputType: FreeText
+    description: REST Catalog URL for optional table registration (leave empty to skip)
+    defaultValue: https://iceberg-catalog-peter-quixlake-prod.app-staging.quix.io
+  - name: AUTO_DISCOVER
+    inputType: FreeText
+    description: Automatically register table in REST Catalog on first write
+    defaultValue: true
+  - name: BATCH_SIZE
+    inputType: FreeText
+    description: Number of messages to batch before writing to S3
+    defaultValue: 100000
+  - name: COMMIT_INTERVAL
+    inputType: FreeText
+    description: Kafka commit interval in seconds
+    defaultValue: 30
+  - name: CONSUMER_GROUP
+    inputType: FreeText
+    description: Kafka consumer group name
+    defaultValue: s3_direct_sink_v1.0
+  - name: AUTO_OFFSET_RESET
+    inputType: FreeText
+    description: Where to start consuming if no offset exists
+    defaultValue: latest
+  - name: AWS_ACCESS_KEY_ID
+    inputType: Secret
+    description: AWS Access Key ID for S3 access
+    defaultValue: AWS_ACCESS_KEY_ID
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    description: AWS Secret Access Key for S3 access
+    defaultValue: AWS_SECRET_ACCESS_KEY
+  - name: AWS_REGION
+    inputType: FreeText
+    description: AWS region for S3 bucket
+    defaultValue: us-east-1
+  - name: CATALOG_NAMESPACE
+    inputType: FreeText
+    description: Catalog namespace for table registration
+    defaultValue: default
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: quixlake-destination

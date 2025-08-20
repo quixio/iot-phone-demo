@@ -30,14 +30,6 @@ def expand_values_to_columns(message: dict):
 
 sdf = sdf.apply(expand_values_to_columns, expand=True)
 
-sdf = sdf.hopping_window(5000, 10).reduce(lambda state, row: { **state, **row}, lambda row: row).final()
-
-sdf = sdf.apply(lambda row:{
-    "timestamp": row["start"],
-    **row["value"]
-})
-
-sdf = sdf.update(lambda row: print(row))
 
 sdf = sdf.to_topic(output_topic)
 

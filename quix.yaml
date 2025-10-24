@@ -75,12 +75,10 @@ deployments:
       - name: INFLUXDB_ORG
         inputType: FreeText
         description: Organization name in InfluxDB.
-        required: false
         value: quix
       - name: INFLUXDB_MEASUREMENT_NAME
         inputType: FreeText
         description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
-        required: false
         value: sensordata
       - name: INFLUXDB_DATABASE
         inputType: FreeText
@@ -90,7 +88,6 @@ deployments:
       - name: INFLUXDB_TAG_KEYS
         inputType: FreeText
         description: The tags to include when writing the measurement data
-        required: false
         value: "['sessionId', 'deviceId']"
       - name: INFLUXDB_FIELD_KEYS
         inputType: FreeText
@@ -105,7 +102,6 @@ deployments:
       - name: TIMESTAMP_COLUMN
         inputType: FreeText
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
-        required: false
         value: timestamp
   - name: Raw to table
     application: raw-to-table
@@ -120,12 +116,10 @@ deployments:
       - name: input
         inputType: InputTopic
         description: Name of the input topic to listen to.
-        required: false
         value: raw
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
-        required: false
         value: sensor-data
   - name: FleetConsole Websockets
     application: fleet-console-web-sockets
@@ -175,7 +169,6 @@ deployments:
       - name: ADMIN_PASSWORD
         inputType: Secret
         description: ''
-        required: false
         secretKey: ADMIN_PASSWORD
       - name: DOCKER_INFLUXDB_INIT_BUCKET
         inputType: FreeText
@@ -185,7 +178,6 @@ deployments:
       - name: DOCKER_INFLUXDB_INIT_PASSWORD
         inputType: Secret
         description: ''
-        required: false
         secretKey: ADMIN_PASSWORD
   - name: Grafana
     application: grafana
@@ -227,12 +219,10 @@ deployments:
       - name: input
         inputType: InputTopic
         description: Name of the input topic to listen to.
-        required: false
         value: sensor-data
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
-        required: false
         value: events
 
 # This section describes the Topics of the data pipeline

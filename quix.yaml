@@ -235,9 +235,6 @@ deployments:
     publicAccess:
       enabled: true
       urlPrefix: jupyterlab
-    state:
-      enabled: true
-      size: 1
     network:
       serviceName: jupyterlab
       ports:

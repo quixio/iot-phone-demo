@@ -1,0 +1,22 @@
+name: Downsampling
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: Name of the input topic to listen to.
+    defaultValue: sensor-data
+    required: false
+  - name: output
+    inputType: OutputTopic
+    description: Name of the output topic to write to.
+    defaultValue: sensor-data-1s
+    required: false
+  - name: window_size_s
+    inputType: FreeText
+    description: ''
+    defaultValue: 1
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
+libraryItemId: starter-transformation

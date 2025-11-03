@@ -107,6 +107,66 @@ deployments:
         description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
         required: false
         value: timestamp
+  - name: influx-sink-1s
+    application: influx-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    desiredStatus: Running
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: sensor-data-1s
+      - name: INFLUXDB_HOST
+        inputType: FreeText
+        description: Host address for the InfluxDB instance.
+        required: true
+        value: http://influxdb:80
+      - name: INFLUXDB_TOKEN
+        inputType: Secret
+        description: Authentication token to access InfluxDB.
+        required: true
+        secretKey: influx_token
+      - name: INFLUXDB_ORG
+        inputType: FreeText
+        description: Organization name in InfluxDB.
+        required: false
+        value: quix
+      - name: INFLUXDB_MEASUREMENT_NAME
+        inputType: FreeText
+        description: The InfluxDB measurement to write data to. If not specified, the name of the input topic will be used
+        required: false
+        value: sensordata-1s
+      - name: INFLUXDB_DATABASE
+        inputType: FreeText
+        description: Database name in InfluxDB where data should be stored.
+        required: true
+        value: iotdemo
+      - name: INFLUXDB_TAG_KEYS
+        inputType: FreeText
+        description: The tags to include when writing the measurement data
+        required: false
+        value: "['sessionId', 'deviceId']"
+      - name: INFLUXDB_FIELD_KEYS
+        inputType: FreeText
+        description: The fields to include when writing the measurement data
+        required: true
+        value: "['accelerometer-z', 'accelerometer-y', 'accelerometer-x', 'location-latitude', 'location-longitude']"
+      - name: CONSUMER_GROUP_NAME
+        inputType: FreeText
+        description: The name of the consumer group to use when consuming from Kafka
+        required: true
+        value: influxdb-sink-v2.1
+      - name: TIMESTAMP_COLUMN
+        inputType: FreeText
+        description: 'The column containing the timestamp column. NOTE: Must be nanoseconds'
+        required: false
+        value: timestamp
   - name: Raw to table
     application: raw-to-table
     version: latest
@@ -144,7 +204,7 @@ deployments:
         inputType: InputTopic
         description: Output topic
         required: true
-        value: sensor-data
+        value: sensor-data-1s
       - name: events_topic
         inputType: InputTopic
         description: Output topic
@@ -228,12 +288,39 @@ deployments:
         inputType: InputTopic
         description: Name of the input topic to listen to.
         required: false
-        value: sensor-data
+        value: sensor-data-1s
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
         required: false
         value: events
+  - name: Downsampling 1s
+    application: Downsampling
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    state:
+      enabled: true
+      size: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: sensor-data
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: sensor-data-1s
+      - name: window_size_s
+        inputType: FreeText
+        description: ''
+        required: true
+        value: 1
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -242,3 +329,4 @@ topics:
   - name: sensor-data
   - name: postgres-cdc
   - name: transform
+  - name: sensor-data-1s

@@ -1,0 +1,3 @@
+git+https://github.com/quixio/quix-streams.git@sink/mongodb
+pymongo>=4.11
+python-dotenv
